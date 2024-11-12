@@ -21,6 +21,10 @@ spring:
       hibernate:
         format_sql: true
 
+mybatis:
+  mapper-locations: classpath:/mapper/*.xml
+  type-aliases-package: org.esnack24api.esnack24api.**.dto
+
   servlet:
     multipart:
       max-file-size: 5MB
