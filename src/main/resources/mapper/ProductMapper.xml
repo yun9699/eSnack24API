@@ -5,7 +5,7 @@
 
 <mapper namespace="org.esnack24api.esnack24api.product.mapper.ProductMapper">
 
-    <select id="getList" resultType="ProductMainDTO">
+    <select id="getList" resultType="ProductListDTO">
         select
             pno, price, pqty, pdelete, pfilename,
             pregdate, pmoddate, Product.ptitle_ko, Product.pcontent_ko, Product.pcategory_ko
@@ -22,6 +22,16 @@
         select count(pno)
         from Product
         where pno > 0 and pdelete = false
+    </select>
+
+    <select id="getOne" resultType="ProductDetailDTO">
+        select
+            pno, price, pdelete, pfilename,
+            ptitle_ko, pcontent_ko, pcategory_ko
+        from
+            Product
+        where
+            pno = #{pno}
     </select>
 
 </mapper>

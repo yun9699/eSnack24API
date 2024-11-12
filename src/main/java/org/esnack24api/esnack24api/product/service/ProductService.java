@@ -2,10 +2,10 @@ package org.esnack24api.esnack24api.product.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.esnack24api.esnack24api.common.dto.PageResponseDTO;
 import org.esnack24api.esnack24api.common.page.PageRequest;
 import org.esnack24api.esnack24api.common.page.PageResponse;
-import org.esnack24api.esnack24api.product.dto.ProductMainDTO;
+import org.esnack24api.esnack24api.product.dto.ProductDetailDTO;
+import org.esnack24api.esnack24api.product.dto.ProductListDTO;
 import org.esnack24api.esnack24api.product.mapper.ProductMapper;
 
 import org.springframework.stereotype.Service;
@@ -19,11 +19,11 @@ public class ProductService {
 
     private final ProductMapper productMapper;
 
-    public PageResponse<ProductMainDTO> getProductMainList(PageRequest pageRequest) {
+    public PageResponse<ProductListDTO> getProductMainList(PageRequest pageRequest) {
         log.info("getProductMainList");
 
-        PageResponse<ProductMainDTO> pageResponse =
-                PageResponse.<ProductMainDTO>with()
+        PageResponse<ProductListDTO> pageResponse =
+                PageResponse.<ProductListDTO>with()
                         .list(productMapper.getList(pageRequest))
                         .total(productMapper.count(pageRequest))
                         .pageRequest(pageRequest)
@@ -32,6 +32,14 @@ public class ProductService {
         return pageResponse;
 
 
+    }
+
+    public ProductDetailDTO getProductDetail(Long pno) {
+        log.info("getProductDetail");
+
+        ProductDetailDTO result = productMapper.getOne(pno);
+
+        return result;
     }
 
 }
