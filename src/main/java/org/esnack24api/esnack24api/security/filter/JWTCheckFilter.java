@@ -43,10 +43,10 @@ public class JWTCheckFilter extends OncePerRequestFilter {
 
         String uri = request.getRequestURI();
 
-        if(uri.equals("/api/test/member/makeToken")) return true;
-        if(uri.equals("/api/test/member/refreshToken")) return true;
-        if(uri.equals("/api/test/member/kakao")) return true;
-        if(uri.equals("/api/test/member/google")) return true;
+        if(uri.equals("/api/v1/login/makeToken")) return true;
+        if(uri.equals("/api/v1/login/refreshToken")) return true;
+        if(uri.equals("/api/v1/login/kakao")) return true;
+        if(uri.equals("/api/v1/login/google")) return true;
         if(uri.equals("/api/orders")) return true;
         if(uri.equals("/api/orders/{orderID}/capture")) return true;
         if(uri.equals("/api/v1/product/list")) return true;
