@@ -49,6 +49,8 @@ public class JWTCheckFilter extends OncePerRequestFilter {
         if(uri.equals("/api/test/member/google")) return true;
         if(uri.equals("/api/orders")) return true;
         if(uri.equals("/api/orders/{orderID}/capture")) return true;
+        if(uri.equals("/api/v1/product/list")) return true;
+        if(uri.equals("/api/v1/product")) return true;
 
         return false;
     }
