@@ -17,7 +17,7 @@ import org.esnack24api.esnack24api.security.util.JWTUtil;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/test/member")
+@RequestMapping("/api/v1/login")
 @Log4j2
 public class UserController {
 
@@ -39,10 +39,10 @@ public class UserController {
         this.jwtUtil = jwtUtil;
     }
 
-    private TokenResponseDTO generateTokenResponseDTO(UserDTO memberDTO) {
+    private TokenResponseDTO generateTokenResponseDTO(UserDTO userDTO) {
 
         Map<String, Object> claimMap =
-                Map.of("email", memberDTO.getEmail(), "role", memberDTO.getRole());
+                Map.of("email", userDTO.getEmail());
 
         String accessTokenStr = jwtUtil.createToken(claimMap, accessTime);
         String refreshTokenStr = jwtUtil.createToken(claimMap, refreshTime);
@@ -50,7 +50,7 @@ public class UserController {
         TokenResponseDTO tokenResponseDTO = new TokenResponseDTO();
         tokenResponseDTO.setAccessToken(accessTokenStr);
         tokenResponseDTO.setRefreshToken(refreshTokenStr);
-        tokenResponseDTO.setEmail(memberDTO.getEmail());
+        tokenResponseDTO.setEmail(userDTO.getEmail());
 
         return tokenResponseDTO;
     }
@@ -62,13 +62,13 @@ public class UserController {
         log.info("============================");
         log.info("makeToken");
 
-        UserDTO memberDTO =
+        UserDTO userDTO =
                 userService.authenticate(tokenRequestDTO.getEmail(), tokenRequestDTO.getPw());
 
-        log.info("memberDTO: " + memberDTO);
+        log.info("userDTO: " + userDTO);
 
         Map<String, Object> claimMap =
-                Map.of("email", memberDTO.getEmail(), "role", memberDTO.getRole());
+                Map.of("email", userDTO.getEmail());
 
         String accessToken = jwtUtil.createToken(claimMap, accessTime);
         String refreshToken = jwtUtil.createToken(claimMap, refreshTime);
@@ -76,7 +76,7 @@ public class UserController {
         TokenResponseDTO tokenResponseDTO = new TokenResponseDTO();
         tokenResponseDTO.setAccessToken(accessToken);
         tokenResponseDTO.setRefreshToken(refreshToken);
-        tokenResponseDTO.setEmail(memberDTO.getEmail());
+        tokenResponseDTO.setEmail(userDTO.getEmail());
 
         return ResponseEntity.ok(tokenResponseDTO);
     }
@@ -122,7 +122,7 @@ public class UserController {
 
                 if(alwaysNew) {
 
-                    Map<String, Object> claimMap = Map.of("email", email, "role", role);
+                    Map<String, Object> claimMap = Map.of("email", email);
                     newAccessToken = jwtUtil.createToken(claimMap, accessTime);
                     newRefreshToken = jwtUtil.createToken(claimMap, refreshTime);
                 }
@@ -145,21 +145,21 @@ public class UserController {
 
         log.info("kakao access token" + accessToken);
 
-        UserDTO memberDTO = userService.authKakao(accessToken);
+        UserDTO userDTO = userService.authKakao(accessToken);
 
-        log.info("kakao_memberDTO: " + memberDTO);
+        log.info("kakao_userDTO: " + userDTO);
 
-        return ResponseEntity.ok(generateTokenResponseDTO(memberDTO));
+        return ResponseEntity.ok(generateTokenResponseDTO(userDTO));
     }
 
     @RequestMapping("google")
     public ResponseEntity<TokenResponseDTO> googleToken(@RequestParam String accessToken) {
         log.info("Received Google access token");
 
-        UserDTO memberDTO = userService.authGoogle(accessToken);
+        UserDTO userDTO = userService.authGoogle(accessToken);
 
-        log.info("Authenticated Google user: {}", memberDTO.getEmail());
+        log.info("Authenticated Google user: {}", userDTO.getEmail());
 
-        return ResponseEntity.ok(generateTokenResponseDTO(memberDTO));
+        return ResponseEntity.ok(generateTokenResponseDTO(userDTO));
     }
 }
