@@ -2,6 +2,7 @@ package org.esnack24api.esnack24api.producttests;
 
 
 import lombok.extern.log4j.Log4j2;
+import org.esnack24api.esnack24api.common.dto.PageRequestDTO;
 import org.esnack24api.esnack24api.product.repository.ProductRepository;
 import org.esnack24api.esnack24api.product.service.ProductService;
 import org.junit.jupiter.api.Test;
@@ -58,6 +59,16 @@ public class ProductTests {
         Pageable pageable = PageRequest.of(0, 10);
 
         productRepository.listProducts(pageable);
+
+    }
+
+    @Test
+    @Transactional
+    public void listProductAll() {
+
+        PageRequestDTO pageRequestDTO = new PageRequestDTO(1, 10);
+
+        productRepository.listProductAll(pageRequestDTO);
 
     }
 
