@@ -5,7 +5,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class ProductMainDTO {
+public class ProductListDTO {
 
     private Long pno;
     private int price;
