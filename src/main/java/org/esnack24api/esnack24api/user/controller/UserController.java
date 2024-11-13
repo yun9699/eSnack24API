@@ -2,6 +2,7 @@ package org.esnack24api.esnack24api.user.controller;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.log4j.Log4j2;
+import org.esnack24api.esnack24api.user.dto.UserRegisterDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -163,5 +164,13 @@ public class UserController {
         log.info("Authenticated Google user: {}", userDTO.getEmail());
 
         return ResponseEntity.ok(generateTokenResponseDTO(userDTO));
+    }
+
+    @PutMapping("reg")
+    public ResponseEntity<String> registerUser(@RequestBody UserRegisterDTO userRegisterDTO, String email) {
+
+        userService.registerUser(email, userRegisterDTO);
+
+        return ResponseEntity.ok("User Info Register Complete");
     }
 }
