@@ -3,8 +3,11 @@ package org.esnack24api.esnack24api.user.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.sql.Timestamp;
+
 @Entity
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,7 +17,7 @@ public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int uno;
+    private Long uno;
 
     private String uemail;
 
@@ -28,7 +31,7 @@ public class UserEntity {
 
     private String uaddress;
 
-    private java.sql.Date ubirth;
+    private Timestamp ubirth;
 
     private boolean udelete;
 
