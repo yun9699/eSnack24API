@@ -22,7 +22,7 @@
         qno, uno, pno, qtitle, qcontent, qanswer,
         qfilename, qregdate, qmoddate
         from
-        tbl_qno
+        tbl_qna
         where
         qno = #{qno}
     </select>
