@@ -16,7 +16,7 @@ public class FileEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int pfno;
+    private Long pfno;
 
     private String photoFilename;
 
