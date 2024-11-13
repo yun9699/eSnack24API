@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.esnack24api.esnack24api.common.page.PageRequest;
 import org.esnack24api.esnack24api.common.page.PageResponse;
-import org.esnack24api.esnack24api.product.domain.Product;
+import org.esnack24api.esnack24api.product.domain.ProductEntity;
 import org.esnack24api.esnack24api.product.dto.ProductDetailDTO;
 import org.esnack24api.esnack24api.product.dto.ProductListDTO;
 import org.esnack24api.esnack24api.product.mapper.ProductMapper;
@@ -48,7 +48,7 @@ public class ProductService {
 
 
     public void saveProductDetail() {
-        Product product = Product.builder()
+        ProductEntity product = ProductEntity.builder()
                 .pcategory_ko("demo")
                 .price(3000)
                 .ptitle_ko("cookie")
@@ -66,7 +66,7 @@ public class ProductService {
 
     public void updateProductDetail(Long pno, int price) {
 
-        Product product = productRepository.findById(pno).orElseThrow();
+        ProductEntity product = productRepository.findById(pno).orElseThrow();
 
         product.setPrice(price);
 
