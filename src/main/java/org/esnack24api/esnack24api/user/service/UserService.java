@@ -14,7 +14,6 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.esnack24api.esnack24api.common.exception.CommonExceptions;
 import org.esnack24api.esnack24api.user.domain.UserEntity;
-import org.esnack24api.esnack24api.user.domain.UserRole;
 import org.esnack24api.esnack24api.user.dto.UserDTO;
 import org.esnack24api.esnack24api.user.exception.UserExceptions;
 import org.esnack24api.esnack24api.user.repository.UserRepository;
@@ -36,11 +35,11 @@ public class UserService {
 
     public UserDTO authenticate(String email, String password) {
 
-        Optional<UserEntity> result = userRepository.findById(email);
+        Optional<UserEntity> result = userRepository.findByUemail(email);
 
-        UserEntity member = result.orElseThrow(() -> UserExceptions.BAD_AUTH.get());
+        UserEntity user = result.orElseThrow(() -> UserExceptions.BAD_AUTH.get());
 
-        String enPw = member.getPw();
+        String enPw = user.getUpw();
 
         boolean match = passwordEncoder.matches(password, enPw);
 
@@ -48,44 +47,40 @@ public class UserService {
             throw CommonExceptions.READ_ERROR.get();
         }
 
-        UserDTO memberDTO = new UserDTO();
-        memberDTO.setEmail(email);
-        memberDTO.setPw(enPw);
-        memberDTO.setRole(member.getRole().toString());
+        UserDTO userDTO = new UserDTO();
+        userDTO.setEmail(email);
+        userDTO.setPw(enPw);
 
-        return memberDTO;
+        return userDTO;
     }
 
     private UserDTO returnMember(String email) {
 
-        Optional<UserEntity> result = userRepository.findById(email);
+        Optional<UserEntity> result = userRepository.findByUemail(email);
 
-        UserEntity memberEntity = new UserEntity();
-        UserDTO memberDTO = new UserDTO();
+        UserEntity userEntity = new UserEntity();
+        UserDTO userDTO = new UserDTO();
 
         if(result.isPresent()) {
 
-            memberEntity = result.get();
-            memberDTO.setEmail(memberEntity.getEmail());
-            memberDTO.setPw(memberEntity.getPw());
-            memberDTO.setRole(memberEntity.getRole().toString());
+            userEntity = result.get();
+            userDTO.setEmail(userEntity.getUemail());
+            userDTO.setPw(userEntity.getUpw());
 
-            return memberDTO;
+            return userDTO;
         }
 
         String pw = UUID.randomUUID().toString();
         UserEntity newMember = UserEntity.builder()
-                .email(email)
-                .pw(pw)
-                .role(UserRole.USER)
+                .uemail(email)
+                .upw(pw)
                 .build();
         userRepository.save(newMember);
 
-        memberDTO.setEmail(email);
-        memberDTO.setPw(pw);
-        memberDTO.setRole(newMember.getRole().toString());
+        userDTO.setEmail(email);
+        userDTO.setPw(pw);
 
-        return memberDTO;
+        return userDTO;
     }
 
 

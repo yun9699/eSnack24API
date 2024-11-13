@@ -14,12 +14,16 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
       dialect: org.hibernate.dialect.MariaDB103Dialect
     show-sql: true
     properties:
       hibernate:
         format_sql: true
+
+mybatis:
+  mapper-locations: classpath:/mapper/*.xml
+  type-aliases-package: org.esnack24api.esnack24api.**.dto
 
   servlet:
     multipart:
