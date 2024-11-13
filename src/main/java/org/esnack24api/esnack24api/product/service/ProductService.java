@@ -45,22 +45,24 @@ public class ProductService {
         return result;
     }
 
+
+
     public void saveProductDetail() {
         Product product = Product.builder()
-                .pcategory_ko("sibal")
+                .pcategory_ko("demo")
                 .price(3000)
                 .ptitle_ko("cookie")
                 .pcontent_ko("ddd")
                 .build();
 
         productRepository.save(product);
-    }
+    } // register test
 
     public void deleteProductDetail(Long pno) {
 
         productRepository.deleteById(pno);
 
-    }
+    } // delete test
 
     public void updateProductDetail(Long pno, int price) {
 
@@ -71,7 +73,9 @@ public class ProductService {
         productRepository.save(product);
 
 
-    }
+    } // update test
+
+
 
 
 
