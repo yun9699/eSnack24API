@@ -3,6 +3,7 @@ package org.esnack24api.esnack24api.cart.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.esnack24api.esnack24api.cart.domain.Cart;
+import org.esnack24api.esnack24api.cart.dto.CartAddDTO;
 import org.esnack24api.esnack24api.cart.repository.CartRepository;
 import org.esnack24api.esnack24api.product.domain.Product;
 import org.esnack24api.esnack24api.product.repository.ProductRepository;
@@ -20,25 +21,22 @@ public class CartService {
 
 
     private final CartRepository cartRepository;
-    private final ProductRepository productRepository; // ProductRepository 추가
-    private final UserRepository userRepository; // UserRepository 추가
 
 
+    public Cart addCart(CartAddDTO cartAddDTO) {
 
-    public void addCart(Product pno, UserEntity uno, int cqty ) {
-
-        Product product = productRepository.findById(pno.getPno())
-                .orElseThrow(() -> new RuntimeException("Product not found"));
-        UserEntity user = userRepository.findById(uno.getUno())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        Product product = Product.builder().pno(cartAddDTO.getPno()).build();
+        UserEntity userEntity = UserEntity.builder().uno(cartAddDTO.getUno()).build();
 
         Cart cart = Cart.builder()
-                .cqty(cqty)
-                .product(pno)
-                .user(uno)
+                .product(product)
+                .user(userEntity)
+                .cqty(cartAddDTO.getCqty())
                 .build();
 
-        cartRepository.save(cart);
+        Cart savedCart = cartRepository.save(cart);
+
+        return savedCart;
 
     }
 

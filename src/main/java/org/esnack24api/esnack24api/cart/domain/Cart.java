@@ -22,9 +22,11 @@ public class Cart {
     private int cqty;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name ="pno")
     private Product product;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name ="uno")
     private UserEntity user;
 
 
