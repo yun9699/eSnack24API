@@ -7,7 +7,8 @@ import lombok.extern.log4j.Log4j2;
 import org.esnack24api.esnack24api.common.dto.PageRequestDTO;
 import org.esnack24api.esnack24api.common.dto.PageResponseDTO;
 import org.esnack24api.esnack24api.product.domain.ProductEntity;
-import org.esnack24api.esnack24api.product.domain.QProduct;
+import org.esnack24api.esnack24api.product.domain.QProductEntity;
+import org.esnack24api.esnack24api.product.domain.QProductEntity;
 import org.esnack24api.esnack24api.product.dto.ProductListDTO;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
@@ -25,7 +26,7 @@ public class ProductSearchImpl extends QuerydslRepositorySupport implements Prod
     @Override
     public Page<ProductEntity> listProducts(Pageable pageable) {
 
-        QProduct product = QProduct.product;
+        QProductEntity product = QProductEntity.productEntity;
 
         JPQLQuery<ProductEntity> query = from(product);
         query.where(product.pno.gt(0));
@@ -48,7 +49,7 @@ public class ProductSearchImpl extends QuerydslRepositorySupport implements Prod
                 Sort.by("pno").descending()
         );
 
-        QProduct product = QProduct.product;
+        QProductEntity product = QProductEntity.productEntity;
         JPQLQuery<ProductEntity> query = from(product);
 
         this.getQuerydsl().applyPagination(pageable, query);
