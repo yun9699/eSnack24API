@@ -2,6 +2,7 @@ package org.esnack24api.esnack24api.user.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.esnack24api.esnack24api.user.dto.UserRegisterDTO;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -52,6 +53,42 @@ public class UserService {
         return userDTO;
     }
 
+    public void registerUser(String email, UserRegisterDTO userRegisterDTO) {
+
+        UserEntity result = userRepository.findByUemail(email).orElseThrow();
+
+        result.setUsername(userRegisterDTO.getUsername());
+        result.setUbirth(userRegisterDTO.getBirth());
+        result.setUaddress(userRegisterDTO.getAddress());
+        result.setUcallnumber(userRegisterDTO.getCallNumber());
+        result.setUgender(userRegisterDTO.getGender());
+
+        userRepository.save(result);
+
+    }
+
+
+    public UserDTO authKakao(String accessToken) {
+
+        log.info("-------------authKakaoService-------------");
+
+        String email = getEmailFromKakaoAccessToken(accessToken);
+
+        log.info("email: " + email);
+
+        return returnMember(email);
+    }
+
+    public UserDTO authGoogle(String accessToken) {
+        log.info("-------------authGoogleService-------------");
+
+        String email = getEmailFromGoogleAccessToken(accessToken);
+        log.info("email: " + email);
+
+        return returnMember(email);
+    }
+
+
     private UserDTO returnMember(String email) {
 
         Optional<UserEntity> result = userRepository.findByUemail(email);
@@ -86,27 +123,6 @@ public class UserService {
         userDTO.setNew(true);
 
         return userDTO;
-    }
-
-
-    public UserDTO authKakao(String accessToken) {
-
-        log.info("-------------authKakaoService-------------");
-
-        String email = getEmailFromKakaoAccessToken(accessToken);
-
-        log.info("email: " + email);
-
-        return returnMember(email);
-    }
-
-    public UserDTO authGoogle(String accessToken) {
-        log.info("-------------authGoogleService-------------");
-
-        String email = getEmailFromGoogleAccessToken(accessToken);
-        log.info("email: " + email);
-
-        return returnMember(email);
     }
 
 

@@ -3,8 +3,11 @@ package org.esnack24api.esnack24api.user.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.sql.Timestamp;
+
 @Entity
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,7 +31,7 @@ public class UserEntity {
 
     private String uaddress;
 
-    private java.sql.Date ubirth;
+    private Timestamp ubirth;
 
     private boolean udelete;
 
