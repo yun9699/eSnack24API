@@ -14,7 +14,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: none
       dialect: org.hibernate.dialect.MariaDB103Dialect
     show-sql: true
     properties:
@@ -31,18 +31,6 @@ mybatis:
       max-request-size: 20MB
       location: upload
       enabled: true
-
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: 6550639460-vq6qpp6ea2u77fabbo3gkhud9mdedtn9.apps.googleusercontent.com
-            client-secret: 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
-            redirect-uri: http://localhost:8080/auth/google/callback
-            scope:
-              - email
-              - profile
 
 org:
   hyeong:

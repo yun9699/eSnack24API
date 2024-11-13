@@ -39,9 +39,7 @@ public class UserService {
 
         UserEntity user = result.orElseThrow(() -> UserExceptions.BAD_AUTH.get());
 
-        String enPw = user.getUpw();
-
-        boolean match = passwordEncoder.matches(password, enPw);
+        boolean match = passwordEncoder.matches(password, user.getUpw());
 
         if(!match) {
             throw CommonExceptions.READ_ERROR.get();
@@ -49,7 +47,7 @@ public class UserService {
 
         UserDTO userDTO = new UserDTO();
         userDTO.setEmail(email);
-        userDTO.setPw(enPw);
+        userDTO.setPw(user.getUpw());
 
         return userDTO;
     }
@@ -66,6 +64,12 @@ public class UserService {
             userEntity = result.get();
             userDTO.setEmail(userEntity.getUemail());
             userDTO.setPw(userEntity.getUpw());
+            userDTO.setUsername(userEntity.getUsername());
+            userDTO.setAddress(userEntity.getUaddress());
+            userDTO.setGender(userDTO.getGender());
+            userDTO.setBirth(userDTO.getBirth());
+            userDTO.setCallNumber(userDTO.getCallNumber());
+            userDTO.setNew(false);
 
             return userDTO;
         }
@@ -79,6 +83,7 @@ public class UserService {
 
         userDTO.setEmail(email);
         userDTO.setPw(pw);
+        userDTO.setNew(true);
 
         return userDTO;
     }
@@ -123,6 +128,7 @@ public class UserService {
         ResponseEntity<LinkedHashMap> response =
                 restTemplate.exchange(uriBuilder.toString(), HttpMethod.GET, entity, LinkedHashMap.class);
 
+        log.info("---------------------------Kakao response = ");
         log.info(response);
 
         LinkedHashMap<String, LinkedHashMap> bodyMap = response.getBody();
