@@ -1,13 +1,12 @@
 package org.esnack24api.esnack24api.product.repository.search;
 
 
-import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPQLQuery;
 import lombok.extern.log4j.Log4j2;
 import org.esnack24api.esnack24api.common.dto.PageRequestDTO;
 import org.esnack24api.esnack24api.common.dto.PageResponseDTO;
-import org.esnack24api.esnack24api.product.domain.Product;
+import org.esnack24api.esnack24api.product.domain.ProductEntity;
 import org.esnack24api.esnack24api.product.domain.QProduct;
 import org.esnack24api.esnack24api.product.dto.ProductListDTO;
 import org.springframework.data.domain.*;
@@ -20,20 +19,20 @@ import java.util.List;
 public class ProductSearchImpl extends QuerydslRepositorySupport implements ProductSearch {
 
     public ProductSearchImpl() {
-        super(Product.class);
+        super(ProductEntity.class);
     }
 
     @Override
-    public Page<Product> listProducts(Pageable pageable) {
+    public Page<ProductEntity> listProducts(Pageable pageable) {
 
         QProduct product = QProduct.product;
 
-        JPQLQuery<Product> query = from(product);
+        JPQLQuery<ProductEntity> query = from(product);
         query.where(product.pno.gt(0));
 
         this.getQuerydsl().applyPagination(pageable, query);
 
-        List<Product> productList = query.fetch();
+        List<ProductEntity> productList = query.fetch();
 
         long total = query.fetchCount();
 
@@ -50,7 +49,7 @@ public class ProductSearchImpl extends QuerydslRepositorySupport implements Prod
         );
 
         QProduct product = QProduct.product;
-        JPQLQuery<Product> query = from(product);
+        JPQLQuery<ProductEntity> query = from(product);
 
         this.getQuerydsl().applyPagination(pageable, query);
 
