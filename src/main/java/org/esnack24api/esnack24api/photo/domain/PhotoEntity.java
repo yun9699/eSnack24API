@@ -12,7 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 @Table(name = "tbl_photo_files")
-public class FileEntity {
+public class PhotoEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
