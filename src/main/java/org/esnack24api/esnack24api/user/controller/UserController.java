@@ -51,6 +51,7 @@ public class UserController {
         tokenResponseDTO.setAccessToken(accessTokenStr);
         tokenResponseDTO.setRefreshToken(refreshTokenStr);
         tokenResponseDTO.setEmail(userDTO.getEmail());
+        tokenResponseDTO.setNew(userDTO.isNew());
 
         return tokenResponseDTO;
     }
@@ -77,6 +78,7 @@ public class UserController {
         tokenResponseDTO.setAccessToken(accessToken);
         tokenResponseDTO.setRefreshToken(refreshToken);
         tokenResponseDTO.setEmail(userDTO.getEmail());
+        tokenResponseDTO.setNew(userDTO.isNew());
 
         return ResponseEntity.ok(tokenResponseDTO);
     }
@@ -107,6 +109,7 @@ public class UserController {
             tokenResponseDTO.setAccessToken(accessTokenStr);
             tokenResponseDTO.setEmail(email);
             tokenResponseDTO.setRefreshToken(refreshToken);
+            tokenResponseDTO.setNew(false);
 
             return ResponseEntity.ok(tokenResponseDTO);
         } catch(ExpiredJwtException ex) {
@@ -116,7 +119,6 @@ public class UserController {
                 Map<String, Object> payload = jwtUtil.validateToken(refreshToken);
 
                 String email = payload.get("email").toString();
-                String role = payload.get("role").toString();
                 String newAccessToken = null;
                 String newRefreshToken = null;
 
@@ -131,6 +133,7 @@ public class UserController {
                 tokenResponseDTO.setAccessToken(newAccessToken);
                 tokenResponseDTO.setRefreshToken(newRefreshToken);
                 tokenResponseDTO.setEmail(email);
+                tokenResponseDTO.setNew(false);
 
                 return ResponseEntity.ok(tokenResponseDTO);
             } catch (ExpiredJwtException ex2) {
@@ -143,18 +146,17 @@ public class UserController {
     @RequestMapping("kakao")
     public ResponseEntity<TokenResponseDTO> kakaoToken(String accessToken) {
 
-        log.info("kakao access token" + accessToken);
-
         UserDTO userDTO = userService.authKakao(accessToken);
 
         log.info("kakao_userDTO: " + userDTO);
+
+        log.info("============______________=======" + generateTokenResponseDTO(userDTO));
 
         return ResponseEntity.ok(generateTokenResponseDTO(userDTO));
     }
 
     @RequestMapping("google")
     public ResponseEntity<TokenResponseDTO> googleToken(@RequestParam String accessToken) {
-        log.info("Received Google access token");
 
         UserDTO userDTO = userService.authGoogle(accessToken);
 
