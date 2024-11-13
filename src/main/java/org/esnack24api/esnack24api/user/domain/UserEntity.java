@@ -30,6 +30,6 @@ public class UserEntity {
 
     private java.sql.Date ubirth;
 
-    private boolean udelete = false;
+    private boolean udelete;
 
 }

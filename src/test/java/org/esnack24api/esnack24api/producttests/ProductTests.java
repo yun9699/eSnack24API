@@ -39,7 +39,7 @@ public class ProductTests {
     @Transactional
     @Commit
     public void DeleteProductTest() {
-        productService.deleteProductDetail(74);
+        productService.deleteProductDetail(74L);
     }
 
     @Test
@@ -47,7 +47,7 @@ public class ProductTests {
     @Commit
     public void UpdateProductTest() {
 
-        productService.updateProductDetail(1, 300000000);
+        productService.updateProductDetail(1L, 300000000);
 
     }
 
