@@ -36,9 +36,8 @@
         from
             tbl_qna
         where
-            qdelete = false
-        limit
-            #{pageRequest.offset}, #{pageRequest.pageSize}
+            uno = #{uno}
+            and qdelete = false
     </select>
 
 </mapper>

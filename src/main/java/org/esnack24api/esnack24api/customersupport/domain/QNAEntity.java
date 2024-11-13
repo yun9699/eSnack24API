@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 public class QNAEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long qno;
 
     private Long uno;
