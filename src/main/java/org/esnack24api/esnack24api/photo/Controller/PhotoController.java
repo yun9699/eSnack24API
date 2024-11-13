@@ -80,8 +80,6 @@ public class PhotoController {
                     log.error("Failed to fetch similar images for file '{}'", filename);
                 }
 
-                // 디코딩된 파일명을 데이터베이스에 저장
-                photoService.saveFilenameToDb(filename);
 
             } catch (Exception e) {
                 log.error("Error processing file: {}", filename, e);
