@@ -19,33 +19,26 @@ import java.time.LocalDateTime;
 public class QNAEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int qno;
 
     private int uno;
 
     private int pno;
 
-    @Column(nullable = false, length = 100)
     private String qtitle;
 
-    @Column(nullable = false, length = 500)
     private String qcontent;
 
-    @Column(length = 500)
     private String qanswer;
 
     @Builder.Default
     private boolean qdelete = false;
 
-    @Column(nullable = false, length = 300)
     private String qfilename;
 
-    @Column(nullable = false)
     @CreatedDate
     private LocalDateTime qregdate;
 
-    @Column(nullable = false)
     @LastModifiedDate
     private LocalDateTime qmoddate;
 }
