@@ -5,9 +5,9 @@ import java.time.LocalDateTime;
 
 @Data
 public class QNADetailDTO {
-    private int qno;
-    private int uno;
-    private int pno;
+    private Long qno;
+    private Long uno;
+    private Long pno;
     private String qtitle;
     private String qcontent;
     private String qanswer;

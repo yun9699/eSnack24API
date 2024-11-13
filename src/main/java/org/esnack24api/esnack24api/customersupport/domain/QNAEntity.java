@@ -19,11 +19,11 @@ import java.time.LocalDateTime;
 public class QNAEntity {
 
     @Id
-    private int qno;
+    private Long qno;
 
-    private int uno;
+    private Long uno;
 
-    private int pno;
+    private Long pno;
 
     private String qtitle;
 

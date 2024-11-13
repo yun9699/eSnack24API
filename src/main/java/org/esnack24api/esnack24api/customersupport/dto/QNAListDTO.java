@@ -6,8 +6,8 @@ import java.time.LocalDateTime;
 @Data
 public class QNAListDTO {
 
-    private int qno;
-    private int uno;
+    private Long qno;
+    private Long uno;
     private String qtitle;
     private LocalDateTime qregdate;
 }
