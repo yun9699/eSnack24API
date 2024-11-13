@@ -1,14 +1,16 @@
 package org.esnack24api.esnack24api.product.repository.search;
 
 
-import com.querydsl.core.Tuple;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPQLQuery;
 import lombok.extern.log4j.Log4j2;
-import org.esnack24api.esnack24api.product.domain.Product;
-import org.esnack24api.esnack24api.product.domain.QProduct;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+import org.esnack24api.esnack24api.common.dto.PageRequestDTO;
+import org.esnack24api.esnack24api.common.dto.PageResponseDTO;
+import org.esnack24api.esnack24api.product.domain.ProductEntity;
+import org.esnack24api.esnack24api.product.domain.QProductEntity;
+import org.esnack24api.esnack24api.product.domain.QProductEntity;
+import org.esnack24api.esnack24api.product.dto.ProductListDTO;
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import java.util.List;
@@ -18,23 +20,60 @@ import java.util.List;
 public class ProductSearchImpl extends QuerydslRepositorySupport implements ProductSearch {
 
     public ProductSearchImpl() {
-        super(Product.class);
+        super(ProductEntity.class);
     }
 
     @Override
-    public Page<Product> listProducts(Pageable pageable) {
+    public Page<ProductEntity> listProducts(Pageable pageable) {
 
-        QProduct product = QProduct.product;
+        QProductEntity product = QProductEntity.productEntity;
 
-        JPQLQuery<Product> query = from(product);
+        JPQLQuery<ProductEntity> query = from(product);
         query.where(product.pno.gt(0));
 
         this.getQuerydsl().applyPagination(pageable, query);
 
-        List<Product> productList = query.fetch();
+        List<ProductEntity> productList = query.fetch();
 
         long total = query.fetchCount();
 
         return new PageImpl<>(productList, pageable, total);
+    }
+
+    @Override
+    public PageResponseDTO<ProductListDTO> listProductAll(PageRequestDTO pageRequestDTO) {
+
+        Pageable pageable = PageRequest.of(
+                pageRequestDTO.getPage()-1,
+                pageRequestDTO.getSize(),
+                Sort.by("pno").descending()
+        );
+
+        QProductEntity product = QProductEntity.productEntity;
+        JPQLQuery<ProductEntity> query = from(product);
+
+        this.getQuerydsl().applyPagination(pageable, query);
+
+        JPQLQuery<ProductListDTO> dtojpqlQuery = query.select(
+                Projections.bean(ProductListDTO.class,
+                        product.pno,
+                        product.price,
+                        product.pdelete,
+                        product.ptitle_ko,
+                        product.pcontent_ko,
+                        product.pcategory_ko
+                        )
+        );
+
+
+        List<ProductListDTO> list = dtojpqlQuery.fetch();
+
+        long total = dtojpqlQuery.fetchCount();
+
+        return PageResponseDTO.<ProductListDTO>withAll()
+                .dtoList(list)
+                .pageRequestDTO(pageRequestDTO)
+                .totalCount(total)
+                .build();
     }
 }
