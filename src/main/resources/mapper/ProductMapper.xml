@@ -8,9 +8,9 @@
     <select id="getList" resultType="ProductListDTO">
         select
             pno, price, pqty, pdelete, pfilename,
-            pregdate, pmoddate, Product.ptitle_ko, Product.pcontent_ko, Product.pcategory_ko
+            pregdate, pmoddate, ptitle_ko, pcontent_ko, pcategory_ko
         from
-            Product
+            tbl_product
         where
             pdelete = 0
         order by
@@ -20,7 +20,7 @@
 
     <select id="count" resultType="int">
         select count(pno)
-        from Product
+        from tbl_product
         where pno > 0 and pdelete = false
     </select>
 
@@ -29,7 +29,7 @@
             pno, price, pdelete, pfilename,
             ptitle_ko, pcontent_ko, pcategory_ko
         from
-            Product
+            tbl_product
         where
             pno = #{pno}
     </select>
