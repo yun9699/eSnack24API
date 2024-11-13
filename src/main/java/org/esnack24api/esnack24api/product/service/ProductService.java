@@ -56,13 +56,13 @@ public class ProductService {
         productRepository.save(product);
     }
 
-    public void deleteProductDetail(int pno) {
+    public void deleteProductDetail(Long pno) {
 
         productRepository.deleteById(pno);
 
     }
 
-    public void updateProductDetail(int pno, int price) {
+    public void updateProductDetail(Long pno, int price) {
 
         Product product = productRepository.findById(pno).orElseThrow();
 
