@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.esnack24api.esnack24api.customersupport.mapper.QNAMapper">
+
+    <select id="getList" resultType="QNAListDTO">
+        select
+            qno, uno, qtitle, qregdate
+        from
+            tbl_qna
+        where
+            uno = #{uno}
+            and qdelete = false
+        order by
+            qno desc
+        limit
+            #{skip}, #{size}
+    </select>
+
+    <select id="getOne" resultType="QNADetailDTO">
+        select
+            qno, uno, pno, qtitle, qcontent, qanswer,
+            qfilename, qregdate, qmoddate
+        from
+            tbl_qna
+        where
+            qno = #{qno}
+            and qdelete = false
+    </select>
+
+    <select id="count" resultType="int">
+        select
+            count(qno)
+        from
+            tbl_qna
+        where
+            uno = #{uno}
+            and qdelete = false
+    </select>
+
+</mapper>
