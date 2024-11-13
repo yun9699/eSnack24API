@@ -1,4 +1,4 @@
-package org.esnack24api.esnack24api.customerSupport.domain;
+package org.esnack24api.esnack24api.customersupport.domain;
 
 import jakarta.persistence.*;
 import lombok.*;

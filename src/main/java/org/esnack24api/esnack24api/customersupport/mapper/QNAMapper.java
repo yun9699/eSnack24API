@@ -1,8 +1,8 @@
-package org.esnack24api.esnack24api.customerSupport.mapper;
+package org.esnack24api.esnack24api.customersupport.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.esnack24api.esnack24api.customerSupport.dto.QNADetailDTO;
-import org.esnack24api.esnack24api.customerSupport.dto.QNAListDTO;
+import org.esnack24api.esnack24api.customersupport.dto.QNADetailDTO;
+import org.esnack24api.esnack24api.customersupport.dto.QNAListDTO;
 import java.util.List;
 
 @Mapper

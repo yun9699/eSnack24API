@@ -1,4 +1,4 @@
-package org.esnack24api.esnack24api.customerSupport.dto;
+package org.esnack24api.esnack24api.customersupport.dto;
 
 import lombok.Data;
 import java.time.LocalDateTime;
