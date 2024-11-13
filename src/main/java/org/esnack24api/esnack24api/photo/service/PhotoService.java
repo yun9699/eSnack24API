@@ -42,17 +42,17 @@ public class PhotoService {
         filename[0] = uuid + ".png";
 
         try {
-            // Base64 디코딩 시도
+
             byte[] decodedBytes = Base64.getDecoder().decode(resultEncoding);
             log.info("디코딩시도했다.");
 
-            // 디코딩한 파일 저장
+            // 디코딩한 파일 폴더에 저장
             try (FileOutputStream fileOutputStream = new FileOutputStream("C:\\decoding\\" + filename[0])) {
                 fileOutputStream.write(decodedBytes);
                 log.info(filename);
                 log.info("파일저장완료----------------------");
 
-                // 파일명을 데이터베이스에 저장
+
                 saveFilenameToDb(filename[0]);
 
             } catch (IOException e) {
