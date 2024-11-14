@@ -99,6 +99,7 @@ public class UserService {
         if(result.isPresent()) {
 
             userEntity = result.get();
+            userDTO.setUno(userEntity.getUno());
             userDTO.setEmail(userEntity.getUemail());
             userDTO.setPw(userEntity.getUpw());
             userDTO.setUsername(userEntity.getUsername());
@@ -118,9 +119,17 @@ public class UserService {
                 .build();
         userRepository.save(newMember);
 
+        Optional<UserEntity> newResult = userRepository.findByUemail(email);
+
+        log.info("-----=----------=-----------");
+        log.info(newResult);
+
+        userDTO.setUno(newResult.orElseThrow().getUno());
         userDTO.setEmail(email);
         userDTO.setPw(pw);
         userDTO.setNew(true);
+
+        log.info(userDTO);
 
         return userDTO;
     }
