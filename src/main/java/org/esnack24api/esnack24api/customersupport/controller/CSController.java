@@ -51,6 +51,7 @@ public class CSController {
     @PutMapping("/edit")
     public ResponseEntity<QNADetailDTO> updateQNA(@RequestBody QNAEditDTO qnaEditDTO) {
         log.info("updateQNA: {}", qnaEditDTO);
+
         return ResponseEntity.ok(csService.updateQNA(qnaEditDTO));
     }
 

@@ -4,48 +4,103 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.esnack24api.esnack24api.common.page.PageRequest;
 import org.esnack24api.esnack24api.common.page.PageResponse;
+import org.esnack24api.esnack24api.customersupport.domain.QNAEntity;
 import org.esnack24api.esnack24api.customersupport.dto.QNADetailDTO;
+import org.esnack24api.esnack24api.customersupport.dto.QNAEditDTO;
 import org.esnack24api.esnack24api.customersupport.dto.QNAListDTO;
-import org.esnack24api.esnack24api.customersupport.mapper.FAQMapper;
+import org.esnack24api.esnack24api.customersupport.dto.QNARegisterDTO;
 import org.esnack24api.esnack24api.customersupport.mapper.QNAMapper;
 import org.esnack24api.esnack24api.customersupport.repository.CSRepository;
+import org.esnack24api.esnack24api.product.domain.ProductEntity;
+import org.esnack24api.esnack24api.user.domain.UserEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Log4j2
-@Transactional
 @RequiredArgsConstructor
 public class CSService {
     private final QNAMapper qnaMapper;
-//    private final FAQMapper faqMapper;
-//    private final CSRepository csRepository;
+    private final CSRepository csRepository;
 
-    // QNA 관련 메서드
+    // QNA 리스트 조회
+    @Transactional(readOnly = true)
     public PageResponse<QNAListDTO> getQNAList(Long uno, PageRequest pageRequest) {
         log.info("getQNAList");
-
-        PageResponse<QNAListDTO> pageResponse =
-                PageResponse.<QNAListDTO>with()
-                        .list(qnaMapper.getList(uno, pageRequest))
-                        .total(qnaMapper.count(pageRequest))
-                        .pageRequest(pageRequest)
-                        .build();
-
-        return pageResponse;
+        return PageResponse.<QNAListDTO>with()
+                .list(qnaMapper.getList(uno, pageRequest))
+                .total(qnaMapper.count(uno))
+                .pageRequest(pageRequest)
+                .build();
     }
 
+    // QNA 상세 조회
+    @Transactional(readOnly = true)
     public QNADetailDTO getQNAOne(Long qno) {
         log.info("getQNAOne");
-
         QNADetailDTO result = qnaMapper.getOne(qno);
-
+        if (result == null) {
+            throw new IllegalArgumentException("QNA not found: " + qno);
+        }
         return result;
     }
 
-    //QNA 등록
-    //QNA 수정
-    //QNA 삭제
+    // QNA 등록
+    @Transactional
+    public QNADetailDTO registerQNA(QNARegisterDTO dto) {
+        log.info("Registering new QNA: {}", dto);
 
-    // FAQ 관련 메서드 아래에 작성
+        // UserEntity, ProductEntity 참조
+        UserEntity user = UserEntity.builder()
+                .uno(dto.getUno())
+                .build();
+
+        ProductEntity product = ProductEntity.builder()
+                .pno(dto.getPno())
+                .build();
+
+        // QNA 엔티티 생성
+        QNAEntity qna = QNAEntity.builder()
+                .user(user)
+                .product(product)
+                .qtitle(dto.getQtitle())
+                .qcontent(dto.getQcontent())
+                .qfilename(dto.getQfilename())
+                .qdelete(false)
+                .build();
+
+        // 저장 후 상세 정보 조회하여 반환
+        QNAEntity savedQNA = csRepository.save(qna);
+        return qnaMapper.getOne(savedQNA.getQno());
+    }
+
+    // QNA 수정
+    @Transactional
+    public QNADetailDTO updateQNA(QNAEditDTO dto) {
+        log.info("Updating QNA: {}", dto);
+
+        QNAEntity qna = csRepository.findById(dto.getQno())
+                .orElseThrow(() -> new IllegalArgumentException("QNA not found: " + dto.getQno()));
+
+        qna.updateQNA(
+                dto.getQtitle(),
+                dto.getQcontent(),
+                dto.getQfilename()
+        );
+
+        csRepository.save(qna);
+        return qnaMapper.getOne(qna.getQno());
+    }
+
+    // QNA 삭제
+    @Transactional
+    public void deleteQNA(Long qno) {
+        log.info("Deleting QNA: {}", qno);
+
+        QNAEntity qna = csRepository.findById(qno)
+                .orElseThrow(() -> new IllegalArgumentException("QNA not found: " + qno));
+
+        qna.deleteQNA();
+        csRepository.save(qna);
+    }
 }

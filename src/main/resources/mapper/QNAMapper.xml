@@ -7,37 +7,42 @@
 
     <select id="getList" resultType="QNAListDTO">
         select
-            qno, uno, qtitle, qregdate
+            q.qno, q.qtitle, q.qregdate,
+            u.uno
         from
-            tbl_qna
+            tbl_qna q
+            inner join tbl_user u on q.uno = u.uno
         where
-            uno = #{uno}
-            and qdelete = false
+            q.uno = #{uno}
+            and q.qdelete = false
         order by
-            qno desc
+            q.qno desc
         limit
-            #{skip}, #{size}
+            #{pageRequest.offset}, #{pageRequest.pageSize}
     </select>
 
     <select id="getOne" resultType="QNADetailDTO">
         select
-            qno, uno, pno, qtitle, qcontent, qanswer,
-            qfilename, qregdate, qmoddate
+            q.qno, q.qtitle, q.qcontent, q.qanswer,
+            q.qfilename, q.qregdate, q.qmoddate,
+            u.uno, p.pno
         from
-            tbl_qna
+            tbl_qna q
+            inner join tbl_user u on q.uno = u.uno
+            left join tbl_product p on q.pno = p.pno
         where
-            qno = #{qno}
-            and qdelete = false
+            q.qno = #{qno}
+            and q.qdelete = false
     </select>
 
     <select id="count" resultType="int">
         select
-            count(qno)
+            count(q.qno)
         from
-            tbl_qna
+            tbl_qna q
         where
-            uno = #{uno}
-            and qdelete = false
+            q.uno = #{uno}
+            and q.qdelete = false
     </select>
 
 </mapper>

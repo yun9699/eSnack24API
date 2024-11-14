@@ -15,6 +15,6 @@ public interface QNAMapper {
     // QNA 상세 내용 조회
     QNADetailDTO getOne(Long qno);
 
-    // 페이징 처리
-    int count(PageRequest pageRequest);
+    // 특정 사용자의 전체 QNA 조회 처리
+    int count(Long uno);
 }
