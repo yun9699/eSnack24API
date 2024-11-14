@@ -5,16 +5,19 @@ import lombok.extern.log4j.Log4j2;
 import org.esnack24api.esnack24api.common.page.PageRequest;
 import org.esnack24api.esnack24api.common.page.PageResponse;
 import org.esnack24api.esnack24api.customersupport.dto.QNADetailDTO;
+import org.esnack24api.esnack24api.customersupport.dto.QNAEditDTO;
 import org.esnack24api.esnack24api.customersupport.dto.QNAListDTO;
-import org.esnack24api.esnack24api.customersupport.domain.QNAEntity;
+import org.esnack24api.esnack24api.customersupport.dto.QNARegisterDTO;
 import org.esnack24api.esnack24api.customersupport.service.CSService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/qna")
 @RequiredArgsConstructor
 @Log4j2
+@PreAuthorize("permitAll()")
 public class CSController {
 
     private final CSService csService;
@@ -22,41 +25,45 @@ public class CSController {
     // QNA 목록 조회
     @GetMapping("/list")
     public ResponseEntity<PageResponse<QNAListDTO>> getQNAList(@RequestParam Long uno, PageRequest pageRequest) {
-        log.info("QNA List for user: {}", uno);
-        PageResponse<QNAListDTO> response = csService.getQNAList(uno, pageRequest);
-        return ResponseEntity.ok(response);
+        log.info("getQNAList: {}", uno);
+
+        return ResponseEntity.ok(csService.getQNAList(uno, pageRequest));
     }
 
     // QNA 상세 조회 (아코디언 확장 시 사용)
     @GetMapping("/detail/{qno}")
     public ResponseEntity<QNADetailDTO> getQNAOne(@PathVariable Long qno) {
-        log.info("QNA details for qno: {}", qno);
-        QNADetailDTO qnaDetail = csService.getQNAOne(qno);
-        return ResponseEntity.ok(qnaDetail);
+        log.info("getQNAOne: {}", qno);
+
+        return ResponseEntity.ok(csService.getQNAOne(qno));
     }
 
-//    // QNA 등록
-//    @PostMapping("/add")
-//    public ResponseEntity<QNADetailDTO> createQNA(@RequestBody QNADetailDTO qnaDetailDTO) {
-//        log.info("Creating QNA: {}", qnaDetailDTO);
-//        QNAEntity createdQna = csService.createQNA(qnaDetailDTO);
-//        return ResponseEntity.ok(convertToDetailDTO(createdQna));
-//    }
+    // QNA 등록
+    @PostMapping("/add")
+    public ResponseEntity<QNADetailDTO> registerQNA(@RequestBody QNARegisterDTO qnaRegisterDTO) {
+        log.info("registerQNA: {}", qnaRegisterDTO);
+
+        return ResponseEntity.ok(csService.registerQNA(qnaRegisterDTO));
+    }
+
 //
-//    // QNA 수정
-//    @PutMapping("/edit")
-//    public ResponseEntity<QNADetailDTO> updateQNA(@RequestParam Long qno, @RequestBody QNADetailDTO qnaDetailDTO) {
-//        log.info("Updating QNA qno: {}", qno);
-//        QNAEntity updatedQna = csService.updateQNA(qno, qnaDetailDTO);
-//        return ResponseEntity.ok(convertToDetailDTO(updatedQna));
-//    }
-//
-//    // QNA 삭제
-//    @DeleteMapping("/delete")
-//    public ResponseEntity<Void> deleteQNA(@RequestParam Long qno) {
-//        log.info("Deleting QNA qno: {}", qno);
-//        csService.deleteQNA(qno);
-//        return ResponseEntity.noContent().build();
-//    }
-//
+    // QNA 수정
+    @PutMapping("/edit")
+    public ResponseEntity<QNADetailDTO> updateQNA(@RequestBody QNAEditDTO qnaEditDTO) {
+        log.info("updateQNA: {}", qnaEditDTO);
+        return ResponseEntity.ok(csService.updateQNA(qnaEditDTO));
+    }
+
+
+    // QNA 삭제
+    @DeleteMapping("/delete/{qno}")
+    public ResponseEntity<Void> deleteQNA(@PathVariable Long qno) {
+        log.info("deleteQNA: {}", qno);
+
+        csService.deleteQNA(qno);
+
+        return ResponseEntity.noContent().build();
+    }
+
+
 }
