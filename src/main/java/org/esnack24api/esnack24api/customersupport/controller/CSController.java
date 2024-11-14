@@ -46,11 +46,15 @@ public class CSController {
         return ResponseEntity.ok(csService.registerQNA(qnaRegisterDTO));
     }
 
-//
+
     // QNA 수정
-    @PutMapping("/edit")
-    public ResponseEntity<QNADetailDTO> updateQNA(@RequestBody QNAEditDTO qnaEditDTO) {
-        log.info("updateQNA: {}", qnaEditDTO);
+    @PutMapping("/edit/{qno}")
+    public ResponseEntity<QNADetailDTO> updateQNA(
+            @PathVariable Long qno,
+            @RequestBody QNAEditDTO qnaEditDTO) {
+        log.info("updateQNA: qno={}, dto={}", qno, qnaEditDTO);
+
+        qnaEditDTO.setQno(qno);
 
         return ResponseEntity.ok(csService.updateQNA(qnaEditDTO));
     }

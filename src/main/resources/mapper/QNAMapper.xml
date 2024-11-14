@@ -18,7 +18,7 @@
         order by
             q.qno desc
         limit
-            #{pageRequest.offset}, #{pageRequest.pageSize}
+            #{pageRequest.skip}, #{pageRequest.size}
     </select>
 
     <select id="getOne" resultType="QNADetailDTO">
