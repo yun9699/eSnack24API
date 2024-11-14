@@ -2,7 +2,7 @@ package org.esnack24api.esnack24api.cart.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.esnack24api.esnack24api.product.domain.Product;
+import org.esnack24api.esnack24api.product.domain.ProductEntity;
 import org.esnack24api.esnack24api.user.domain.UserEntity;
 
 @Setter
@@ -13,7 +13,7 @@ import org.esnack24api.esnack24api.user.domain.UserEntity;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = {"product", "user"})
-public class Cart {
+public class CartEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // autoIncrement로 자동 생성되는 pk
@@ -23,7 +23,7 @@ public class Cart {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="pno")
-    private Product product;
+    private ProductEntity product;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="uno")

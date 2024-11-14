@@ -2,8 +2,8 @@ package org.esnack24api.esnack24api.photo.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.esnack24api.esnack24api.photo.domain.FileEntity;
-import org.esnack24api.esnack24api.photo.repository.FileRepository;
+import org.esnack24api.esnack24api.photo.domain.PhotoEntity;
+import org.esnack24api.esnack24api.photo.repository.PhotoRepository;
 import org.springframework.stereotype.Service;
 
 import java.io.FileOutputStream;
@@ -16,12 +16,16 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class PhotoService {
 
-    private final FileRepository fileRepository; // FileRepository 주입
+    private final PhotoRepository photoRepository; // FileRepository 주입
 
     // base64 인코딩된 문자열을 디코딩하여 그 결과만 로그로 출력
     public String[] decoding(String encoding)  {
         log.info("디코딩전-------------------------------------------------------------");
         log.info(encoding);
+        if (encoding == null || encoding.isEmpty()) {
+            throw new IllegalArgumentException("Encoding cannot be null or empty");
+        }
+
 
         // 공백 제거 및 유효하지 않은 문자 제거
         String resultEncoding = encoding.replaceAll("\\s+", "");  // 공백 제거
@@ -47,7 +51,9 @@ public class PhotoService {
             log.info("디코딩시도했다.");
 
             // 디코딩한 파일 폴더에 저장
-            try (FileOutputStream fileOutputStream = new FileOutputStream("C:\\decoding\\" + filename[0])) {
+            String filePath = "C:\\decoding\\" + filename[0];
+            try (FileOutputStream fileOutputStream = new FileOutputStream(filePath)) {
+
                 fileOutputStream.write(decodedBytes);
                 log.info(filename);
                 log.info("파일저장완료----------------------");
@@ -61,9 +67,9 @@ public class PhotoService {
             }
 
         } catch (IllegalArgumentException e) {
-            log.error("Invalid Base64 encoding: {}", encoding, e);
+            log.error("잘못된 Base64 인코딩: {}", encoding, e);
         } catch (Exception e) {
-            log.error("Unexpected error occurred during Base64 decoding", e);
+            log.error("디코딩 중 예상치 못한 오류 발생", e);
         }
 
         return filename;
@@ -71,11 +77,11 @@ public class PhotoService {
 
 
     public void saveFilenameToDb(String filename) {
-        FileEntity fileEntity = FileEntity.builder()
+        PhotoEntity photoEntity = PhotoEntity.builder()
                 .photoFilename(filename)
                 .build();
 
-        fileRepository.save(fileEntity);
+        photoRepository.save(photoEntity);
         log.info("파일명 '{}' 데이터베이스에 저장 완료", filename);
     }
 }

@@ -3,7 +3,6 @@ package org.esnack24api.esnack24api.carttests;
 import lombok.extern.log4j.Log4j2;
 import org.esnack24api.esnack24api.cart.repository.CartRepository;
 import org.esnack24api.esnack24api.cart.service.CartService;
-import org.esnack24api.esnack24api.product.domain.Product;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;

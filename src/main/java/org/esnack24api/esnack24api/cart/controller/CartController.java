@@ -2,7 +2,7 @@ package org.esnack24api.esnack24api.cart.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.esnack24api.esnack24api.cart.domain.Cart;
+import org.esnack24api.esnack24api.cart.domain.CartEntity;
 import org.esnack24api.esnack24api.cart.dto.CartAddDTO;
 import org.esnack24api.esnack24api.cart.service.CartService;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +20,11 @@ public class CartController {
     private final CartService cartService;
 
     @PostMapping("/add")
-    public ResponseEntity<Cart> addCart(@RequestBody CartAddDTO cartAddDTO) {
+    public ResponseEntity<CartEntity> addCart(@RequestBody CartAddDTO cartAddDTO) {
 
         log.info("add Controller");
 
-        Cart addCart = cartService.addCart(cartAddDTO);
+        CartEntity addCart = cartService.addCart(cartAddDTO);
 
 
         return ResponseEntity.ok(addCart);
