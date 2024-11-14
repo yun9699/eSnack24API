@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.esnack24api.esnack24api.product.mapper.ProductAllergyMapper">
+
+    <resultMap id="productAllergyMap" type="ProductAllergyDetailDTO">
+        <id property="pno" column="pno"></id>
+        <result property="price" column="price"></result>
+        <result property="pfilename" column="pfilename"></result>
+        <result property="ptitle_ko" column="ptitle_ko"></result>
+        <result property="pcontent_ko" column="pcontent_ko"></result>
+        <result property="pcategory_ko" column="pcategory_ko"></result>
+        <result property="ano" column="ano"></result>
+        <collection property="atitle_ko" resultMap="allergyMap"></collection>
+    </resultMap>
+
+    <resultMap id="allergyMap" type="String">
+        <result column="atitle_ko"></result>
+    </resultMap>
+
+    <select id="getOne" resultMap="productAllergyMap">
+        select
+            pr.pno, pr.price, pr.pqty, pr.pdelete, pr.pfilename,
+            pr.ptitle_ko, pr.pcontent_ko, ag.atitle_ko
+        from
+            tbl_product pr
+        left join
+            tbl_product_allergy al on pr.pno = al.pno
+        left join
+            tbl_allergy ag on ag.ano = al.ano
+        where
+            pr.pno = #{pno} and pr.pdelete = 0
+    </select>
+
+</mapper>

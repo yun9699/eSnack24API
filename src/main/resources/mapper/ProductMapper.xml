@@ -24,14 +24,14 @@
         where pno > 0 and pdelete = false
     </select>
 
-    <select id="getOne" resultType="ProductDetailDTO">
-        select
-            pno, price, pdelete, pfilename,
-            ptitle_ko, pcontent_ko, pcategory_ko
-        from
-            tbl_product
-        where
-            pno = #{pno}
-    </select>
+<!--    <select id="getOne" resultType="ProductDetailDTO">-->
+<!--        select-->
+<!--            pno, price, pdelete, pfilename,-->
+<!--            ptitle_ko, pcontent_ko, pcategory_ko-->
+<!--        from-->
+<!--            tbl_product-->
+<!--        where-->
+<!--            pno = #{pno}-->
+<!--    </select>-->
 
 </mapper>

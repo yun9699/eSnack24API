@@ -37,13 +37,13 @@ public class ProductService {
 
     }
 
-    public ProductDetailDTO getProductDetail(Long pno) {
-        log.info("getProductDetail");
-
-        ProductDetailDTO result = productMapper.getOne(pno);
-
-        return result;
-    }
+//    public ProductDetailDTO getProductDetail(Long pno) { // 해당 내용은 productAllergyService의 productAllergyDetail로 사용
+//        log.info("getProductDetail");
+//
+//        ProductDetailDTO result = productMapper.getOne(pno);
+//
+//        return result;
+//    }
 
 
 
