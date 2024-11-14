@@ -5,10 +5,8 @@ import lombok.extern.log4j.Log4j2;
 import org.esnack24api.esnack24api.common.page.PageRequest;
 import org.esnack24api.esnack24api.common.page.PageResponse;
 import org.esnack24api.esnack24api.customersupport.domain.QNAEntity;
-import org.esnack24api.esnack24api.customersupport.dto.QNADetailDTO;
-import org.esnack24api.esnack24api.customersupport.dto.QNAEditDTO;
-import org.esnack24api.esnack24api.customersupport.dto.QNAListDTO;
-import org.esnack24api.esnack24api.customersupport.dto.QNARegisterDTO;
+import org.esnack24api.esnack24api.customersupport.dto.*;
+import org.esnack24api.esnack24api.customersupport.mapper.FAQMapper;
 import org.esnack24api.esnack24api.customersupport.mapper.QNAMapper;
 import org.esnack24api.esnack24api.customersupport.repository.CSRepository;
 import org.esnack24api.esnack24api.product.domain.ProductEntity;
@@ -21,8 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class CSService {
     private final QNAMapper qnaMapper;
+    private final FAQMapper faqMapper;
     private final CSRepository csRepository;
 
+//QNA Service
     // QNA 리스트 조회
     @Transactional(readOnly = true)
     public PageResponse<QNAListDTO> getQNAList(Long uno, PageRequest pageRequest) {
@@ -37,7 +37,7 @@ public class CSService {
     // QNA 상세 조회
     @Transactional(readOnly = true)
     public QNADetailDTO getQNAOne(Long qno) {
-        log.info("getQNAOne");
+        log.info("getQNAOne: {}", qno);
         QNADetailDTO result = qnaMapper.getOne(qno);
         if (result == null) {
             throw new IllegalArgumentException("QNA not found: " + qno);
@@ -103,4 +103,29 @@ public class CSService {
         qna.deleteQNA();
         csRepository.save(qna);
     }
+
+
+//FAQ Service
+    // FAQ 리스트 조회
+    @Transactional(readOnly = true)
+    public PageResponse<FAQListDTO> getFAQList(String fcategory, PageRequest pageRequest) {
+        log.info("getFAQList");
+        return PageResponse.<FAQListDTO>with()
+                .list(faqMapper.getList(pageRequest, fcategory))
+                .total(faqMapper.count(fcategory))
+                .pageRequest(pageRequest)
+                .build();
+    }
+
+    // FAQ 상세 조회
+    @Transactional(readOnly = true)
+    public FAQDetailDTO getFAQOne(Long fno) {
+        log.info("getFAQOne: {}", fno);
+        FAQDetailDTO result = faqMapper.getOne(fno);
+        if (result == null) {
+            throw new IllegalArgumentException("FAQ not found: " + fno);
+        }
+        return result;
+    }
+
 }

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.esnack24api.esnack24api.customersupport.mapper.FAQMapper">
+
+    <select id="getList" resultType="FAQListDTO">
+        select
+        f.fno, f.ftitle, f.fcategory
+        from
+        tbl_faq f
+        where
+        f.fdelete = false
+        <if test="fcategory != null and fcategory != ''">
+            and f.fcategory = #{fcategory}
+        </if>
+        order by
+        f.fno desc
+        limit #{pageRequest.skip}, #{pageRequest.size}
+    </select>
+
+    <select id="getOne" resultType="FAQDetailDTO">
+        select
+            f.fno, f.ftitle, f.fcategory, f.fcontent,
+            a.adno
+        from
+            tbl_faq f
+            inner join tbl_admin a on f.adno = a.adno
+        where
+            f.fno = #{fno}
+            and f.fdelete = false
+    </select>
+
+    <select id="count" resultType="int">
+        select
+        count(f.fno)
+        from
+        tbl_faq f
+        where
+        f.fdelete = false
+        <if test="fcategory != null and fcategory != ''">
+            and f.fcategory = #{fcategory}
+        </if>
+    </select>
+
+</mapper>
