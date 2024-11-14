@@ -9,7 +9,7 @@ import org.esnack24api.esnack24api.allergy.domain.AllergyEntity;
 
 @Entity
 @ToString(exclude = {"product", "allergy"})
-@Table(name = "tbl_review")
+@Table(name = "tbl_product_allergy")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

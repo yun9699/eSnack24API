@@ -4,11 +4,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.esnack24api.esnack24api.common.page.PageRequest;
 import org.esnack24api.esnack24api.common.page.PageResponse;
+import org.esnack24api.esnack24api.product.dto.ProductAllergyDetailDTO;
 import org.esnack24api.esnack24api.product.dto.ProductDetailDTO;
 import org.esnack24api.esnack24api.product.dto.ProductListDTO;
+import org.esnack24api.esnack24api.product.service.ProductAllergyService;
 import org.esnack24api.esnack24api.product.service.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
 
     private final ProductService productService;
+    private final ProductAllergyService productAllergyService;
 
     @GetMapping("list")
     public ResponseEntity<PageResponse<ProductListDTO>> getMainList(PageRequest pageRequest) {
@@ -31,9 +35,13 @@ public class ProductController {
     }
 
     @GetMapping("detail/{pno}")
-    public ResponseEntity<ProductDetailDTO> getDetail(@PathVariable Long pno){
+    public ResponseEntity<ProductAllergyDetailDTO> getDetail(@PathVariable Long pno){
         log.info("Get Controller");
 
-        return ResponseEntity.ok(productService.getProductDetail(pno));
+        return ResponseEntity.ok(productAllergyService.productAllergyDetail(pno));
     }
+
+
+
+
 }
