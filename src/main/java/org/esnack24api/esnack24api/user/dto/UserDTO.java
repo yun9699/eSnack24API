@@ -7,6 +7,8 @@ import java.sql.Timestamp;
 @Data
 public class UserDTO {
 
+    private Long uno;
+
     private String email;
 
     private String pw;

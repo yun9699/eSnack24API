@@ -45,6 +45,7 @@ public class UserController {
         String refreshTokenStr = jwtUtil.createToken(claimMap, refreshTime);
 
         TokenResponseDTO tokenResponseDTO = new TokenResponseDTO();
+        tokenResponseDTO.setUno(userDTO.getUno());
         tokenResponseDTO.setAccessToken(accessTokenStr);
         tokenResponseDTO.setRefreshToken(refreshTokenStr);
         tokenResponseDTO.setEmail(userDTO.getEmail());
