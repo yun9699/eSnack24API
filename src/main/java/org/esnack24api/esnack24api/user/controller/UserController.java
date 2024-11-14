@@ -1,6 +1,7 @@
 package org.esnack24api.esnack24api.user.controller;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.esnack24api.esnack24api.user.dto.UserRegisterDTO;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,6 +21,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1/login")
 @Log4j2
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
@@ -33,12 +35,6 @@ public class UserController {
 
     @Value("${org.hyeong.alwaysNew}")
     private boolean alwaysNew;
-
-    public UserController(UserService userService, JWTUtil jwtUtil) {
-
-        this.userService = userService;
-        this.jwtUtil = jwtUtil;
-    }
 
     private TokenResponseDTO generateTokenResponseDTO(UserDTO userDTO) {
 
@@ -166,10 +162,12 @@ public class UserController {
         return ResponseEntity.ok(generateTokenResponseDTO(userDTO));
     }
 
-    @PutMapping("reg")
-    public ResponseEntity<String> registerUser(@RequestBody UserRegisterDTO userRegisterDTO, String email) {
+    @PutMapping("reg/{uno}")
+    public ResponseEntity<String> registerUser(
+            @PathVariable Long uno,
+            @RequestBody UserRegisterDTO userRegisterDTO) {
 
-        userService.registerUser(email, userRegisterDTO);
+        userService.registerUser(uno, userRegisterDTO);
 
         return ResponseEntity.ok("User Info Register Complete");
     }

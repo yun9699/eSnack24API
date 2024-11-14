@@ -3,13 +3,14 @@ package org.esnack24api.esnack24api.allergy.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Setter
-@Entity
 @Table(name = "tbl_allergy")
+@Entity
 @Getter
+@Setter
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class AllergyEntity {
 
     @Id

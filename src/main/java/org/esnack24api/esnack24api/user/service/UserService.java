@@ -53,9 +53,9 @@ public class UserService {
         return userDTO;
     }
 
-    public void registerUser(String email, UserRegisterDTO userRegisterDTO) {
+    public void registerUser(Long uno, UserRegisterDTO userRegisterDTO) {
 
-        UserEntity result = userRepository.findByUemail(email).orElseThrow();
+        UserEntity result = userRepository.findById(uno).orElseThrow();
 
         result.setUsername(userRegisterDTO.getUsername());
         result.setUbirth(userRegisterDTO.getBirth());
