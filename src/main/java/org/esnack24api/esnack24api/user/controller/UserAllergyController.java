@@ -2,6 +2,7 @@ package org.esnack24api.esnack24api.user.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.esnack24api.esnack24api.user.dto.UserAllergyRegisterDTO;
 import org.esnack24api.esnack24api.user.service.UserAllergyService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,9 +20,11 @@ public class UserAllergyController {
     @PostMapping("setallergies/{uno}")
     public ResponseEntity<String> registerPersonalAllergies(
             @PathVariable Long uno,
-            @RequestBody List<Long> allergies) {
+            @RequestBody UserAllergyRegisterDTO allergies) {
 
-        return ResponseEntity.ok(userAllergyService.registerPersonalAllergy(allergies, uno));
+        allergies.setUno(uno);
+
+        return ResponseEntity.ok(userAllergyService.registerPersonalAllergy(allergies));
 
     }
 }
