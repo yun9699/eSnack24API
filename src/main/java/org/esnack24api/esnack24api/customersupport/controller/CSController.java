@@ -69,20 +69,19 @@ public class CSController {
     }
 
 //FAQController
-    // FAQ 목록 조회
-    @GetMapping("/faq/list")
-    public ResponseEntity<PageResponse<FAQListDTO>> getFAQList(
-            PageRequest pageRequest,
-            @RequestParam(required = false) String fcategory
-    ) {
+    // 카테고리별 목록 조회
+    @GetMapping("/faq/list/{fcategory}")
+    public ResponseEntity<PageResponse<FAQListDTO>> getFAQList(@PathVariable String fcategory, PageRequest pageRequest) {
         log.info("getFAQList category: {}", fcategory);
+
         return ResponseEntity.ok(csService.getFAQList(fcategory, pageRequest));
-    }
+}
 
     // FAQ 상세 조회
     @GetMapping("/faq/{fno}")
     public ResponseEntity<FAQDetailDTO> getFAQOne(@PathVariable Long fno) {
         log.info("getFAQOne: {}", fno);
+
         return ResponseEntity.ok(csService.getFAQOne(fno));
     }
 
