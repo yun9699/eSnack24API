@@ -19,6 +19,7 @@ public class QNADetailDTO {
     private String qcontent;
     private String qanswer;
     private String qfilename;
+    private boolean qstatus;
     private LocalDateTime qregdate;
     private LocalDateTime qmoddate;
 

@@ -15,6 +15,7 @@ public class QNAListDTO {
     private Long qno;
     private Long uno;
     private String qtitle;
+    private boolean qstatus;
     private LocalDateTime qregdate;
 
 }

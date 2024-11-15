@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -39,6 +40,9 @@ public class QNAEntity {
     @Builder.Default
     private boolean qdelete = false;
 
+    @Builder.Default
+    private boolean qstatus = false;
+
     @CreatedDate
     private LocalDateTime qregdate;
 
@@ -55,5 +59,9 @@ public class QNAEntity {
     // 삭제 메서드
     public void deleteQNA() {
         this.qdelete = true;
+    }
+
+    public boolean getQstatus() {
+        return this.qstatus;
     }
 }

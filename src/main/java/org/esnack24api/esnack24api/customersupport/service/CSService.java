@@ -100,6 +100,10 @@ public class CSService {
         QNAEntity qna = csRepository.findById(qno)
                 .orElseThrow(() -> new IllegalArgumentException("QNA not found: " + qno));
 
+        if (qna.getQstatus()) {  // true = 답변완료 상태
+            throw new IllegalStateException("답변이 완료된 문의는 삭제할 수 없습니다.");
+        }
+
         qna.deleteQNA();
         csRepository.save(qna);
     }

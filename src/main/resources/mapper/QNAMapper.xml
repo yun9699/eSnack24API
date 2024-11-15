@@ -7,8 +7,8 @@
 
     <select id="getList" resultType="QNAListDTO">
         select
-            q.qno, q.qtitle, q.qregdate,
-            u.uno
+            q.qno, q.qtitle, q.qregdate, q.qstatus
+            u.uno,
         from
             tbl_qna q
             inner join tbl_user u on q.uno = u.uno
