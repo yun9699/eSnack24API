@@ -109,13 +109,13 @@ public class CSService {
     // FAQ 리스트 조회
     @Transactional(readOnly = true)
     public PageResponse<FAQListDTO> getFAQList(String fcategory, PageRequest pageRequest) {
-        log.info("getFAQList");
+        log.info("getFAQList category: {}", fcategory);
         return PageResponse.<FAQListDTO>with()
-                .list(faqMapper.getList(pageRequest, fcategory))
-                .total(faqMapper.count(fcategory))
-                .pageRequest(pageRequest)
-                .build();
-    }
+            .list(faqMapper.getList(pageRequest, fcategory))
+            .total(faqMapper.count(fcategory))
+            .pageRequest(pageRequest)
+            .build();
+}
 
     // FAQ 상세 조회
     @Transactional(readOnly = true)
