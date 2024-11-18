@@ -7,8 +7,7 @@
 
     <select id="getList" resultType="QNAListDTO">
         select
-            q.qno, q.qtitle, q.qregdate,
-            u.uno
+            q.qno, q.qtitle, q.qregdate, q.qstatus, u.uno
         from
             tbl_qna q
             inner join tbl_user u on q.uno = u.uno
@@ -25,7 +24,8 @@
         select
             q.qno, q.qtitle, q.qcontent, q.qanswer,
             q.qfilename, q.qregdate, q.qmoddate,
-            u.uno, p.pno
+            u.uno, p.pno,
+            p.ptitle_ko, p.ptitle_en, p.ptitle_ja, p.ptitle_zh
         from
             tbl_qna q
             inner join tbl_user u on q.uno = u.uno
