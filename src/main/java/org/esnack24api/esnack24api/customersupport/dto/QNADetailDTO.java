@@ -23,4 +23,8 @@ public class QNADetailDTO {
     private LocalDateTime qregdate;
     private LocalDateTime qmoddate;
 
+    private String ptitle_ko;
+    private String ptitle_en;
+    private String ptitle_ja;
+    private String ptitle_zh;
 }
