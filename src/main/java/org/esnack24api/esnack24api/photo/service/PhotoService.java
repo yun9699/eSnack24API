@@ -43,7 +43,7 @@ public class PhotoService {
 
         UUID uuid = UUID.randomUUID();
         String[] filename = new String[1];
-        filename[0] = uuid + ".png";
+        filename[0] = uuid + ".jpg";
 
         try {
 
@@ -51,7 +51,7 @@ public class PhotoService {
             log.info("디코딩시도했다.");
 
             // 디코딩한 파일 폴더에 저장
-            String filePath = "C:\\decoding\\" + filename[0];
+            String filePath = "C:\\upload\\user" + filename[0];
             try (FileOutputStream fileOutputStream = new FileOutputStream(filePath)) {
 
                 fileOutputStream.write(decodedBytes);
@@ -59,7 +59,11 @@ public class PhotoService {
                 log.info("파일저장완료----------------------");
 
 
+                fileOutputStream.close();
+
                 saveFilenameToDb(filename[0]);
+
+
 
             } catch (IOException e) {
                 log.info("파일저장실패----------------------");
@@ -72,16 +76,19 @@ public class PhotoService {
             log.error("디코딩 중 예상치 못한 오류 발생", e);
         }
 
+
+
         return filename;
     }
 
 
     public void saveFilenameToDb(String filename) {
         PhotoEntity photoEntity = PhotoEntity.builder()
-                .photoFilename(filename)
+                .pfilename(filename)
                 .build();
 
         photoRepository.save(photoEntity);
         log.info("파일명 '{}' 데이터베이스에 저장 완료", filename);
     }
+
 }

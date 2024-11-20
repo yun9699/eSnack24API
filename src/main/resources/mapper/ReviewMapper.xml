@@ -7,7 +7,7 @@
 
     <select id="getReviewList" resultType="ReviewListDTO">
         select
-        rno pno uno rcontent rdelete rstar rimage rregdate
+        rno, pno, uno, rcontent, rdelete, rstar, rimage, rregdate,
         rmoddate
         from
         tbl_review

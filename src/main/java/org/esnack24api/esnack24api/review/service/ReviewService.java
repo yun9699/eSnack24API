@@ -31,16 +31,13 @@ public class ReviewService {
     //리뷰 리스트 조회
     public PageResponse<ReviewListDTO> getReviewList(Long rno ,PageRequest pageRequest) {
 
-        PageResponse<ReviewListDTO> pageResponse = PageResponse.<ReviewListDTO>with()
-                .list(reviewMapper.getReviewList(rno,pageRequest))
+        return PageResponse.<ReviewListDTO>with()
+                .list(reviewMapper.getReviewList(rno, pageRequest))
                 .total(reviewMapper.countReview(rno))
                 .pageRequest(pageRequest)
                 .build();
-
-
-        return pageResponse;
-
     }
+
 
     //리뷰 상세 조회
     public ReviewDetailDTO getReviewDetail(Long rno) {

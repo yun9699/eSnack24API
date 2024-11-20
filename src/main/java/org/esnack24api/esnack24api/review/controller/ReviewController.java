@@ -24,10 +24,12 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @GetMapping("list")
-    public ResponseEntity<PageResponse<ReviewListDTO>> getReviewLists(@RequestParam Long rno ,PageRequest pageRequest) {
+    public ResponseEntity<PageResponse<ReviewListDTO>> getReviewLists(@RequestParam Long rno, PageRequest pageRequest) {
 
         return ResponseEntity.ok(reviewService.getReviewList(rno, pageRequest));
     }
+
+
 
     @GetMapping("detail/{rno}")
     public ResponseEntity<ReviewDetailDTO> getReviewDetails(@PathVariable("rno") Long rno) {
