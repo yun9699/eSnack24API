@@ -34,4 +34,19 @@
             pr.pno = #{pno} and pr.pdelete = 0
     </select>
 
+    <select id="getOneByFilename" resultMap="productAllergyMap">
+        select
+        pr.pno, pr.price, pr.pqty, pr.pdelete, pr.pfilename,
+        pr.ptitle_ko, pr.pcontent_ko, ag.atitle_ko
+        from
+        tbl_product pr
+        left join
+        tbl_product_allergy al on pr.pno = al.pno
+        left join
+        tbl_allergy ag on ag.ano = al.ano
+        where
+        pr.pfilename = #{pfilename} and pr.pdelete = 0
+    </select>
+
+
 </mapper>
