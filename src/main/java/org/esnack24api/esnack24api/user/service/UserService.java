@@ -59,9 +59,11 @@ public class UserService {
 
         result.setUsername(userRegisterDTO.getUsername());
         result.setUbirth(userRegisterDTO.getBirth());
-        result.setUaddress(userRegisterDTO.getAddress());
-        result.setUcallnumber(userRegisterDTO.getCallNumber());
+        result.setUcallnumber(userRegisterDTO.getUcallnumber());
         result.setUgender(userRegisterDTO.getGender());
+
+        log.info("-=-=-=-=-==-=-=-=-=-=-=-=-=-=");
+        log.info(result);
 
         userRepository.save(result);
 
@@ -103,7 +105,6 @@ public class UserService {
             userDTO.setEmail(userEntity.getUemail());
             userDTO.setPw(userEntity.getUpw());
             userDTO.setUsername(userEntity.getUsername());
-            userDTO.setAddress(userEntity.getUaddress());
             userDTO.setGender(userDTO.getGender());
             userDTO.setBirth(userDTO.getBirth());
             userDTO.setCallNumber(userDTO.getCallNumber());

@@ -11,9 +11,7 @@ public class UserRegisterDTO {
 
     private String gender;
 
-    private String callNumber;
-
-    private String address;
+    private String ucallnumber;
 
     private Timestamp birth;
 }
