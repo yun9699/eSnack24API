@@ -7,6 +7,6 @@ public class PhotoDTO {
 
     private Long pfno;
 
-    private String photoFilename;
+    private String pfilename;
 
 }
