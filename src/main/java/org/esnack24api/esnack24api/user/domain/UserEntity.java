@@ -29,8 +29,6 @@ public class UserEntity {
 
     private String ucallnumber;
 
-    private String uaddress;
-
     private Timestamp ubirth;
 
     private boolean udelete;
