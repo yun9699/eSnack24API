@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -44,5 +46,17 @@ public class UserAllergyService {
         });
 
         return "Successfully registered personal allergy";
+    }
+
+    public List<String> checkUserAllergy(Long uno, List<String> imageAllergies) {
+
+        List<String> userAllergies = userAllergyRepository.findAllByUserUno(uno)
+                .stream()
+                .map(userAllergy -> userAllergy.getAllergy().getAtitle_ko())
+                .toList();
+
+        return imageAllergies.stream()
+                .filter(userAllergies::contains)
+                .collect(Collectors.toList());
     }
 }

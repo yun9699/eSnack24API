@@ -22,7 +22,7 @@ public class AllergyTests {
     @Commit
     public void allergyDetailTests() {
 
-        productAllergyService.productAllergyDetailByFilename("df2b342b-b139-46ba-8654-9b6ae8f2427e.jpg");
+        productAllergyService.productAllergyDetailByFilename("df2b342b-b139-46ba-8654-9b6ae8f2427e.jpg", 12L);
 
     }
 
