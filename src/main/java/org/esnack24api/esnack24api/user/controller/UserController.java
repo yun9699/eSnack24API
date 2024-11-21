@@ -50,6 +50,7 @@ public class UserController {
         tokenResponseDTO.setRefreshToken(refreshTokenStr);
         tokenResponseDTO.setEmail(userDTO.getEmail());
         tokenResponseDTO.setNew(userDTO.isNew());
+        tokenResponseDTO.setAnos(userDTO.getAnos());
 
         return tokenResponseDTO;
     }
@@ -77,6 +78,7 @@ public class UserController {
         tokenResponseDTO.setRefreshToken(refreshToken);
         tokenResponseDTO.setEmail(userDTO.getEmail());
         tokenResponseDTO.setNew(userDTO.isNew());
+        tokenResponseDTO.setAnos(userDTO.getAnos());
 
         return ResponseEntity.ok(tokenResponseDTO);
     }
