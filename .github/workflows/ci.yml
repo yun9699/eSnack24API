@@ -43,8 +43,8 @@ jobs:
 
 
       - name: Build the Docker image
-        run: docker build -t "${{ secrets.DOCKER_USERNAME }}"/esnack24:latest .
+        run: docker build -t "${{ secrets.DOCKER_USERNAME }}"/esnack24api:latest .
 
       - name: Push the Docker image to Docker Hub
-        run: docker push "${{ secrets.DOCKER_USERNAME }}"/esnack24:latest
+        run: docker push "${{ secrets.DOCKER_USERNAME }}"/esnack24api:latest
 
