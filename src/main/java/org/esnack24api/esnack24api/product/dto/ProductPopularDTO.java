@@ -14,5 +14,10 @@ public class ProductPopularDTO {
     private int price;
     private String pfilename;
 
-
+    private String ptitle_en;
+    private String ptitle_ja;
+    private String ptitle_zh;
+    private String pcontent_en;
+    private String pcontent_ja;
+    private String pcontent_zh;
 }

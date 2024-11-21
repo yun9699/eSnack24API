@@ -60,7 +60,7 @@ dependencies {
 
 
         implementation 'org.json:json:20210307'  // 최신 버전 사용
-        implementation 'net.minidev:json-smart:2.4.8'  // 최신 버전 사용
+        implementation 'net.minidev:json-smart:2.4.8'  // 최신 버전
 
 }
 
