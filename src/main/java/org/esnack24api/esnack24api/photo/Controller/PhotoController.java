@@ -50,7 +50,7 @@ public class PhotoController {
         for (String filename : filenames) {
             try {
                 // 디코딩한 파일이 실제로 존재하는지 확인
-                File file = new File("C:\\decoding\\" + filename);
+                File file = new File("C:\\upload\\user" + filename);
                 if (!file.exists()) {
                     log.warn("File does not exist: {}", filename);
                     continue;
@@ -63,7 +63,7 @@ public class PhotoController {
                 MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
                 body.add("file", new FileSystemResource(file));
 
-                HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+                HttpEntity<Mult<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
                 // 파일 업로드 요청
                 ResponseEntity<String> uploadResponse = restTemplate.exchange(fastApiUrl, HttpMethod.POST, requestEntity, String.class);

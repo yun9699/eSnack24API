@@ -51,7 +51,7 @@ public class PhotoService {
             log.info("디코딩시도했다.");
 
             // 디코딩한 파일 폴더에 저장
-            String filePath = "C:\\decoding\\" + filename[0];
+            String filePath = "C:\\upload\\product" + filename[0];
             try (FileOutputStream fileOutputStream = new FileOutputStream(filePath)) {
 
                 fileOutputStream.write(decodedBytes);
