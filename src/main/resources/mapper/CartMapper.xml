@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.esnack24api.esnack24api.cart.mapper.CartMapper">
+
+    <select id="count" resultType="int">
+
+        select
+            count(cno)
+        from
+            tbl_cart
+        where
+            cno > 0 and uno = #{uno}
+    </select>
+
+    <select id="getCartList" resultType="CartListDTO">
+
+        select
+            p.ptitle_ko, p.ptitle_en, p.ptitle_ja, p.ptitle_zh, cu.cqty
+        from
+            tbl_product p
+            left join (
+                select
+                    c.cno, c.pno, c.cqty, c.cregdate
+                from
+                    tbl_cart c left join tbl_user u on c.uno = u.uno
+                where
+                    u.uno = #{uno}
+            ) cu on p.pno = cu.pno
+        where
+            cu.cno > 0
+        order by
+            cu.cregdate desc
+        limit
+            #{pageRequest.skip}, #{pageRequest.size}
+    </select>
+
+</mapper>
