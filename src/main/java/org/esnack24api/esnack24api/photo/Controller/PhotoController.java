@@ -42,8 +42,8 @@ public class PhotoController {
         String[] filenames = photoService.decoding(encodingImage);
         log.info("Decoded filenames: {}", Arrays.toString(filenames));
 
-        String fastApiUrl = "http://127.0.0.1:9000/upload";  // FastAPI 파일 업로드 URL
-        String searchUrl = "http://127.0.0.1:9000/search";  // FastAPI 유사 이미지 검색 URL
+        String fastApiUrl = "http://127.0.0.1:9000/upload";  // FastAPI 파일 업로드 URL - ngrok으로 변경 해서 사용해야함
+        String searchUrl = "http://127.0.0.1:9000/search";  // FastAPI 유사 이미지 검색 URL - ngrok으로 변경 해서 사용해야함
 
         Map<String, Object> allResults = new HashMap<>(); // 전체 결과를 담을 Map
 

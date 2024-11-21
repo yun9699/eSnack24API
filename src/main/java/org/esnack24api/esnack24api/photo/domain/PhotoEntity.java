@@ -18,6 +18,6 @@ public class PhotoEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long pfno;
 
-    private String photoFilename;
+    private String pfilename;
 
 }

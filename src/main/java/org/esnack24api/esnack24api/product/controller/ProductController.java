@@ -7,6 +7,7 @@ import org.esnack24api.esnack24api.common.page.PageResponse;
 import org.esnack24api.esnack24api.product.dto.ProductAllergyDetailDTO;
 import org.esnack24api.esnack24api.product.dto.ProductDetailDTO;
 import org.esnack24api.esnack24api.product.dto.ProductListDTO;
+import org.esnack24api.esnack24api.product.dto.ProductPopularDTO;
 import org.esnack24api.esnack24api.product.service.ProductAllergyService;
 import org.esnack24api.esnack24api.product.service.ProductService;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +41,15 @@ public class ProductController {
 
         return ResponseEntity.ok(productAllergyService.productAllergyDetail(pno));
     }
+
+    @GetMapping("main")
+    public ResponseEntity<PageResponse<ProductPopularDTO>> getPopular(PageRequest pageRequest) {
+        log.info("Get getPopular");
+
+        return ResponseEntity.ok(productService.getPopular(pageRequest));
+    }
+
+
 
 
 

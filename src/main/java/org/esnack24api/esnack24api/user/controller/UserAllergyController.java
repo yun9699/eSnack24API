@@ -27,4 +27,14 @@ public class UserAllergyController {
         return ResponseEntity.ok(userAllergyService.registerPersonalAllergy(allergies));
 
     }
+
+    @PostMapping("compare-allergies/{uno}")
+    public ResponseEntity<List<String>> compareUserAllergies(
+            @PathVariable Long uno,
+            @RequestBody List<String> imageAllergies) {
+
+        List<String> matchingAllergies = userAllergyService.checkUserAllergy(uno, imageAllergies);
+
+        return ResponseEntity.ok(matchingAllergies);
+    }
 }
