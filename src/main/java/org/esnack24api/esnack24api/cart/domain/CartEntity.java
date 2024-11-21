@@ -5,6 +5,8 @@ import lombok.*;
 import org.esnack24api.esnack24api.product.domain.ProductEntity;
 import org.esnack24api.esnack24api.user.domain.UserEntity;
 
+import java.sql.Timestamp;
+
 @Setter
 @Entity
 @Table(name = "tbl_cart")
@@ -20,6 +22,8 @@ public class CartEntity {
     private Long cno;
 
     private int cqty;
+
+    private Timestamp cregdate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="pno")
