@@ -2,7 +2,9 @@ package org.esnack24api.esnack24api.user.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.esnack24api.esnack24api.user.dto.UserAnosDTO;
 import org.esnack24api.esnack24api.user.dto.UserRegisterDTO;
+import org.esnack24api.esnack24api.user.mapper.UserMapper;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -19,6 +21,7 @@ import org.esnack24api.esnack24api.user.dto.UserDTO;
 import org.esnack24api.esnack24api.user.exception.UserExceptions;
 import org.esnack24api.esnack24api.user.repository.UserRepository;
 
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Optional;
 import java.util.UUID;
@@ -31,6 +34,8 @@ import java.util.UUID;
 public class UserService {
 
     private final UserRepository userRepository;
+
+    private final UserMapper userMapper;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -109,6 +114,11 @@ public class UserService {
             userDTO.setBirth(userDTO.getBirth());
             userDTO.setCallNumber(userDTO.getCallNumber());
             userDTO.setNew(false);
+
+            UserAnosDTO anos = userMapper.getUserAnos(userEntity.getUno());
+            userDTO.setAnos(anos.getAnos().toArray(new Long[0]));
+
+            log.info(userDTO);
 
             return userDTO;
         }

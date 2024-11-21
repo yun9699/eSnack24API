@@ -14,4 +14,6 @@ public class TokenResponseDTO {
     private String refreshToken;
 
     private boolean isNew;
+
+    private Long[] anos;
 }
