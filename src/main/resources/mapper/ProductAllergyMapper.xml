@@ -37,7 +37,7 @@
     <select id="getOneByFilename" resultMap="productAllergyMap">
         select
         pr.pno, pr.price, pr.pqty, pr.pdelete, pr.pfilename,
-        pr.ptitle_ko, pr.pcontent_ko, ag.atitle_ko, ag.ano
+        pr.ptitle_ko, pr.pcontent_ko, ag.atitle_ko
         from
         tbl_product pr
         left join
