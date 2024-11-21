@@ -63,7 +63,7 @@ public class PhotoController {
                 MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
                 body.add("file", new FileSystemResource(file));
 
-                HttpEntity<Mult<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+                HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
                 // 파일 업로드 요청
                 ResponseEntity<String> uploadResponse = restTemplate.exchange(fastApiUrl, HttpMethod.POST, requestEntity, String.class);
