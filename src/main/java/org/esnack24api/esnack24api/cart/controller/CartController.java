@@ -4,7 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.esnack24api.esnack24api.cart.domain.CartEntity;
 import org.esnack24api.esnack24api.cart.dto.CartAddDTO;
+import org.esnack24api.esnack24api.cart.dto.CartListDTO;
 import org.esnack24api.esnack24api.cart.service.CartService;
+import org.esnack24api.esnack24api.common.page.PageRequest;
+import org.esnack24api.esnack24api.common.page.PageResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -22,12 +25,16 @@ public class CartController {
     @PostMapping("/add")
     public ResponseEntity<CartEntity> addCart(@RequestBody CartAddDTO cartAddDTO) {
 
-        log.info("add Controller");
-
-        CartEntity addCart = cartService.addCart(cartAddDTO);
-
-
-        return ResponseEntity.ok(addCart);
+        return ResponseEntity.ok(cartService.addCart(cartAddDTO));
     }
 
+    @GetMapping("/list/{uno}")
+    public ResponseEntity<PageResponse<CartListDTO>>
+            listCartList(@PathVariable Long uno, PageRequest pageRequest) {
+
+        log.info("_______________uno________________");
+        log.info(uno);
+
+        return ResponseEntity.ok(cartService.getCartList(uno, pageRequest));
+    }
 }

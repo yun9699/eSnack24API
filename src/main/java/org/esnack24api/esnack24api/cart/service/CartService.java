@@ -2,9 +2,14 @@ package org.esnack24api.esnack24api.cart.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.ibatis.annotations.Param;
 import org.esnack24api.esnack24api.cart.domain.CartEntity;
 import org.esnack24api.esnack24api.cart.dto.CartAddDTO;
+import org.esnack24api.esnack24api.cart.dto.CartListDTO;
+import org.esnack24api.esnack24api.cart.mapper.CartMapper;
 import org.esnack24api.esnack24api.cart.repository.CartRepository;
+import org.esnack24api.esnack24api.common.page.PageRequest;
+import org.esnack24api.esnack24api.common.page.PageResponse;
 import org.esnack24api.esnack24api.product.domain.ProductEntity;
 import org.esnack24api.esnack24api.user.domain.UserEntity;
 import org.springframework.stereotype.Service;
@@ -16,8 +21,9 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class CartService {
 
-
     private final CartRepository cartRepository;
+
+    private final CartMapper cartMapper;
 
 
     public CartEntity addCart(CartAddDTO cartAddDTO) {
@@ -34,7 +40,18 @@ public class CartService {
         CartEntity savedCart = cartRepository.save(cart);
 
         return savedCart;
+    }
 
+    public PageResponse<CartListDTO> getCartList(@Param("uno") Long uno, @Param("pageRequest") PageRequest pageRequest) {
+
+        PageResponse<CartListDTO> pageResponse =
+                PageResponse.<CartListDTO>with()
+                        .list(cartMapper.getCartList(uno, pageRequest))
+                        .total(cartMapper.count(uno, pageRequest))
+                        .pageRequest(pageRequest)
+                        .build();
+
+        return pageResponse;
     }
 
 }
