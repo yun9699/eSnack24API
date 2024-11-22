@@ -1,6 +1,8 @@
 spring:
   application:
     name: eSnack24API
+  config:
+    import: optional:file:.env[.properties]
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://10.10.10.128:13307/snackdb
@@ -20,9 +22,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
-  sendgrid:
-    api:
-      key: Dxhv/FADXXMPmKxLHMxOkoyMrWL45dwTybbI8frUxCT1eyJKz0WstFSGR5f0XppdMp51F/kluvX3+m4oTgJHJQ==
 
 mybatis:
   mapper-locations: classpath:/mapper/*.xml
@@ -49,6 +48,6 @@ logging:
 
 PAYPAL:
   CLIENT:
-    ID: ARXsGAth3VQXmiZa7fzIK0DwKdZyAzwGCRD_fpxBdWRpvo2QezzYbWqHpckTcGn8XpjHUPNVuIu7GLTh
-    SECRET: EKsv5jHmf8NRSF3rDRS41PCc8m_c3UJcXDT4pZ3o1FPK1Tlujy7kdd1tuaiWiiHvesVmmIVAPaRMyt0o
+    ID: ${PAYPAL_ID}
+    SECRET: ${PAYPAL_SECRET}
 

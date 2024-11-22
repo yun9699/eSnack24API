@@ -37,7 +37,7 @@ public class PhotoService {
             resultEncoding += "=".repeat(4 - paddingLength);  // 패딩 추가
         }
 
-        log.info("디코딩후-------------------------------------------------------------");
+        log.info("디코딩후----------------------------------------------------");
         log.info(resultEncoding);
         log.info(resultEncoding.length());
 
