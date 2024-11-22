@@ -15,6 +15,8 @@ import org.esnack24api.esnack24api.user.domain.UserEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @Log4j2
 @Transactional
@@ -52,6 +54,44 @@ public class CartService {
                         .build();
 
         return pageResponse;
+    }
+
+    public String increaseCartItem(Long cno) {
+
+        Optional<CartEntity> result = cartRepository.findById(cno);
+
+        CartEntity cart = result.orElseThrow();
+
+        cart.setCqty(cart.getCqty() + 1);
+
+        cartRepository.save(cart);
+
+        return "Success Increase Cart Item";
+    }
+
+    public String decreaseCartItem(Long cno) {
+
+        Optional<CartEntity> result = cartRepository.findById(cno);
+
+        CartEntity cart = result.orElseThrow();
+
+        if(cart.getCqty() > 0) {
+
+            cart.setCqty(cart.getCqty() - 1);
+
+            cartRepository.save(cart);
+
+            return "Success Increase Item";
+        }
+
+        return "Cart Item cannot be decreased";
+    }
+
+    public String deleteCartItem(Long cno) {
+
+        cartRepository.deleteById(cno);
+
+        return "Success Delete Cart Item";
     }
 
 }
