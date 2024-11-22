@@ -3,14 +3,15 @@ package org.esnack24api.esnack24api.cart.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.esnack24api.esnack24api.cart.domain.CartEntity;
-import org.esnack24api.esnack24api.cart.dto.CartAddDTO;
-import org.esnack24api.esnack24api.cart.dto.CartListDTO;
+import org.esnack24api.esnack24api.cart.dto.AddCartDTO;
+import org.esnack24api.esnack24api.cart.dto.AddCartItemDTO;
+import org.esnack24api.esnack24api.cart.service.CartItemService;
 import org.esnack24api.esnack24api.cart.service.CartService;
-import org.esnack24api.esnack24api.common.page.PageRequest;
-import org.esnack24api.esnack24api.common.page.PageResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/cart")
@@ -19,22 +20,24 @@ import org.springframework.web.bind.annotation.*;
 @PreAuthorize("permitAll()")
 public class CartController {
 
-
     private final CartService cartService;
+    private final CartItemService cartItemService;
 
-    @PostMapping("/add")
-    public ResponseEntity<CartEntity> addCart(@RequestBody CartAddDTO cartAddDTO) {
+    @PostMapping("add/{pno}")
+    public ResponseEntity<String> addCart(@PathVariable Long pno, @RequestBody AddCartDTO addCartDTO) {
 
-        return ResponseEntity.ok(cartService.addCart(cartAddDTO));
-    }
+        cartService.addCart(addCartDTO.getUno());
 
-    @GetMapping("/list/{uno}")
-    public ResponseEntity<PageResponse<CartListDTO>>
-            listCartList(@PathVariable Long uno, PageRequest pageRequest) {
+        Long cno = cartService.findCno(addCartDTO.getUno());
 
-        log.info("_______________uno________________");
-        log.info(uno);
+        AddCartItemDTO dto = new AddCartItemDTO();
 
-        return ResponseEntity.ok(cartService.getCartList(uno, pageRequest));
+        dto.setPno(pno);
+        dto.setCno(cno);
+        dto.setCiqty(addCartDTO.getCiqty());
+
+        cartItemService.addCartItem(dto);
+
+        return ResponseEntity.ok("Added cart successfully");
     }
 }
