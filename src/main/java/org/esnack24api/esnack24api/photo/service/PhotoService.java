@@ -16,9 +16,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class PhotoService {
 
-    private final PhotoRepository photoRepository; // FileRepository 주입
+    private final PhotoRepository photoRepository;
 
-    // base64 인코딩된 문자열을 디코딩하여 그 결과만 로그로 출력
+
     public String[] decoding(String encoding)  {
         log.info("디코딩전-------------------------------------------------------------");
         log.info(encoding);
@@ -27,7 +27,6 @@ public class PhotoService {
         }
 
 
-        // 공백 제거 및 유효하지 않은 문자 제거
         String resultEncoding = encoding.replaceAll("\\s+", "");  // 공백 제거
         resultEncoding = resultEncoding.replaceAll("[^A-Za-z0-9+/=]", "");  // 유효하지 않은 문자 제거
 
@@ -58,12 +57,8 @@ public class PhotoService {
                 log.info(filename);
                 log.info("파일저장완료----------------------");
 
-
                 fileOutputStream.close();
-
                 saveFilenameToDb(filename[0]);
-
-
 
             } catch (IOException e) {
                 log.info("파일저장실패----------------------");
@@ -76,11 +71,8 @@ public class PhotoService {
             log.error("디코딩 중 예상치 못한 오류 발생", e);
         }
 
-
-
         return filename;
     }
-
 
     public void saveFilenameToDb(String filename) {
         PhotoEntity photoEntity = PhotoEntity.builder()
