@@ -29,17 +29,17 @@ public class CartController {
     private final CartItemService cartItemService;
     private final CartItemRepository cartItemRepository;
 
-    @PostMapping("add/{pno}")
+    @PostMapping("add/{uno}")
     public ResponseEntity<String> addCart(
-            @PathVariable Long pno, @RequestBody AddCartDTO addCartDTO) {
+            @PathVariable Long uno, @RequestBody AddCartDTO addCartDTO) {
 
-        cartService.addCart(addCartDTO.getUno());
+        cartService.addCart(uno);
 
-        Long cno = cartService.findCno(addCartDTO.getUno());
+        Long cno = cartService.findCno(uno);
 
         AddCartItemDTO dto = new AddCartItemDTO();
 
-        dto.setPno(pno);
+        dto.setPno(addCartDTO.getPno());
         dto.setCno(cno);
         dto.setCiqty(addCartDTO.getCiqty());
 
