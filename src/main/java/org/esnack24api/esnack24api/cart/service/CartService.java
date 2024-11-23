@@ -4,16 +4,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.ibatis.annotations.Param;
 import org.esnack24api.esnack24api.cart.domain.CartEntity;
-import org.esnack24api.esnack24api.cart.dto.CartAddDTO;
-import org.esnack24api.esnack24api.cart.dto.CartListDTO;
+import org.esnack24api.esnack24api.cart.dto.ListCartDTO;
 import org.esnack24api.esnack24api.cart.mapper.CartMapper;
 import org.esnack24api.esnack24api.cart.repository.CartRepository;
 import org.esnack24api.esnack24api.common.page.PageRequest;
 import org.esnack24api.esnack24api.common.page.PageResponse;
-import org.esnack24api.esnack24api.product.domain.ProductEntity;
 import org.esnack24api.esnack24api.user.domain.UserEntity;
+import org.esnack24api.esnack24api.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @Log4j2
@@ -23,31 +24,48 @@ public class CartService {
 
     private final CartRepository cartRepository;
 
+    private final UserRepository userRepository;
+
     private final CartMapper cartMapper;
 
+    public Long findCno(Long uno) {
 
-    public CartEntity addCart(CartAddDTO cartAddDTO) {
+        UserEntity userEntity = userRepository.findById(uno).orElseThrow();
 
-        ProductEntity product = ProductEntity.builder().pno(cartAddDTO.getPno()).build();
-        UserEntity userEntity = UserEntity.builder().uno(cartAddDTO.getUno()).build();
+        Optional<CartEntity> result = cartRepository.findByUser(userEntity);
 
-        CartEntity cart = CartEntity.builder()
-                .product(product)
-                .user(userEntity)
-                .cqty(cartAddDTO.getCqty())
-                .build();
+        CartEntity cart = result.orElseThrow();
 
-        CartEntity savedCart = cartRepository.save(cart);
-
-        return savedCart;
+        return cart.getCno();
     }
 
-    public PageResponse<CartListDTO> getCartList(@Param("uno") Long uno, @Param("pageRequest") PageRequest pageRequest) {
+    public void addCart(Long uno) {
 
-        PageResponse<CartListDTO> pageResponse =
-                PageResponse.<CartListDTO>with()
-                        .list(cartMapper.getCartList(uno, pageRequest))
-                        .total(cartMapper.count(uno, pageRequest))
+        UserEntity userEntity = userRepository.findById(uno).orElseThrow();
+
+        Optional<CartEntity> result = cartRepository.findByUser(userEntity);
+
+        if(result.isEmpty()) {
+
+            UserEntity user = UserEntity.builder()
+                    .uno(uno)
+                    .build();
+
+            CartEntity cart = CartEntity.builder()
+                    .user(user)
+                    .build();
+
+            cartRepository.save(cart);
+        }
+    }
+
+    public PageResponse<ListCartDTO> getCartList(
+            @Param("cno") Long cno, @Param("pageRequest") PageRequest pageRequest) {
+
+        PageResponse<ListCartDTO> pageResponse =
+                PageResponse.<ListCartDTO>with()
+                        .list(cartMapper.getCartList(cno, pageRequest))
+                        .total(cartMapper.count(cno))
                         .pageRequest(pageRequest)
                         .build();
 

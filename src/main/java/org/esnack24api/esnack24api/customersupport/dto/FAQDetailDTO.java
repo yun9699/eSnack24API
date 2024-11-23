@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class FAQDetailDTO {
 
     private Long fno;
-    private Long adno;
+    private Long admno;
     private String ftitle;
     private String fcategory;
     private String fcontent;
