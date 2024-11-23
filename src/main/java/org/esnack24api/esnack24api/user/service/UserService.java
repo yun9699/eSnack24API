@@ -116,7 +116,14 @@ public class UserService {
             userDTO.setNew(false);
 
             UserAnosDTO anos = userMapper.getUserAnos(userEntity.getUno());
-            userDTO.setAnos(anos.getAnos().toArray(new Long[0]));
+
+            if (anos != null && anos.getAnos() != null) {
+
+                userDTO.setAnos(anos.getAnos().toArray(new Long[0]));
+            } else {
+
+                userDTO.setAnos(new Long[0]);
+            }
 
             log.info(userDTO);
 
