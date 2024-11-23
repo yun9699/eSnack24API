@@ -24,6 +24,17 @@ public class CartService {
 
     private final CartMapper cartMapper;
 
+    public Long findCno(Long uno) {
+
+        UserEntity userEntity = userRepository.findById(uno).orElseThrow();
+
+        Optional<CartEntity> result = cartRepository.findByUser(userEntity);
+
+        CartEntity cart = result.orElseThrow();
+
+        return cart.getCno();
+    }
+
     public void addCart(Long uno) {
 
         UserEntity userEntity = userRepository.findById(uno).orElseThrow();
@@ -42,17 +53,6 @@ public class CartService {
 
             cartRepository.save(cart);
         }
-    }
-
-    public Long findCno(Long uno) {
-
-        UserEntity userEntity = userRepository.findById(uno).orElseThrow();
-
-        Optional<CartEntity> result = cartRepository.findByUser(userEntity);
-
-        CartEntity cart = result.orElseThrow();
-
-        return cart.getCno();
     }
 
 }

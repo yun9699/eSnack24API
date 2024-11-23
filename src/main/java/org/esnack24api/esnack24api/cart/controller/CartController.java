@@ -5,6 +5,8 @@ import lombok.extern.log4j.Log4j2;
 import org.esnack24api.esnack24api.cart.domain.CartEntity;
 import org.esnack24api.esnack24api.cart.dto.AddCartDTO;
 import org.esnack24api.esnack24api.cart.dto.AddCartItemDTO;
+import org.esnack24api.esnack24api.cart.dto.UpdateCartDTO;
+import org.esnack24api.esnack24api.cart.repository.CartItemRepository;
 import org.esnack24api.esnack24api.cart.service.CartItemService;
 import org.esnack24api.esnack24api.cart.service.CartService;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +24,11 @@ public class CartController {
 
     private final CartService cartService;
     private final CartItemService cartItemService;
+    private final CartItemRepository cartItemRepository;
 
     @PostMapping("add/{pno}")
-    public ResponseEntity<String> addCart(@PathVariable Long pno, @RequestBody AddCartDTO addCartDTO) {
+    public ResponseEntity<String> addCart(
+            @PathVariable Long pno, @RequestBody AddCartDTO addCartDTO) {
 
         cartService.addCart(addCartDTO.getUno());
 
@@ -39,5 +43,16 @@ public class CartController {
         cartItemService.addCartItem(dto);
 
         return ResponseEntity.ok("Added cart successfully");
+    }
+
+    @PostMapping("update/{uno}")
+    public ResponseEntity<String> updateCart(
+            @PathVariable Long uno, @RequestBody UpdateCartDTO updateCartDTO) {
+
+        Long cno = cartService.findCno(uno);
+
+        cartItemService.updateCartItem(cno, updateCartDTO);
+
+        return ResponseEntity.ok("Updated cart successfully");
     }
 }

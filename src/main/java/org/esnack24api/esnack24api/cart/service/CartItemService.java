@@ -1,11 +1,11 @@
 package org.esnack24api.esnack24api.cart.service;
 
-import jakarta.persistence.Id;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.esnack24api.esnack24api.cart.domain.CartEntity;
 import org.esnack24api.esnack24api.cart.domain.CartItemEntity;
 import org.esnack24api.esnack24api.cart.dto.AddCartItemDTO;
+import org.esnack24api.esnack24api.cart.dto.UpdateCartDTO;
 import org.esnack24api.esnack24api.cart.repository.CartItemRepository;
 import org.esnack24api.esnack24api.cart.repository.CartRepository;
 import org.esnack24api.esnack24api.product.domain.ProductEntity;
@@ -38,5 +38,25 @@ public class CartItemService {
                 .build();
 
         cartItemRepository.save(cartItemEntity);
+    }
+
+    public void updateCartItem(Long cno, UpdateCartDTO updateCartDTO) {
+
+        CartEntity cart = cartRepository.findById(cno).orElseThrow();
+
+        cartItemRepository.deleteAllByCart(cart);
+
+        for (int i = 0; i < updateCartDTO.getPnos().length; i++) {
+
+            ProductEntity product = productRepository.findById(updateCartDTO.getPnos()[i]).orElseThrow();
+
+            CartItemEntity tmp = CartItemEntity.builder()
+                    .ciqty(updateCartDTO.getCiqtys()[i])
+                    .cart(cart)
+                    .product(product)
+                    .build();
+
+            cartItemRepository.save(tmp);
+        }
     }
 }
