@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class AddCartDTO {
 
-    private Long uno;
+    private Long pno;
 
     private int ciqty;
 }
