@@ -15,6 +15,7 @@ public class ProductAllergyDetailDTO {
     private String pcategory_ko;
 
     private List<String> atitle_ko;
+    private List<Long> ano;
 
     private String ptitle_en;
     private String ptitle_ja;
@@ -25,7 +26,6 @@ public class ProductAllergyDetailDTO {
     private String pcategory_en;
     private String pcategory_ja;
     private String pcategory_zh;
-
     private List<String> atitle_en;
     private List<String> atitle_ja;
     private List<String> atitle_zh;
