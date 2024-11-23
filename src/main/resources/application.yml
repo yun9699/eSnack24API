@@ -5,9 +5,10 @@ spring:
     import: optional:file:.env[.properties]
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://10.10.10.128:13307/snackdb
-    username: snackdbuser
-    password: snackdbuser
+#    url: jdbc:mariadb://10.10.10.128:13307/snackdb
+    url: jdbc:mariadb://localhost:13306/yunsnackdb
+    username: yunsnackdbuser
+    password: yunsnackdbuser
 
     hikari:
       minimum-idle: 2

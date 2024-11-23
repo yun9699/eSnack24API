@@ -23,10 +23,10 @@
     <select id="getOne" resultType="FAQDetailDTO">
         select
             f.fno, f.ftitle, f.fcategory, f.fcontent,
-            a.adno
+            a.admno
         from
             tbl_faq f
-            inner join tbl_admin a on f.adno = a.adno
+            inner join tbl_admin a on f.admno = a.admno
         where
             f.fno = #{fno}
             and f.fdelete = false
