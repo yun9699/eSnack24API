@@ -2,7 +2,6 @@ package org.esnack24api.esnack24api.cart.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.esnack24api.esnack24api.cart.domain.CartEntity;
 import org.esnack24api.esnack24api.cart.dto.AddCartDTO;
 import org.esnack24api.esnack24api.cart.dto.AddCartItemDTO;
 import org.esnack24api.esnack24api.cart.dto.ListCartDTO;

@@ -22,12 +22,14 @@
             c.cno = #{cno}
         order by
             pci.ciregdate desc
+        limit
+            #{pageRequest.skip}, #{pageRequest.size}
     </select>
 
     <select id="count" resultType="int">
 
         select
-            count(*)
+            count(ci.cino)
         from
             tbl_cart c left join tbl_cartitem ci on c.cno = ci.cno
         where
