@@ -3,9 +3,11 @@ package org.esnack24api.esnack24api.cart.dto;
 import lombok.Data;
 
 @Data
-public class CartAddDTO {
+public class AddCartItemDTO {
+
+    private Long cno;
 
     private Long pno;
-    private Long uno;
-    private int cqty;
+
+    private int ciqty;
 }
