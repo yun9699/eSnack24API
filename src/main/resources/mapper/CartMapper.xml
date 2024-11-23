@@ -5,36 +5,33 @@
 
 <mapper namespace="org.esnack24api.esnack24api.cart.mapper.CartMapper">
 
+    <select id="getCartList" resultType="ListCartDTO">
+
+        select
+            pci.ptitle_ko, pci.ptitle_ja, pci.ptitle_en, pci.ptitle_zh, pci.pno,
+            pci.ciqty, pci.price, pci.pfilename
+        from
+            tbl_cart c left join (
+                select
+                    p.pno, ptitle_ko, p.ptitle_en, p.ptitle_ja, p.ptitle_zh,
+                    p.pfilename, p.price, ci.ciqty, ci.cno, ci.ciregdate
+                from
+                    tbl_product p left join tbl_cartitem ci on p.pno = ci.pno
+            ) pci on c.cno = pci.cno
+        where
+            c.cno = #{cno}
+        order by
+            pci.ciregdate desc
+    </select>
+
     <select id="count" resultType="int">
 
         select
-            count(cno)
+            count(*)
         from
-            tbl_cart
+            tbl_cart c left join tbl_cartitem ci on c.cno = ci.cno
         where
-            cno > 0 and uno = #{uno}
-    </select>
-
-    <select id="getCartList" resultType="CartListDTO">
-
-        select
-            p.ptitle_ko, p.ptitle_en, p.ptitle_ja, p.ptitle_zh, cu.cqty
-        from
-            tbl_product p
-            left join (
-                select
-                    c.cno, c.pno, c.cqty, c.cregdate
-                from
-                    tbl_cart c left join tbl_user u on c.uno = u.uno
-                where
-                    u.uno = #{uno}
-            ) cu on p.pno = cu.pno
-        where
-            cu.cno > 0
-        order by
-            cu.cregdate desc
-        limit
-            #{pageRequest.skip}, #{pageRequest.size}
+            c.cno = #{cno}
     </select>
 
 </mapper>

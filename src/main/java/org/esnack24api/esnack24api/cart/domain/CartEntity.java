@@ -14,20 +14,12 @@ import java.sql.Timestamp;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"product", "user"})
+@ToString(exclude = {"user"})
 public class CartEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // autoIncrement로 자동 생성되는 pk
     private Long cno;
-
-    private int cqty;
-
-    private Timestamp cregdate;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name ="pno")
-    private ProductEntity product;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="uno")
