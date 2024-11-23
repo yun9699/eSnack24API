@@ -5,10 +5,13 @@ import lombok.extern.log4j.Log4j2;
 import org.esnack24api.esnack24api.cart.domain.CartEntity;
 import org.esnack24api.esnack24api.cart.dto.AddCartDTO;
 import org.esnack24api.esnack24api.cart.dto.AddCartItemDTO;
+import org.esnack24api.esnack24api.cart.dto.ListCartDTO;
 import org.esnack24api.esnack24api.cart.dto.UpdateCartDTO;
 import org.esnack24api.esnack24api.cart.repository.CartItemRepository;
 import org.esnack24api.esnack24api.cart.service.CartItemService;
 import org.esnack24api.esnack24api.cart.service.CartService;
+import org.esnack24api.esnack24api.common.page.PageRequest;
+import org.esnack24api.esnack24api.common.page.PageResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -54,5 +57,12 @@ public class CartController {
         cartItemService.updateCartItem(cno, updateCartDTO);
 
         return ResponseEntity.ok("Updated cart successfully");
+    }
+
+    @GetMapping("list/{uno}")
+    public ResponseEntity<PageResponse<ListCartDTO>> getCartList(
+            @PathVariable Long uno, PageRequest pageRequest) {
+
+        return ResponseEntity.ok(cartService.getCartList(cartService.findCno(uno), pageRequest));
     }
 }
