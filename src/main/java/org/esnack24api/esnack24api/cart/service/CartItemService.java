@@ -5,7 +5,6 @@ import lombok.extern.log4j.Log4j2;
 import org.esnack24api.esnack24api.cart.domain.CartEntity;
 import org.esnack24api.esnack24api.cart.domain.CartItemEntity;
 import org.esnack24api.esnack24api.cart.dto.AddCartItemDTO;
-import org.esnack24api.esnack24api.cart.dto.UpdateCartDTO;
 import org.esnack24api.esnack24api.cart.repository.CartItemRepository;
 import org.esnack24api.esnack24api.cart.repository.CartRepository;
 import org.esnack24api.esnack24api.product.domain.ProductEntity;
@@ -56,23 +55,35 @@ public class CartItemService {
         cartItemRepository.save(cartItemEntity);
     }
 
-    public void updateCartItem(Long cno, UpdateCartDTO updateCartDTO) {
+    public void incQtyService(Long cino) {
 
-        CartEntity cart = cartRepository.findById(cno).orElseThrow();
+        CartItemEntity cartItem = cartItemRepository.findById(cino).orElseThrow();
 
-        cartItemRepository.deleteAllByCart(cart);
+        cartItem.setCiqty(cartItem.getCiqty() + 1);
 
-        for (int i = 0; i < updateCartDTO.getPnos().length; i++) {
+        cartItemRepository.save(cartItem);
+    }
 
-            ProductEntity product = productRepository.findById(updateCartDTO.getPnos()[i]).orElseThrow();
+    public String decQtyService(Long cino) {
 
-            CartItemEntity tmp = CartItemEntity.builder()
-                    .ciqty(updateCartDTO.getCiqtys()[i])
-                    .cart(cart)
-                    .product(product)
-                    .build();
+        CartItemEntity cartItem = cartItemRepository.findById(cino).orElseThrow();
 
-            cartItemRepository.save(tmp);
+        if(cartItem.getCiqty() > 1) {
+
+            cartItem.setCiqty(cartItem.getCiqty() - 1);
+
+            cartItemRepository.save(cartItem);
+
+            return "Successfully decreased qty";
         }
+
+        return "Can't decreased qty";
+    }
+
+    public void deleteCartItemService(Long cino) {
+
+        CartItemEntity cartItem = cartItemRepository.findById(cino).orElseThrow();
+
+        cartItemRepository.delete(cartItem);
     }
 }
