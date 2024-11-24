@@ -5,18 +5,36 @@
 
 <mapper namespace="org.esnack24api.esnack24api.review.mapper.ReviewMapper">
 
-    <select id="getReviewList" resultType="ReviewListDTO">
+    <resultMap id="reviewListMap" type="ReviewListDTO">
+        <result property="rno" column="rno" />
+        <result property="pno" column="pno" />
+        <result property="uno" column="uno" />
+        <result property="rcontent" column="rcontent" />
+        <result property="rdelete" column="rdelete" />
+        <result property="rstar" column="rstar" />
+        <result property="rimage" column="rimage" />
+        <result property="rregDate" column="rregdate" />
+        <result property="rmodDate" column="rmoddate" />
+    </resultMap>
+
+    <select id="getReviewList" resultMap="reviewListMap">
         select
-        rno, pno, uno, rcontent, rdelete, rstar, rimage, rregdate,
-        rmoddate
+        rno, pno, uno, rcontent, rdelete, rstar, rimage, rregdate, rmoddate
         from
         tbl_review
         where
-        rdelete = 0
+        pno = #{pno}
+        AND rdelete = 0
+        <if test="rno != null">
+            AND rno = #{rno}
+        </if>
         order by
         rno desc
-        limit #{skip}, #{size}
+        limit #{pageRequest.skip}, #{pageRequest.size}
     </select>
+
+
+
 
     <select id="getOneReview" resultType="ReviewDetailDTO">
         select
@@ -38,7 +56,7 @@
         from
         tbl_review r
         where
-        r.pno = #{pno}
+        r.rno = #{rno}
         and r.rdelete = false
     </select>
 
