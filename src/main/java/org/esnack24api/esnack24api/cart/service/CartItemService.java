@@ -13,6 +13,8 @@ import org.esnack24api.esnack24api.product.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @Log4j2
 @Transactional
@@ -30,6 +32,20 @@ public class CartItemService {
 
         CartEntity cart =
                 cartRepository.findById(addCartItemDTO.getCno()).orElseThrow();
+
+        Optional<CartItemEntity> cartItem = cartItemRepository.findByProduct(product);
+
+        if (cartItem.isPresent()) {
+
+            cartItem.get().setCiqty(cartItem.get().getCiqty() + addCartItemDTO.getCiqty());
+
+            log.info("--------CartItem add & isPresent: true---------");
+            log.info(cartItem.get().toString());
+
+            cartItemRepository.save(cartItem.get());
+
+            return;
+        }
 
         CartItemEntity cartItemEntity = CartItemEntity.builder()
                 .product(product)

@@ -5,6 +5,8 @@ import lombok.Data;
 @Data
 public class ListCartDTO {
 
+    private Long cino;
+
     private Long pno;
 
     private String ptitle_ko;
