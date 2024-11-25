@@ -12,6 +12,7 @@ public interface ReviewMapper {
 
     List<ReviewListDTO> getReviewList(@Param("pno") Long pno, @Param("rno") Long rno, @Param("pageRequest") PageRequest pageRequest);
 
+    List<ReviewListDTO> getUserReviewList(@Param("uno") Long uno, @Param("rno") Long rno, @Param("pageRequest") PageRequest pageRequest);
 
     int countReview(Long rno);
 

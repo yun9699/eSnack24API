@@ -28,11 +28,21 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
 
 
-    //리뷰 리스트 조회
+    //상품 리뷰 리스트 조회
     public PageResponse<ReviewListDTO> getReviewList(Long pno, Long rno, PageRequest pageRequest) {
 
         return PageResponse.<ReviewListDTO>with()
                 .list(reviewMapper.getReviewList(pno, rno, pageRequest))
+                .total(reviewMapper.countReview(rno))
+                .pageRequest(pageRequest)
+                .build();
+    }
+
+    //유저 리뷰 리스트 조회
+    public PageResponse<ReviewListDTO> getUserReviewList(Long uno, Long rno, PageRequest pageRequest) {
+
+        return PageResponse.<ReviewListDTO>with()
+                .list(reviewMapper.getUserReviewList(uno, rno, pageRequest))
                 .total(reviewMapper.countReview(rno))
                 .pageRequest(pageRequest)
                 .build();
