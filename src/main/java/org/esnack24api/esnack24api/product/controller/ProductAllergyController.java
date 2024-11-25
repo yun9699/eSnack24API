@@ -21,8 +21,8 @@ public class ProductAllergyController {
 
 
     @GetMapping("detail")
-    public ResponseEntity<ProductAllergyDetailDTO> getAllergyByFilename(@RequestParam String pfilename, @RequestParam(required = false) Long pno) {
-        ProductAllergyDetailDTO allergyDetail = productAllergyService.productAllergyDetailByFilename(pfilename, pno);
+    public ResponseEntity<ProductAllergyDetailDTO> getAllergyByFilename(@RequestParam String pfilename) {
+        ProductAllergyDetailDTO allergyDetail = productAllergyService.productAllergyDetailByFilename(pfilename);
         return ResponseEntity.ok(allergyDetail);
     }
 }

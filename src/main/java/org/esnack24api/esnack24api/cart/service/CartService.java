@@ -2,6 +2,7 @@ package org.esnack24api.esnack24api.cart.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.ibatis.annotations.Param;
 import org.esnack24api.esnack24api.cart.domain.CartEntity;
 import org.esnack24api.esnack24api.cart.dto.ListCartDTO;
 import org.esnack24api.esnack24api.cart.mapper.CartMapper;
@@ -58,7 +59,8 @@ public class CartService {
         }
     }
 
-    public PageResponse<ListCartDTO> getCartList(Long cno, PageRequest pageRequest) {
+    public PageResponse<ListCartDTO> getCartList(
+            @Param("cno") Long cno, @Param("pageRequest") PageRequest pageRequest) {
 
         PageResponse<ListCartDTO> pageResponse =
                 PageResponse.<ListCartDTO>with()

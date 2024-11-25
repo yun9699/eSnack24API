@@ -10,7 +10,7 @@ import java.util.List;
 @ToString
 public class PageResponse<E> {
 
-    private List<E> list;
+    private java.util.List<E> list;
     private int total;
     private PageRequest pageRequest;
 
