@@ -21,7 +21,6 @@ import org.esnack24api.esnack24api.user.dto.UserDTO;
 import org.esnack24api.esnack24api.user.exception.UserExceptions;
 import org.esnack24api.esnack24api.user.repository.UserRepository;
 
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Optional;
 import java.util.UUID;
@@ -39,24 +38,24 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
 
-    public UserDTO authenticate(String email, String password) {
-
-        Optional<UserEntity> result = userRepository.findByUemail(email);
-
-        UserEntity user = result.orElseThrow(() -> UserExceptions.BAD_AUTH.get());
-
-        boolean match = passwordEncoder.matches(password, user.getUpw());
-
-        if(!match) {
-            throw CommonExceptions.READ_ERROR.get();
-        }
-
-        UserDTO userDTO = new UserDTO();
-        userDTO.setEmail(email);
-        userDTO.setPw(user.getUpw());
-
-        return userDTO;
-    }
+//    public UserDTO authenticate(String email, String password) {
+//
+//        Optional<UserEntity> result = userRepository.findByUemail(email);
+//
+//        UserEntity user = result.orElseThrow(() -> UserExceptions.BAD_AUTH.get());
+//
+//        boolean match = passwordEncoder.matches(password, user.getUpw());
+//
+//        if(!match) {
+//            throw CommonExceptions.READ_ERROR.get();
+//        }
+//
+//        UserDTO userDTO = new UserDTO();
+//        userDTO.setEmail(email);
+//        userDTO.setPw(user.getUpw());
+//
+//        return userDTO;
+//    }
 
     public void registerUser(Long uno, UserRegisterDTO userRegisterDTO) {
 
