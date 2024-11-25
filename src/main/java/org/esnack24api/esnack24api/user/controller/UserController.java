@@ -55,33 +55,33 @@ public class UserController {
         return tokenResponseDTO;
     }
 
-    @PostMapping("makeToken")
-    public ResponseEntity<TokenResponseDTO> makeToken(
-            @RequestBody @Validated TokenRequestDTO tokenRequestDTO) {
-
-        log.info("============================");
-        log.info("makeToken");
-
-        UserDTO userDTO =
-                userService.authenticate(tokenRequestDTO.getEmail(), tokenRequestDTO.getPw());
-
-        log.info("userDTO: " + userDTO);
-
-        Map<String, Object> claimMap =
-                Map.of("email", userDTO.getEmail());
-
-        String accessToken = jwtUtil.createToken(claimMap, accessTime);
-        String refreshToken = jwtUtil.createToken(claimMap, refreshTime);
-
-        TokenResponseDTO tokenResponseDTO = new TokenResponseDTO();
-        tokenResponseDTO.setAccessToken(accessToken);
-        tokenResponseDTO.setRefreshToken(refreshToken);
-        tokenResponseDTO.setEmail(userDTO.getEmail());
-        tokenResponseDTO.setNew(userDTO.isNew());
-        tokenResponseDTO.setAnos(userDTO.getAnos());
-
-        return ResponseEntity.ok(tokenResponseDTO);
-    }
+//    @PostMapping("makeToken")
+//    public ResponseEntity<TokenResponseDTO> makeToken(
+//            @RequestBody @Validated TokenRequestDTO tokenRequestDTO) {
+//
+//        log.info("============================");
+//        log.info("makeToken");
+//
+//        UserDTO userDTO =
+//                userService.authenticate(tokenRequestDTO.getEmail(), tokenRequestDTO.getPw());
+//
+//        log.info("userDTO: " + userDTO);
+//
+//        Map<String, Object> claimMap =
+//                Map.of("email", userDTO.getEmail());
+//
+//        String accessToken = jwtUtil.createToken(claimMap, accessTime);
+//        String refreshToken = jwtUtil.createToken(claimMap, refreshTime);
+//
+//        TokenResponseDTO tokenResponseDTO = new TokenResponseDTO();
+//        tokenResponseDTO.setAccessToken(accessToken);
+//        tokenResponseDTO.setRefreshToken(refreshToken);
+//        tokenResponseDTO.setEmail(userDTO.getEmail());
+//        tokenResponseDTO.setNew(userDTO.isNew());
+//        tokenResponseDTO.setAnos(userDTO.getAnos());
+//
+//        return ResponseEntity.ok(tokenResponseDTO);
+//    }
 
     @PostMapping(value = "refreshToken",
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
@@ -141,6 +141,24 @@ public class UserController {
                 throw UserExceptions.REQUIRE_SIGN_IN.get();
             }
         }
+    }
+
+    @PostMapping("deleteToken")
+    public ResponseEntity<TokenResponseDTO> deleteToken(
+            @RequestParam String userEmail) {
+
+        Map<String, Object> claimMap =
+                Map.of("email", userEmail);
+
+        String accessToken = jwtUtil.createToken(claimMap, 0);
+        String refreshToken = jwtUtil.createToken(claimMap, 0);
+
+        TokenResponseDTO tokenResponseDTO = new TokenResponseDTO();
+        tokenResponseDTO.setAccessToken(accessToken);
+        tokenResponseDTO.setRefreshToken(refreshToken);
+        tokenResponseDTO.setEmail(userEmail);
+
+        return ResponseEntity.ok(tokenResponseDTO);
     }
 
     @RequestMapping("kakao")

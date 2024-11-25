@@ -8,7 +8,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
@@ -29,7 +28,6 @@ import static java.lang.System.out;
 
 @Log4j2
 @RequiredArgsConstructor
-@PreAuthorize("permitAll()")
 @CrossOrigin(origins = "http://127.0.0.1:5173")
 public class JWTCheckFilter extends OncePerRequestFilter {
 
@@ -43,7 +41,9 @@ public class JWTCheckFilter extends OncePerRequestFilter {
 
         String uri = request.getRequestURI();
 
-        if(uri.startsWith("/api/v1")) return true;
+        if(uri.startsWith("/api/v1/product")) return true;
+        if(uri.startsWith("/api/v1/login")) return true;
+        if(uri.startsWith("/api/v1/allergy")) return true;
 
         return false;
     }
