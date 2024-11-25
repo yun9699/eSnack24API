@@ -35,11 +35,27 @@
 
 
 
+    <select id="getUserReviewList" resultMap="reviewListMap">
+        select
+        rno, pno, uno, rcontent, rdelete, rstar, rimage, rregdate, rmoddate
+        from
+        tbl_review
+        where
+        uno = #{uno}
+        AND rdelete = 0
+        <if test="rno != null">
+            AND rno = #{rno}
+        </if>
+        order by
+        rno desc
+        limit #{pageRequest.skip}, #{pageRequest.size}
+    </select>
+
 
     <select id="getOneReview" resultType="ReviewDetailDTO">
         select
         r.pno, r.uno, r.rstar, r.rimage, r.rcontent, r.rdelete , r.rregdate, r.rmoddate,
-        u.uno, p.pno
+        u.uno, p.pno, r.rno
         from
         tbl_review r
         inner join tbl_user u on r.uno = u.uno
