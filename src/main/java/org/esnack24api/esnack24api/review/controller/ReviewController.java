@@ -32,6 +32,15 @@ public class ReviewController {
         return ResponseEntity.ok(reviewService.getReviewList(pno, rno, pageRequest));
     }
 
+    @GetMapping("user")
+    public ResponseEntity<PageResponse<ReviewListDTO>> getUserReviewLists(
+            @RequestParam Long uno,
+            @RequestParam(required = false) Long rno,
+            PageRequest pageRequest) {
+
+        return ResponseEntity.ok(reviewService.getUserReviewList(uno, rno, pageRequest));
+    }
+
 
 
 
