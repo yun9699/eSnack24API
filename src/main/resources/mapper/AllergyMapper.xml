@@ -5,10 +5,10 @@
 
 <mapper namespace="org.esnack24api.esnack24api.allergy.mapper.AllergyMapper">
 
-    <select id="getKoAllergyList" resultType="KoAllergyListDTO">
+    <select id="getAllergyList" resultType="AllergyListDTO">
 
         select
-            ano, atitle_ko
+            ano, atitle_ko, atitle_en, atitle_ja, atitle_zh
         from
             tbl_allergy
         where
