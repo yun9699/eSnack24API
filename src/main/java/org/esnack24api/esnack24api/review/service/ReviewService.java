@@ -29,14 +29,15 @@ public class ReviewService {
 
 
     //리뷰 리스트 조회
-    public PageResponse<ReviewListDTO> getReviewList(Long rno ,PageRequest pageRequest) {
+    public PageResponse<ReviewListDTO> getReviewList(Long pno, Long rno, PageRequest pageRequest) {
 
         return PageResponse.<ReviewListDTO>with()
-                .list(reviewMapper.getReviewList(rno, pageRequest))
+                .list(reviewMapper.getReviewList(pno, rno, pageRequest))
                 .total(reviewMapper.countReview(rno))
                 .pageRequest(pageRequest)
                 .build();
     }
+
 
 
     //리뷰 상세 조회
