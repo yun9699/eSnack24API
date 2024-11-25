@@ -61,6 +61,4 @@ public class ReviewController {
         reviewService.deleteReview(rno);
         return ResponseEntity.noContent().build();
     }
-
-
 }
