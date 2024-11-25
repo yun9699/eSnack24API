@@ -5,9 +5,13 @@ import lombok.Data;
 
 @Data
 @Builder
-public class KoAllergyListDTO {
+public class AllergyListDTO {
 
     private Long ano;
 
     private String atitle_ko;
+    private String atitle_en;
+    private String atitle_ja;
+    private String atitle_zh;
+
 }

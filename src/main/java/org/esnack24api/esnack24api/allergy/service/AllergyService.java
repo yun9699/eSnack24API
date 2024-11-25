@@ -2,7 +2,7 @@ package org.esnack24api.esnack24api.allergy.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.esnack24api.esnack24api.allergy.dto.KoAllergyListDTO;
+import org.esnack24api.esnack24api.allergy.dto.AllergyListDTO;
 import org.esnack24api.esnack24api.allergy.mapper.AllergyMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,8 +17,8 @@ public class AllergyService {
 
     private final AllergyMapper allergyMapper;
 
-    public List<KoAllergyListDTO> getKoAllergyList() {
+    public List<AllergyListDTO> getAllergyList() {
 
-        return allergyMapper.getKoAllergyList();
+        return allergyMapper.getAllergyList();
     }
 }
