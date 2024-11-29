@@ -26,7 +26,7 @@ public class ProductSearchImpl extends QuerydslRepositorySupport implements Prod
     @Override
     public Page<ProductEntity> listProducts(Pageable pageable) {
 
-        QProductEntity product = QProductEntity.productEntity;
+         QProductEntity product = QProductEntity.productEntity;
 
         JPQLQuery<ProductEntity> query = from(product);
         query.where(product.pno.gt(0));
@@ -62,7 +62,7 @@ public class ProductSearchImpl extends QuerydslRepositorySupport implements Prod
                         product.ptitle_ko,
                         product.pcontent_ko,
                         product.pcategory_ko
-                        )
+                )
         );
 
 
