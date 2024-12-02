@@ -24,10 +24,25 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @GetMapping("list")
-    public ResponseEntity<PageResponse<ReviewListDTO>> getReviewLists(@RequestParam Long rno ,PageRequest pageRequest) {
+    public ResponseEntity<PageResponse<ReviewListDTO>> getReviewLists(
+            @RequestParam Long pno,
+            @RequestParam(required = false) Long rno,
+            PageRequest pageRequest) {
 
-        return ResponseEntity.ok(reviewService.getReviewList(rno, pageRequest));
+        return ResponseEntity.ok(reviewService.getReviewList(pno, rno, pageRequest));
     }
+
+    @GetMapping("user")
+    public ResponseEntity<PageResponse<ReviewListDTO>> getUserReviewLists(
+            @RequestParam Long uno,
+            @RequestParam(required = false) Long rno,
+            PageRequest pageRequest) {
+
+        return ResponseEntity.ok(reviewService.getUserReviewList(uno, rno, pageRequest));
+    }
+
+
+
 
     @GetMapping("detail/{rno}")
     public ResponseEntity<ReviewDetailDTO> getReviewDetails(@PathVariable("rno") Long rno) {
@@ -55,6 +70,4 @@ public class ReviewController {
         reviewService.deleteReview(rno);
         return ResponseEntity.noContent().build();
     }
-
-
 }

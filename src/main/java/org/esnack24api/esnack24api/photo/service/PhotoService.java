@@ -16,9 +16,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class PhotoService {
 
-    private final PhotoRepository photoRepository; // FileRepository 주입
+    private final PhotoRepository photoRepository;
 
-    // base64 인코딩된 문자열을 디코딩하여 그 결과만 로그로 출력
+
     public String[] decoding(String encoding)  {
         log.info("디코딩전-------------------------------------------------------------");
         log.info(encoding);
@@ -27,7 +27,6 @@ public class PhotoService {
         }
 
 
-        // 공백 제거 및 유효하지 않은 문자 제거
         String resultEncoding = encoding.replaceAll("\\s+", "");  // 공백 제거
         resultEncoding = resultEncoding.replaceAll("[^A-Za-z0-9+/=]", "");  // 유효하지 않은 문자 제거
 
@@ -37,13 +36,13 @@ public class PhotoService {
             resultEncoding += "=".repeat(4 - paddingLength);  // 패딩 추가
         }
 
-        log.info("디코딩후-------------------------------------------------------------");
+        log.info("디코딩후----------------------------------------------------");
         log.info(resultEncoding);
         log.info(resultEncoding.length());
 
         UUID uuid = UUID.randomUUID();
         String[] filename = new String[1];
-        filename[0] = uuid + ".png";
+        filename[0] = uuid + ".jpg";
 
         try {
 
@@ -51,14 +50,14 @@ public class PhotoService {
             log.info("디코딩시도했다.");
 
             // 디코딩한 파일 폴더에 저장
-            String filePath = "C:\\decoding\\" + filename[0];
+            String filePath = "C:\\upload\\user" + filename[0];
             try (FileOutputStream fileOutputStream = new FileOutputStream(filePath)) {
 
                 fileOutputStream.write(decodedBytes);
                 log.info(filename);
                 log.info("파일저장완료----------------------");
 
-
+                fileOutputStream.close();
                 saveFilenameToDb(filename[0]);
 
             } catch (IOException e) {
@@ -75,13 +74,13 @@ public class PhotoService {
         return filename;
     }
 
-
     public void saveFilenameToDb(String filename) {
         PhotoEntity photoEntity = PhotoEntity.builder()
-                .photoFilename(filename)
+                .pfilename(filename)
                 .build();
 
         photoRepository.save(photoEntity);
         log.info("파일명 '{}' 데이터베이스에 저장 완료", filename);
     }
+
 }

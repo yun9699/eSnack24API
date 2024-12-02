@@ -50,9 +50,9 @@ public class PhotoController {
         for (String filename : filenames) {
             try {
                 // 디코딩한 파일이 실제로 존재하는지 확인
-                File file = new File("C:\\decoding\\" + filename);
+                File file = new File("C:\\upload\\user" + filename);
                 if (!file.exists()) {
-                    log.warn("File does not exist: {}", filename);
+                    log.warn("파일이 존재하지 않습니다: {}", filename);
                     continue;
                 }
 
@@ -66,23 +66,26 @@ public class PhotoController {
                 HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
                 // 파일 업로드 요청
-                ResponseEntity<String> uploadResponse = restTemplate.exchange(fastApiUrl, HttpMethod.POST, requestEntity, String.class);
-                log.info("File '{}' sent to FastAPI, response: {}", filename, uploadResponse.getBody());
+                ResponseEntity<String> uploadResponse =
+                        restTemplate.exchange(fastApiUrl, HttpMethod.POST, requestEntity, String.class);
+
+                log.info("파일 '{}'이(가) FastAPI로 전송되었으며, 응답: {}", filename, uploadResponse.getBody());
 
                 // 유사 이미지 검색 요청
                 HttpEntity<MultiValueMap<String, Object>> searchRequestEntity = new HttpEntity<>(body, headers);
-                ResponseEntity<Map> searchResponse = restTemplate.exchange(searchUrl, HttpMethod.POST, searchRequestEntity, Map.class);
+
+                ResponseEntity<Map> searchResponse =
+                        restTemplate.exchange(searchUrl, HttpMethod.POST, searchRequestEntity, Map.class);
 
                 if (searchResponse.getStatusCode().is2xxSuccessful()) {
                     Map<String, Object> responseMap = searchResponse.getBody();
                     allResults.put(filename, responseMap.get("similar_images"));
                 } else {
-                    log.error("Failed to fetch similar images for file '{}'", filename);
+                    log.error("파일 '{}'에 대한 유사 이미지 검색에 실패했습니다", filename);
                 }
 
-
             } catch (Exception e) {
-                log.error("Error processing file: {}", filename, e);
+                log.error("파일 처리 중 오류 발생: {}", filename, e);
                 return ResponseEntity.status(500).body(Map.of("error", "Failed to process file: " + filename));
             }
         }

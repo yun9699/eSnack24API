@@ -2,7 +2,9 @@ package org.esnack24api.esnack24api.user.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.esnack24api.esnack24api.user.dto.UserAnosDTO;
 import org.esnack24api.esnack24api.user.dto.UserRegisterDTO;
+import org.esnack24api.esnack24api.user.mapper.UserMapper;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -32,26 +34,28 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    private final UserMapper userMapper;
+
     private final PasswordEncoder passwordEncoder;
 
-    public UserDTO authenticate(String email, String password) {
-
-        Optional<UserEntity> result = userRepository.findByUemail(email);
-
-        UserEntity user = result.orElseThrow(() -> UserExceptions.BAD_AUTH.get());
-
-        boolean match = passwordEncoder.matches(password, user.getUpw());
-
-        if(!match) {
-            throw CommonExceptions.READ_ERROR.get();
-        }
-
-        UserDTO userDTO = new UserDTO();
-        userDTO.setEmail(email);
-        userDTO.setPw(user.getUpw());
-
-        return userDTO;
-    }
+//    public UserDTO authenticate(String email, String password) {
+//
+//        Optional<UserEntity> result = userRepository.findByUemail(email);
+//
+//        UserEntity user = result.orElseThrow(() -> UserExceptions.BAD_AUTH.get());
+//
+//        boolean match = passwordEncoder.matches(password, user.getUpw());
+//
+//        if(!match) {
+//            throw CommonExceptions.READ_ERROR.get();
+//        }
+//
+//        UserDTO userDTO = new UserDTO();
+//        userDTO.setEmail(email);
+//        userDTO.setPw(user.getUpw());
+//
+//        return userDTO;
+//    }
 
     public void registerUser(Long uno, UserRegisterDTO userRegisterDTO) {
 
@@ -59,9 +63,11 @@ public class UserService {
 
         result.setUsername(userRegisterDTO.getUsername());
         result.setUbirth(userRegisterDTO.getBirth());
-        result.setUaddress(userRegisterDTO.getAddress());
-        result.setUcallnumber(userRegisterDTO.getCallNumber());
+        result.setUcallnumber(userRegisterDTO.getUcallnumber());
         result.setUgender(userRegisterDTO.getGender());
+
+        log.info("-=-=-=-=-==-=-=-=-=-=-=-=-=-=");
+        log.info(result);
 
         userRepository.save(result);
 
@@ -103,11 +109,22 @@ public class UserService {
             userDTO.setEmail(userEntity.getUemail());
             userDTO.setPw(userEntity.getUpw());
             userDTO.setUsername(userEntity.getUsername());
-            userDTO.setAddress(userEntity.getUaddress());
             userDTO.setGender(userDTO.getGender());
             userDTO.setBirth(userDTO.getBirth());
             userDTO.setCallNumber(userDTO.getCallNumber());
             userDTO.setNew(false);
+
+            UserAnosDTO anos = userMapper.getUserAnos(userEntity.getUno());
+
+            if (anos != null && anos.getAnos() != null) {
+
+                userDTO.setAnos(anos.getAnos().toArray(new Long[0]));
+            } else {
+
+                userDTO.setAnos(new Long[0]);
+            }
+
+            log.info(userDTO);
 
             return userDTO;
         }

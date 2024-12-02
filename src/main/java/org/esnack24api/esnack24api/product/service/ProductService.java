@@ -7,6 +7,7 @@ import org.esnack24api.esnack24api.common.page.PageResponse;
 import org.esnack24api.esnack24api.product.domain.ProductEntity;
 import org.esnack24api.esnack24api.product.dto.ProductDetailDTO;
 import org.esnack24api.esnack24api.product.dto.ProductListDTO;
+import org.esnack24api.esnack24api.product.dto.ProductPopularDTO;
 import org.esnack24api.esnack24api.product.mapper.ProductMapper;
 
 import org.esnack24api.esnack24api.product.repository.ProductRepository;
@@ -74,6 +75,19 @@ public class ProductService {
 
 
     } // update test
+
+    public PageResponse<ProductPopularDTO> getPopular(PageRequest pageRequest) {
+        log.info("getPopular");
+
+        PageResponse<ProductPopularDTO> pageResponse =
+                PageResponse.<ProductPopularDTO>with()
+                        .list(productMapper.getPopular(pageRequest))
+                        .total(productMapper.count(pageRequest))
+                        .pageRequest(pageRequest)
+                        .build();
+
+        return pageResponse;
+    }
 
 
 

@@ -5,25 +5,29 @@
 
 <mapper namespace="org.esnack24api.esnack24api.product.mapper.ProductAllergyMapper">
 
-    <resultMap id="productAllergyMap" type="ProductAllergyDetailDTO">
-        <id property="pno" column="pno"></id>
-        <result property="price" column="price"></result>
-        <result property="pfilename" column="pfilename"></result>
-        <result property="ptitle_ko" column="ptitle_ko"></result>
-        <result property="pcontent_ko" column="pcontent_ko"></result>
-        <result property="pcategory_ko" column="pcategory_ko"></result>
-        <result property="ano" column="ano"></result>
-        <collection property="atitle_ko" resultMap="allergyMap"></collection>
-    </resultMap>
 
-    <resultMap id="allergyMap" type="String">
-        <result column="atitle_ko"></result>
+    <resultMap id="productAllergyMap" type="ProductAllergyDetailDTO">
+
+        <id property="pno" column="pno" />
+        <result property="price" column="price" />
+        <result property="pfilename" column="pfilename" />
+        <result property="ptitle_ko" column="ptitle_ko" />
+        <result property="pcontent_ko" column="pcontent_ko" />
+        <result property="pcategory_ko" column="pcategory_ko" />
+
+        <collection property="atitle_ko" ofType="String">
+            <result column="atitle_ko" />
+        </collection>
+
+        <collection property="ano" ofType="Long">
+            <result column="ano" />
+        </collection>
     </resultMap>
 
     <select id="getOne" resultMap="productAllergyMap">
         select
-            pr.pno, pr.price, pr.pqty, pr.pdelete, pr.pfilename,
-            pr.ptitle_ko, pr.pcontent_ko, ag.atitle_ko
+            pr.pno, pr.price, pr.pfilename, pr.ptitle_ko, pr.pcontent_ko,
+            pr.pcategory_ko, al.ano, ag.atitle_ko
         from
             tbl_product pr
         left join
@@ -31,7 +35,24 @@
         left join
             tbl_allergy ag on ag.ano = al.ano
         where
-            pr.pno = #{pno} and pr.pdelete = 0
+            pr.pno = #{pno}
+        and
+            pr.pdelete = 0
     </select>
+
+    <select id="getOneByFilename" resultMap="productAllergyMap">
+        select
+        pr.pno, pr.price, pr.pqty, pr.pdelete, pr.pfilename,
+        pr.ptitle_ko, pr.pcontent_ko, ag.atitle_ko, al.ano
+        from
+        tbl_product pr
+        left join
+        tbl_product_allergy al on pr.pno = al.pno
+        left join
+        tbl_allergy ag on ag.ano = al.ano
+        where
+        pr.pfilename = #{pfilename} and pr.pdelete = 0
+    </select>
+
 
 </mapper>

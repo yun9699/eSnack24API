@@ -8,7 +8,10 @@
     <select id="getList" resultType="ProductListDTO">
         select
             pno, price, pqty, pdelete, pfilename,
-            pregdate, pmoddate, ptitle_ko, pcontent_ko, pcategory_ko
+            pregdate, pmoddate,
+            ptitle_ko, ptitle_en, ptitle_ja, ptitle_zh,
+            pcontent_ko, pcontent_en, pcontent_ja, pcontent_zh,
+            pcategory_ko, pcategory_en, pcategory_ja, pcategory_zh
         from
             tbl_product
         where
@@ -23,6 +26,22 @@
         from tbl_product
         where pno > 0 and pdelete = false
     </select>
+
+    <select id="getPopular" resultType="ProductPopularDTO">
+        select
+            p.pno, p.ptitle_ko, p.pfilename, p.pcontent_ko, p.price,
+            p.ptitle_en, p.pcontent_en, p.ptitle_ja, p.pcontent_ja, p.ptitle_zh, p.pcontent_zh
+        from
+            tbl_product_popular pp left join tbl_product p on pp.pno = p.pno
+        where
+            p.pdelete = 0
+        order by
+            ppno desc
+        limit
+            #{skip}, #{size}
+    </select>
+
+
 
 <!--    <select id="getOne" resultType="ProductDetailDTO">-->
 <!--        select-->

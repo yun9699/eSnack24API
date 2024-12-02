@@ -5,6 +5,8 @@ import lombok.*;
 import org.esnack24api.esnack24api.product.domain.ProductEntity;
 import org.esnack24api.esnack24api.user.domain.UserEntity;
 
+import java.sql.Timestamp;
+
 @Setter
 @Entity
 @Table(name = "tbl_cart")
@@ -12,18 +14,12 @@ import org.esnack24api.esnack24api.user.domain.UserEntity;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"product", "user"})
+@ToString(exclude = {"user"})
 public class CartEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // autoIncrement로 자동 생성되는 pk
     private Long cno;
-
-    private int cqty;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name ="pno")
-    private ProductEntity product;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="uno")

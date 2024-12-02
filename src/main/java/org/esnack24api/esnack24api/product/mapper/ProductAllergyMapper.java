@@ -6,4 +6,8 @@ public interface ProductAllergyMapper {
 
     ProductAllergyDetailDTO getOne(Long pno);
 
+    ProductAllergyDetailDTO getOneByFilename(String pfilename);
+
+
+
 }

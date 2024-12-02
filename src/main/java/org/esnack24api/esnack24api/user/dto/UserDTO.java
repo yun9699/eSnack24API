@@ -19,9 +19,9 @@ public class UserDTO {
 
     private String callNumber;
 
-    private String address;
-
     private Timestamp birth;
 
     private boolean isNew;  //새로운 사용자 Flag
+
+    private Long[] anos;
 }

@@ -3,13 +3,13 @@ spring:
     name: eSnack24API
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://10.10.10.128:13307/snackdb
+    url: jdbc:mariadb://snackdb.chm9rhbwy6vo.ap-northeast-2.rds.amazonaws.com:3306/snackdb
     username: snackdbuser
     password: snackdbuser
 
     hikari:
       minimum-idle: 2
-      maximum-pool-size: 100
+      maximum-pool-size: 5
       connection-timeout: 5000
 
   jpa:
@@ -34,7 +34,7 @@ mybatis:
 
 org:
   hyeong:
-    accessTime: 1
+    accessTime: 5
     refreshTime: 10080
     alwaysNew: true
     upload:
@@ -46,5 +46,6 @@ logging:
 
 PAYPAL:
   CLIENT:
-    ID: ARXsGAth3VQXmiZa7fzIK0DwKdZyAzwGCRD_fpxBdWRpvo2QezzYbWqHpckTcGn8XpjHUPNVuIu7GLTh
-    SECRET: EKsv5jHmf8NRSF3rDRS41PCc8m_c3UJcXDT4pZ3o1FPK1Tlujy7kdd1tuaiWiiHvesVmmIVAPaRMyt0o
+    ID: ${PAYPAL_ID}
+    SECRET: ${PAYPAL_SECRET}
+

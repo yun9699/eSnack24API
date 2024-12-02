@@ -23,4 +23,9 @@ public class ProductAllergyService {
 
         return result;
     }
+
+    public ProductAllergyDetailDTO productAllergyDetailByFilename(String pfilename) {
+        log.info("Fetching product allergy details by pfilename: {} and pno: {}", pfilename);
+        return productAllergyMapper.getOneByFilename(pfilename);
+    }
 }
