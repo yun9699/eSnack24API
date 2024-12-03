@@ -33,7 +33,6 @@ public class CSService {
     private final QNAMapper qnaMapper;
     private final FAQMapper faqMapper;
     private final CSRepository csRepository;
-    private final ProductRepository productRepository;
     private final UserRepository userRepository;
 
     //QNA Service
@@ -63,16 +62,12 @@ public class CSService {
     @Transactional
     public String addQNA(QNARegisterDTO qnaRegisterDTO) {
 
-        Optional<ProductEntity> pno = productRepository.findById(qnaRegisterDTO.getPno());
         Optional<UserEntity> uno = userRepository.findById(qnaRegisterDTO.getUno());
 
         QNAEntity qna = QNAEntity.builder()
-                .qno(qnaRegisterDTO.getPno())
                 .user(uno.get())
-                .product(pno.get())
                 .qtitle(qnaRegisterDTO.getQtitle())
                 .qcontent(qnaRegisterDTO.getQcontent())
-                .qanswer("답변대기")
                 .qfilename(qnaRegisterDTO.getQfilename())
                 .build();
 
@@ -82,23 +77,6 @@ public class CSService {
 
 
     }
-
-
-    private String qtitle;
-    private String qcontent;
-    private String qanswer;
-    private String qfilename;
-
-    private boolean qdelete = false;
-
-    private boolean qstatus = false;
-
-    @CreatedDate
-    private LocalDateTime qregdate;
-
-    @LastModifiedDate
-    private LocalDateTime qmoddate;
-
 
     // QNA 수정
     @Transactional
@@ -120,18 +98,18 @@ public class CSService {
 
     // QNA 삭제
     @Transactional
-    public void deleteQNA(Long qno) {
-        log.info("Deleting QNA: {}", qno);
+    public String deleteQNA(Long qno) {
 
-        QNAEntity qna = csRepository.findById(qno)
-                .orElseThrow(() -> new IllegalArgumentException("QNA not found: " + qno));
+        Optional<QNAEntity> qna = csRepository.findById(qno);
 
-        if (qna.getQstatus()) {  // true = 답변완료 상태
-            throw new IllegalStateException("답변이 완료된 문의는 삭제할 수 없습니다.");
+        if (qna.isPresent()) {
+            QNAEntity qnaEntity = qna.get();
+
+            qnaEntity.setQdelete(true);
+
+            return "QNA deleted";
         }
-
-        qna.deleteQNA();
-        csRepository.save(qna);
+        return "QNA not found";
     }
 
 
