@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.esnack24api.esnack24api.community.mapper.RequestProductMapper">
+
+    <select id="getRequestProductList" resultType="RequestProductDTO">
+        select
+        cpno, cpproduct, cptitle, cpanswer, cpdelete, cpregdate, cpmoddate
+        from
+        tbl_community_product
+        where
+        cpdelete = 0
+        order by
+        cpno desc
+        limit #{pageRequest.skip}, #{pageRequest.size}
+    </select>
+
+    <select id="count" resultType="int">
+
+        select count(cpno)
+        from tbl_community_product
+        where cpno > 0 and cpdelete = false
+
+    </select>
+
+    <select id="getRequestProductDetail" resultType="RequestProductDTO">
+
+        select
+        cpno, cpproduct, cptitle, cpanswer, cpdelete, cpregdate, cpmoddate
+        from
+        tbl_community_product
+        where
+        cpno = #{cpno}
+        and
+        cpdelete = false
+
+    </select>
+
+</mapper>
