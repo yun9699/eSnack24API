@@ -5,6 +5,13 @@
 
 <mapper namespace="org.esnack24api.esnack24api.order.mapper.OrderMapper">
 
-
+    <select id="getOrderView" resultType="OrderViewDTO">
+        select
+            total_amount, currency
+        from
+            tbl_order
+        where
+            ono = #{ono}
+    </select>
 
 </mapper>

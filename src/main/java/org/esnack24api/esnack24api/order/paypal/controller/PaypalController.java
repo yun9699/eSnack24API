@@ -1,31 +1,29 @@
 package org.esnack24api.esnack24api.order.paypal.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.paypal.sdk.models.Order;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.esnack24api.esnack24api.order.paypal.dto.PaypalOrderDTO;
 import org.esnack24api.esnack24api.order.paypal.service.PaypalService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 @RestController
 @RequestMapping("/api/v1/paypal")
 @RequiredArgsConstructor
+@Log4j2
 public class PaypalController {
 
-    private final ObjectMapper objectMapper;
     private final PaypalService paypalService;
 
     @PostMapping("orders")
-    public ResponseEntity<Order> createOrder(@RequestBody Map<String, Object> request) {
+    public ResponseEntity<Order> createOrder(@RequestBody PaypalOrderDTO paypalOrderDTO) {
 
         try {
 
-            String cart = objectMapper.writeValueAsString(request.get("cart"));
-
-            Order response = paypalService.createOrder(cart);
+            Order response = paypalService.createOrder(paypalOrderDTO);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
