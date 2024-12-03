@@ -5,6 +5,7 @@ import lombok.extern.log4j.Log4j2;
 import org.esnack24api.esnack24api.order.domain.OrderEntity;
 import org.esnack24api.esnack24api.order.domain.OrderItemEntity;
 import org.esnack24api.esnack24api.order.dto.CreateOrderDTO;
+import org.esnack24api.esnack24api.order.dto.OrderDetailDTO;
 import org.esnack24api.esnack24api.order.dto.OrderViewDTO;
 import org.esnack24api.esnack24api.order.mapper.OrderMapper;
 import org.esnack24api.esnack24api.order.repository.OrderItemRepository;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 @Transactional
@@ -78,5 +80,10 @@ public class OrderService {
     public OrderViewDTO viewOrder(Long ono) {
 
         return orderMapper.getOrderView(ono);
+    }
+
+    public List<OrderDetailDTO> orderDetail(Long ono) {
+
+        return orderMapper.getOrderDetail(ono);
     }
 }
