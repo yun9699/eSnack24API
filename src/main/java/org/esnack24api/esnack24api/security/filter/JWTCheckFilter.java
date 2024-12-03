@@ -41,7 +41,7 @@ public class JWTCheckFilter extends OncePerRequestFilter {
 
         String uri = request.getRequestURI();
 
-//        if(uri.startsWith("/api/v1/cart")) return false;
+//       if(uri.startsWith("/api/v1/cart")) return false;
 //        if(uri.startsWith("/api/v1/qna")) return false;
 //        if(uri.startsWith("/api/v1/allergy")) return false;
 

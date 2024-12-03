@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.esnack24api.esnack24api.cart.domain.CartEntity;
 import org.esnack24api.esnack24api.cart.dto.ListCartDTO;
 import org.esnack24api.esnack24api.cart.mapper.CartMapper;
+import org.esnack24api.esnack24api.cart.repository.CartItemRepository;
 import org.esnack24api.esnack24api.cart.repository.CartRepository;
 import org.esnack24api.esnack24api.common.page.PageRequest;
 import org.esnack24api.esnack24api.common.page.PageResponse;
@@ -27,6 +28,7 @@ public class CartService {
     private final UserRepository userRepository;
 
     private final CartMapper cartMapper;
+    private final CartItemRepository cartItemRepository;
 
     public Long findCno(Long uno) {
 
@@ -70,6 +72,15 @@ public class CartService {
                         .build();
 
         return pageResponse;
+    }
+
+    public String clearCart(Long cno) {
+
+        CartEntity cart = cartRepository.findById(cno).orElseThrow();
+
+        cartItemRepository.deleteAllByCart(cart);
+
+        return "Successfully cleared cart.";
     }
 
 }
