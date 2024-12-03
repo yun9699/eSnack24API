@@ -38,10 +38,10 @@ public class CSController {
 
     // QNA 등록
     @PostMapping("/qna/add")
-    public ResponseEntity<QNADetailDTO> registerQNA(@RequestBody QNARegisterDTO qnaRegisterDTO) {
+    public ResponseEntity<String> registerQNA(@RequestBody QNARegisterDTO qnaRegisterDTO) {
         log.info("registerQNA: {}", qnaRegisterDTO);
 
-        return ResponseEntity.ok(csService.registerQNA(qnaRegisterDTO));
+        return ResponseEntity.ok(csService.addQNA(qnaRegisterDTO));
     }
 
 
