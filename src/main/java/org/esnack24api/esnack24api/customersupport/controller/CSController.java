@@ -59,7 +59,7 @@ public class CSController {
 
 
     // QNA 삭제
-    @DeleteMapping("/qna/delete/{qno}")
+    @PutMapping("/qna/delete/{qno}")
     public ResponseEntity<Void> deleteQNA(@PathVariable Long qno) {
         log.info("deleteQNA: {}", qno);
 
