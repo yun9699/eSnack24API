@@ -28,10 +28,6 @@ public class QNAEntity {
     @JoinColumn(name = "uno")
     private UserEntity user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "pno")
-    private ProductEntity product;
-
     private String qtitle;
     private String qcontent;
     private String qanswer;

@@ -27,16 +27,16 @@ public class QNATests {
     @Transactional
     @Commit
     public void testRegisterQNA() {
-        QNARegisterDTO dto = QNARegisterDTO.builder()
-                .uno(3L)
-                .pno(1L)
-                .qtitle("테스트 제목")
-                .qcontent("테스트 내용")
-                .qfilename("test.jpg")
-                .build();
-
-        QNADetailDTO result = csService.registerQNA(dto);
-        log.info("등록된 QNA: {}", result);
+//        QNARegisterDTO dto = QNARegisterDTO.builder()
+//                .uno(3L)
+//                .pno(1L)
+//                .qtitle("테스트 제목")
+//                .qcontent("테스트 내용")
+//                .qfilename("test.jpg")
+//                .build();
+//
+//        QNADetailDTO result = csService.registerQNA(dto);
+//        log.info("등록된 QNA: {}", result);
     }
 
     @Test

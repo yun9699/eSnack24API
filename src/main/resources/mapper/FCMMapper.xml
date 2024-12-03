@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.esnack24api.esnack24api.fcm.mapper.AdminTokenFCMMappaer">
+
+    <select id="getFCMToken" resultType="String">
+
+        select
+            token
+        from
+            tbl_admin
+        where
+            admdelete = 0
+        and
+            token is not null
+
+    </select>
+</mapper>

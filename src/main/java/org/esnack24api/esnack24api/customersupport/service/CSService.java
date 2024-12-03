@@ -1,7 +1,12 @@
 package org.esnack24api.esnack24api.customersupport.service;
 
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.catalina.User;
 import org.esnack24api.esnack24api.common.page.PageRequest;
 import org.esnack24api.esnack24api.common.page.PageResponse;
 import org.esnack24api.esnack24api.customersupport.domain.QNAEntity;
@@ -10,9 +15,16 @@ import org.esnack24api.esnack24api.customersupport.mapper.FAQMapper;
 import org.esnack24api.esnack24api.customersupport.mapper.QNAMapper;
 import org.esnack24api.esnack24api.customersupport.repository.CSRepository;
 import org.esnack24api.esnack24api.product.domain.ProductEntity;
+import org.esnack24api.esnack24api.product.repository.ProductRepository;
 import org.esnack24api.esnack24api.user.domain.UserEntity;
+import org.esnack24api.esnack24api.user.repository.UserRepository;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @Log4j2
@@ -21,8 +33,9 @@ public class CSService {
     private final QNAMapper qnaMapper;
     private final FAQMapper faqMapper;
     private final CSRepository csRepository;
+    private final UserRepository userRepository;
 
-//QNA Service
+    //QNA Service
     // QNA 리스트 조회
     @Transactional(readOnly = true)
     public PageResponse<QNAListDTO> getQNAList(Long uno, PageRequest pageRequest) {
@@ -47,31 +60,22 @@ public class CSService {
 
     // QNA 등록
     @Transactional
-    public QNADetailDTO registerQNA(QNARegisterDTO dto) {
-        log.info("Registering new QNA: {}", dto);
+    public String addQNA(QNARegisterDTO qnaRegisterDTO) {
 
-        // UserEntity, ProductEntity 참조
-        UserEntity user = UserEntity.builder()
-                .uno(dto.getUno())
-                .build();
+        Optional<UserEntity> uno = userRepository.findById(qnaRegisterDTO.getUno());
 
-        ProductEntity product = ProductEntity.builder()
-                .pno(dto.getPno())
-                .build();
-
-        // QNA 엔티티 생성
         QNAEntity qna = QNAEntity.builder()
-                .user(user)
-                .product(product)
-                .qtitle(dto.getQtitle())
-                .qcontent(dto.getQcontent())
-                .qfilename(dto.getQfilename())
-                .qdelete(false)
+                .user(uno.get())
+                .qtitle(qnaRegisterDTO.getQtitle())
+                .qcontent(qnaRegisterDTO.getQcontent())
+                .qfilename(qnaRegisterDTO.getQfilename())
                 .build();
 
-        // 저장 후 상세 정보 조회하여 반환
-        QNAEntity savedQNA = csRepository.save(qna);
-        return qnaMapper.getOne(savedQNA.getQno());
+        csRepository.save(qna);
+
+        return "등록완료";
+
+
     }
 
     // QNA 수정
@@ -94,18 +98,18 @@ public class CSService {
 
     // QNA 삭제
     @Transactional
-    public void deleteQNA(Long qno) {
-        log.info("Deleting QNA: {}", qno);
+    public String deleteQNA(Long qno) {
 
-        QNAEntity qna = csRepository.findById(qno)
-                .orElseThrow(() -> new IllegalArgumentException("QNA not found: " + qno));
+        Optional<QNAEntity> qna = csRepository.findById(qno);
 
-        if (qna.getQstatus()) {  // true = 답변완료 상태
-            throw new IllegalStateException("답변이 완료된 문의는 삭제할 수 없습니다.");
+        if (qna.isPresent()) {
+            QNAEntity qnaEntity = qna.get();
+
+            qnaEntity.setQdelete(true);
+
+            return "QNA deleted";
         }
-
-        qna.deleteQNA();
-        csRepository.save(qna);
+        return "QNA not found";
     }
 
 

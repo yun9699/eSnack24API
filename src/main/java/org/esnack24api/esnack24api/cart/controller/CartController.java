@@ -74,4 +74,10 @@ public class CartController {
 
         return ResponseEntity.ok("Success Delete Item");
     }
+
+    @DeleteMapping("clearItem/{uno}")
+    public ResponseEntity<String> clearCart(@PathVariable Long uno) {
+
+        return ResponseEntity.ok(cartService.clearCart(cartService.findCno(uno)));
+    }
 }

@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 public class QNARegisterDTO {
 
     private Long uno;
-    private Long pno;
     private String qtitle;
     private String qcontent;
     private String qfilename;
