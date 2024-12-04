@@ -8,6 +8,7 @@ import com.paypal.sdk.http.response.ApiResponse;
 import com.paypal.sdk.models.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.esnack24api.esnack24api.exchangee_rate.mapper.ExchangeRateMapper;
 import org.esnack24api.esnack24api.order.domain.OrderEntity;
 import org.esnack24api.esnack24api.order.paypal.dto.PaypalOrderDTO;
 import org.esnack24api.esnack24api.order.repository.OrderRepository;
@@ -38,11 +39,13 @@ public class PaypalService {
 
     private final OrderRepository orderRepository;
 
+    private final ExchangeRateMapper exchangeRateMapper;
+
     private String exchange(BigDecimal amount) {
 
-        BigDecimal tmp = new BigDecimal("0.000713");
-
-        BigDecimal result = tmp.multiply(amount).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal result =
+                exchangeRateMapper.getExchangeRate("USD")
+                        .multiply(amount).setScale(2, RoundingMode.HALF_UP);
 
         log.info("private String exchange");
         log.info(result.toString());
