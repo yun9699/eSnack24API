@@ -14,7 +14,6 @@ public class QNADetailDTO {
 
     private Long qno;
     private Long uno;
-    private Long pno;
     private String qtitle;
     private String qcontent;
     private String qanswer;
@@ -22,9 +21,4 @@ public class QNADetailDTO {
     private boolean qstatus;
     private LocalDateTime qregdate;
     private LocalDateTime qmoddate;
-
-    private String ptitle_ko;
-    private String ptitle_en;
-    private String ptitle_ja;
-    private String ptitle_zh;
 }
