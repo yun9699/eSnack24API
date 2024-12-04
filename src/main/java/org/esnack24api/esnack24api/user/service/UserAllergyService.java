@@ -59,4 +59,14 @@ public class UserAllergyService {
                 .filter(userAllergies::contains)
                 .collect(Collectors.toList());
     }
+
+    public String editUserAllergies(UserAllergyRegisterDTO userAllergyRegisterDTO) {
+
+        UserEntity user =
+                userRepository.findById(userAllergyRegisterDTO.getUno()).orElseThrow();
+
+        userAllergyRepository.deleteAllByUser(user);
+
+        return registerPersonalAllergy(userAllergyRegisterDTO);
+    }
 }

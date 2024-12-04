@@ -31,6 +31,10 @@ public class UserEntity {
 
     private Timestamp ubirth;
 
+    private Timestamp uregdate;
+
+    private Timestamp umoddate;
+
     private boolean udelete;
 
 }
