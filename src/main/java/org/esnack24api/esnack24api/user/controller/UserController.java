@@ -3,15 +3,12 @@ package org.esnack24api.esnack24api.user.controller;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.esnack24api.esnack24api.user.dto.UserRegisterDTO;
+import org.esnack24api.esnack24api.user.dto.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.esnack24api.esnack24api.user.dto.UserDTO;
-import org.esnack24api.esnack24api.user.dto.TokenRequestDTO;
-import org.esnack24api.esnack24api.user.dto.TokenResponseDTO;
 import org.esnack24api.esnack24api.user.exception.UserExceptions;
 import org.esnack24api.esnack24api.user.service.UserService;
 import org.esnack24api.esnack24api.security.util.JWTUtil;
@@ -82,6 +79,12 @@ public class UserController {
 //
 //        return ResponseEntity.ok(tokenResponseDTO);
 //    }
+
+    @GetMapping("getTossUser/{uno}")
+    public ResponseEntity<TossUserDTO> getTossUser(@PathVariable Long uno) {
+
+        return ResponseEntity.ok(userService.getTossUser(uno));
+    }
 
     @PostMapping(value = "refreshToken",
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,

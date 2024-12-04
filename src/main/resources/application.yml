@@ -12,6 +12,12 @@ spring:
       maximum-pool-size: 5
       connection-timeout: 5000
 
+  devtools:
+    livereload:
+      enabled: true
+  freemarker:
+    cache: false
+
   jpa:
     hibernate:
       ddl-auto: none
@@ -48,4 +54,3 @@ PAYPAL:
   CLIENT:
     ID: ARXsGAth3VQXmiZa7fzIK0DwKdZyAzwGCRD_fpxBdWRpvo2QezzYbWqHpckTcGn8XpjHUPNVuIu7GLTh
     SECRET: EKsv5jHmf8NRSF3rDRS41PCc8m_c3UJcXDT4pZ3o1FPK1Tlujy7kdd1tuaiWiiHvesVmmIVAPaRMyt0o
-
