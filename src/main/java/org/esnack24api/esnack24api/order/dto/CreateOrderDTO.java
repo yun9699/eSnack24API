@@ -10,6 +10,4 @@ public class CreateOrderDTO {
     private Long[] pnos;
 
     private int[] ciqtys;
-
-    private String currency;
 }

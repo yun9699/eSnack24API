@@ -21,8 +21,11 @@ public class OrderEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ono;   //primary key
 
-    @Column(name = "paypal_order_id")
-    private String paypalOrderId;   //paypal order id
+    @Column(name = "transaction_id")
+    private String transactionId;   //paypalOrderId
+
+    @Column(name = "toss_payment_key")
+    private String tossPaymentKey;  //toss 의 paymentKey
 
     private BigDecimal total_amount;    //총 금액
 
@@ -30,7 +33,11 @@ public class OrderEntity {
 
     private String status;  //주문 상태(결제 완료, 대기 등)
 
+    private String method;  //결제 수단
+
     private Timestamp oregdate; //주문 생성 시간
+
+    private Timestamp ocompletedate;    //주문 완료 시간
 
     @ManyToOne
     @JoinColumn(name = "uno")

@@ -2,6 +2,7 @@ package org.esnack24api.esnack24api.user.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.esnack24api.esnack24api.user.dto.TossUserDTO;
 import org.esnack24api.esnack24api.user.dto.UserAnosDTO;
 import org.esnack24api.esnack24api.user.dto.UserRegisterDTO;
 import org.esnack24api.esnack24api.user.mapper.UserMapper;
@@ -15,10 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
-import org.esnack24api.esnack24api.common.exception.CommonExceptions;
 import org.esnack24api.esnack24api.user.domain.UserEntity;
 import org.esnack24api.esnack24api.user.dto.UserDTO;
-import org.esnack24api.esnack24api.user.exception.UserExceptions;
 import org.esnack24api.esnack24api.user.repository.UserRepository;
 
 import java.util.LinkedHashMap;
@@ -56,6 +55,11 @@ public class UserService {
 //
 //        return userDTO;
 //    }
+
+    public TossUserDTO getTossUser(Long uno) {
+
+        return userMapper.getTossUser(uno);
+    }
 
     public void registerUser(Long uno, UserRegisterDTO userRegisterDTO) {
 

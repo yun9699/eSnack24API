@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -53,8 +55,9 @@ public class OrderService {
         OrderEntity order = OrderEntity.builder()
                 .status("Create")
                 .total_amount(total_amount)
+                .currency("KRW")
                 .user(user)
-                .currency(createOrderDTO.getCurrency())
+                .oregdate(Timestamp.from(Instant.now()))
                 .build();
 
         Long ono = orderRepository.save(order).getOno();
