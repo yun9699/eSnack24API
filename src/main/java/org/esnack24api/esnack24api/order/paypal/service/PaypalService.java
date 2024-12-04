@@ -8,10 +8,8 @@ import com.paypal.sdk.http.response.ApiResponse;
 import com.paypal.sdk.models.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.esnack24api.esnack24api.order.domain.OrderCaptureEntity;
 import org.esnack24api.esnack24api.order.domain.OrderEntity;
 import org.esnack24api.esnack24api.order.paypal.dto.PaypalOrderDTO;
-import org.esnack24api.esnack24api.order.repository.OrderCaptureRepository;
 import org.esnack24api.esnack24api.order.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -23,10 +21,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Timestamp;
-import java.text.NumberFormat;
 import java.time.Instant;
 import java.util.Arrays;
-import java.util.Locale;
 
 @Service
 @Transactional
@@ -41,7 +37,6 @@ public class PaypalService {
     private String PAYPAL_CLIENT_SECRET;
 
     private final OrderRepository orderRepository;
-    private final OrderCaptureRepository orderCaptureRepository;
 
     private String exchange(BigDecimal amount) {
 
@@ -94,8 +89,9 @@ public class PaypalService {
         OrdersController ordersController = paypalClient().getOrdersController();
         ApiResponse<Order> apiResponse = ordersController.ordersCreate(ordersCreateInput);
 
-        order.setPaypalOrderId(apiResponse.getResult().getId());
+        order.setTransactionId(apiResponse.getResult().getId());
         order.setTotal_amount(new BigDecimal(total_amount));
+        order.setCurrency("USD");
         orderRepository.save(order);
 
         return apiResponse.getResult();
@@ -110,19 +106,12 @@ public class PaypalService {
         OrdersController ordersController = paypalClient().getOrdersController();
         ApiResponse<Order> apiResponse = ordersController.ordersCapture(ordersCaptureInput);
 
-        OrderEntity order = orderRepository.findByPaypalOrderId(orderID).orElseThrow();
+        OrderEntity order = orderRepository.findByTransactionId(orderID).orElseThrow();
         order.setStatus("Complete");
-
-        OrderCaptureEntity orderCapture = OrderCaptureEntity.builder()
-                .order(order)
-                .capdate(Timestamp.from(Instant.now()))
-                .capture_amount(order.getTotal_amount())
-                .transaction_id(orderID)
-                .capture_status("Complete")
-                .build();
+        order.setOcompletedate(Timestamp.from(Instant.now()));
+        order.setMethod("Paypal");
 
         orderRepository.save(order);
-        orderCaptureRepository.save(orderCapture);
 
         return apiResponse.getResult();
     }
