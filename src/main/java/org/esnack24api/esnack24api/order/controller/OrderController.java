@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.esnack24api.esnack24api.order.dto.CreateOrderDTO;
 import org.esnack24api.esnack24api.order.dto.OrderDetailDTO;
+import org.esnack24api.esnack24api.order.dto.OrderUserDTO;
 import org.esnack24api.esnack24api.order.dto.OrderViewDTO;
 import org.esnack24api.esnack24api.order.service.OrderService;
 import org.springframework.http.ResponseEntity;
@@ -38,5 +39,11 @@ public class OrderController {
     public ResponseEntity<List<OrderDetailDTO>> orderDetail(@PathVariable Long ono) {
 
         return ResponseEntity.ok(orderService.orderDetail(ono));
+    }
+
+    @GetMapping("userorder/{uno}")
+    public ResponseEntity<List<OrderUserDTO>> userOrder(@PathVariable Long uno) {
+
+        return ResponseEntity.ok(orderService.orderUsers(uno));
     }
 }
