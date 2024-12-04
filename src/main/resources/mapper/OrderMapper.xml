@@ -54,7 +54,7 @@
         <result property="oregdate" column="oregdate" />
 
         <collection property="orderItems" ofType="OrderItemDTO">
-            <result property="ptitleKo" column="ptitle_ko" />
+            <result property="ptitle_ko" column="ptitle_ko" />
             <result property="price" column="price" />
             <result property="pfilename" column="pfilename" />
             <result property="oiqty" column="oiqty" />
@@ -77,6 +77,10 @@
             oi.ono = o.ono
         WHERE
             o.uno = #{uno}
+        and
+            o.status = 'Complete'
+        order by
+            o.ono desc
     </select>
 
 </mapper>

@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class OrderItemDTO {
 
-    private String ptitleKo; // 상품 제목
+    private String ptitle_ko; // 상품 제목
 
     private int price; // 상품 가격
 
