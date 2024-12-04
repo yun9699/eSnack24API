@@ -6,6 +6,7 @@ import org.esnack24api.esnack24api.order.domain.OrderEntity;
 import org.esnack24api.esnack24api.order.domain.OrderItemEntity;
 import org.esnack24api.esnack24api.order.dto.CreateOrderDTO;
 import org.esnack24api.esnack24api.order.dto.OrderDetailDTO;
+import org.esnack24api.esnack24api.order.dto.OrderUserDTO;
 import org.esnack24api.esnack24api.order.dto.OrderViewDTO;
 import org.esnack24api.esnack24api.order.mapper.OrderMapper;
 import org.esnack24api.esnack24api.order.repository.OrderItemRepository;
@@ -85,5 +86,10 @@ public class OrderService {
     public List<OrderDetailDTO> orderDetail(Long ono) {
 
         return orderMapper.getOrderDetail(ono);
+    }
+
+    public List<OrderUserDTO> orderUsers(Long uno) {
+
+        return orderMapper.getOrderUser(uno);
     }
 }
