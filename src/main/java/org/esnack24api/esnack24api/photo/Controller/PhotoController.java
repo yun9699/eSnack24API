@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,15 +43,18 @@ public class PhotoController {
         String[] filenames = photoService.decoding(encodingImage);
         log.info("Decoded filenames: {}", Arrays.toString(filenames));
 
-        String fastApiUrl = "http://127.0.0.1:9000/upload";  // FastAPI 파일 업로드 URL
-        String searchUrl = "http://127.0.0.1:9000/search";  // FastAPI 유사 이미지 검색 URL
+        String fastApiUrl = "https://esnack24.store/fastapi/v1/upload";  // FastAPI 파일 업로드 URL
+        String searchUrl = "https://esnack24.store/fastapi/v1/search";  // FastAPI 유사 이미지 검색 URL
 
         Map<String, Object> allResults = new HashMap<>(); // 전체 결과를 담을 Map
 
         for (String filename : filenames) {
             try {
-                // 디코딩한 파일이 실제로 존재하는지 확인
-                File file = new File("C:\\upload\\user" + filename);
+                // 디코딩한 파일이 프로젝트 내 경로에 존재하는지 확인
+                String projectRoot = System.getProperty("user.dir"); // 현재 프로젝트 루트 경로
+                String filePath = Paths.get(projectRoot, "src", "main", "resources", "static", "upload", "user", filename).toString();
+                File file = new File(filePath);
+
                 if (!file.exists()) {
                     log.warn("파일이 존재하지 않습니다: {}", filename);
                     continue;
@@ -93,3 +97,4 @@ public class PhotoController {
         return ResponseEntity.ok(Map.of("similarImages", allResults));
     }
 }
+

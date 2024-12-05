@@ -30,4 +30,57 @@
             o.ono = #{ono}
     </select>
 
+<!--    <select id="getOrderUser" resultType="OrderUserDTO">-->
+
+<!--        select-->
+<!--            o.oregdate, p.ptitle_ko, p.price, p.pfilename, oi.oiqty, o.ono-->
+<!--        from-->
+<!--            tbl_order_item as oi-->
+<!--        left join-->
+<!--            tbl_product as p-->
+<!--        on-->
+<!--            oi.pno = p.pno-->
+<!--        left join-->
+<!--            tbl_order as o-->
+<!--        on-->
+<!--            oi.ono = o.ono-->
+<!--        where-->
+<!--            o.uno = #{uno}-->
+<!--    </select>-->
+
+    <resultMap id="getOrderUserMap" type="OrderUserDTO">
+
+        <id property="ono" column="ono" />
+        <result property="oregdate" column="oregdate" />
+
+        <collection property="orderItems" ofType="OrderItemDTO">
+            <result property="ptitle_ko" column="ptitle_ko" />
+            <result property="price" column="price" />
+            <result property="pfilename" column="pfilename" />
+            <result property="oiqty" column="oiqty" />
+        </collection>
+    </resultMap>
+
+    <select id="getOrderUser" resultMap="getOrderUserMap">
+        SELECT
+            o.ono, o.oregdate, p.ptitle_ko, p.price,
+            p.pfilename, oi.oiqty
+        FROM
+            tbl_order_item AS oi
+        LEFT JOIN
+            tbl_product AS p
+        ON
+            oi.pno = p.pno
+        LEFT JOIN
+            tbl_order AS o
+        ON
+            oi.ono = o.ono
+        WHERE
+            o.uno = #{uno}
+        and
+            o.status = 'Complete'
+        order by
+            o.ono desc
+    </select>
+
 </mapper>
