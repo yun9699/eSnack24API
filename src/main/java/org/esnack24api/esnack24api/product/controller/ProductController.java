@@ -13,10 +13,9 @@ import org.esnack24api.esnack24api.product.service.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.parameters.P;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/product")
@@ -34,6 +33,15 @@ public class ProductController {
 
         return ResponseEntity.ok(productService.getProductMainList(pageRequest));
     }
+
+    @GetMapping("list/filter")
+    public ResponseEntity<PageResponse<ProductListDTO>> getFilterProductList(@RequestParam Long uno, PageRequest pageRequest) {
+        log.info("Get Controller");
+
+        return ResponseEntity.ok(productService.getProductFilterList(uno, pageRequest));
+    }
+
+
 
     @GetMapping("detail/{pno}")
     public ResponseEntity<ProductAllergyDetailDTO> getDetail(@PathVariable Long pno){

@@ -3,6 +3,7 @@ package org.esnack24api.esnack24api.product.dto;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class ProductListDTO {
@@ -12,6 +13,8 @@ public class ProductListDTO {
     private int pqty;
     private boolean pdelete;
     private String pfilename;
+
+    private List<Long> ano;
 
     private LocalDateTime pregdate;
     private LocalDateTime pmoddate;
