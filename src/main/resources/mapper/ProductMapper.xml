@@ -5,26 +5,111 @@
 
 <mapper namespace="org.esnack24api.esnack24api.product.mapper.ProductMapper">
 
-    <select id="getList" resultType="ProductListDTO">
+    <resultMap id="productAnoMap" type="ProductListDTO">
+
+        <id property="pno" column="pno" />
+        <result property="price" column="price" />
+        <result property="pqty" column="pqty" />
+        <result property="pdelete" column="pdelete" />
+        <result property="pfilename" column="pfilename" />
+        <result property="pregdate" column="pregdate" />
+        <result property="pmoddate" column="pmoddate" />
+        <result property="ptitle_ko" column="ptitle_ko" />
+        <result property="ptitle_en" column="ptitle_en" />
+        <result property="ptitle_ja" column="ptitle_ja" />
+        <result property="ptitle_zh" column="ptitle_zh" />
+        <result property="pcontent_ko" column="pcontent_ko" />
+        <result property="pcontent_en" column="pcontent_en" />
+        <result property="pcontent_ja" column="pcontent_ja" />
+        <result property="pcontent_zh" column="pcontent_zh" />
+        <result property="pcategory_ko" column="pcategory_ko" />
+        <result property="pcategory_en" column="pcategory_en" />
+        <result property="pcategory_ja" column="pcategory_ja" />
+        <result property="pcategory_zh" column="pcategory_zh" />
+
+        <collection property="ano" ofType="Long">
+            <result column="ano" />
+        </collection>
+
+    </resultMap>
+
+    <select id="getList" resultMap="productAnoMap">
         select
-            pno, price, pqty, pdelete, pfilename,
-            pregdate, pmoddate,
-            ptitle_ko, ptitle_en, ptitle_ja, ptitle_zh,
-            pcontent_ko, pcontent_en, pcontent_ja, pcontent_zh,
-            pcategory_ko, pcategory_en, pcategory_ja, pcategory_zh
+            p.pno, pa.ano, p.price, p.pqty, p.pdelete,
+            p.pfilename, p.pregdate, p.pmoddate,
+            p.ptitle_ko, p.ptitle_en, p.ptitle_ja, p.ptitle_zh,
+            p.pcontent_ko, p.pcontent_en, p.pcontent_ja, p.pcontent_zh,
+            p.pcategory_ko, p.pcategory_en, p.pcategory_ja, p.pcategory_zh
         from
-            tbl_product
-        where
-            pdelete = 0
+            (select
+                pno
+            from
+                tbl_product
+            where
+                pdelete = 0
+            order by
+                pno desc
+            limit
+                #{skip}, #{size}
+            ) as limited_p
+        left join
+            tbl_product_allergy as pa
+        on
+            limited_p.pno = pa.pno
+        left join
+            tbl_product as p
+        on
+            limited_p.pno = p.pno
         order by
-            pno desc
-        limit #{skip}, #{size}
+            p.pno desc, pa.ano
+    </select>
+
+    <select id="getFilterList" resultType="ProductListDTO">
+        SELECT
+            p.pno, p.price, p.pqty, p.pdelete,
+            p.pfilename, p.pregdate, p.pmoddate,
+            p.ptitle_ko, p.ptitle_en, p.ptitle_ja, p.ptitle_zh,
+            p.pcontent_ko, p.pcontent_en, p.pcontent_ja, p.pcontent_zh,
+            p.pcategory_ko, p.pcategory_en, p.pcategory_ja, p.pcategory_zh
+        FROM
+            tbl_product p
+        LEFT JOIN (
+            SELECT
+                pa.pno, ua.ano
+            FROM
+                tbl_product_allergy pa
+            LEFT JOIN
+                tbl_user_allergy ua
+            ON
+                pa.ano = ua.ano
+            WHERE
+                ua.uno = #{uno}
+            GROUP BY
+                pa.pno
+            ) pua
+        ON
+            p.pno = pua.pno
+        WHERE
+            p.pno > 0
+        AND
+            pua.pno IS NULL
+        AND
+            p.pdelete = 0
+        order by
+            p.pno desc
+        limit
+            #{pageRequest.skip}, #{pageRequest.size}
     </select>
 
     <select id="count" resultType="int">
-        select count(pno)
-        from tbl_product
-        where pno > 0 and pdelete = false
+        select
+            count(pno)
+        from
+            tbl_product
+        where
+            pno > 0
+        and
+            pdelete = false
     </select>
 
     <select id="getPopular" resultType="ProductPopularDTO">
@@ -41,16 +126,5 @@
             #{skip}, #{size}
     </select>
 
-
-
-<!--    <select id="getOne" resultType="ProductDetailDTO">-->
-<!--        select-->
-<!--            pno, price, pdelete, pfilename,-->
-<!--            ptitle_ko, pcontent_ko, pcategory_ko-->
-<!--        from-->
-<!--            tbl_product-->
-<!--        where-->
-<!--            pno = #{pno}-->
-<!--    </select>-->
 
 </mapper>
