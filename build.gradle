@@ -56,10 +56,18 @@ dependencies {
 
     implementation 'com.paypal.sdk:paypal-server-sdk:0.6.0'
 
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+    implementation 'net.coobird:thumbnailator:0.4.16'
+
+    implementation 'me.paulschwarz:spring-dotenv:3.0.0'
+
+
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 
 
 
-        implementation 'org.json:json:20210307'  // 최신 버전 사용
+
+    implementation 'org.json:json:20210307'  // 최신 버전 사용
         implementation 'net.minidev:json-smart:2.4.8'  // 최신 버전
 
 }

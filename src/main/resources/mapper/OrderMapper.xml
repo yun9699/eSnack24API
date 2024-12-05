@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.esnack24api.esnack24api.order.mapper.OrderMapper">
+
+    <select id="getOrderView" resultType="OrderViewDTO">
+        select
+            total_amount, currency
+        from
+            tbl_order
+        where
+            ono = #{ono}
+    </select>
+
+    <select id="getOrderDetail" resultType="OrderDetailDTO">
+        select
+            oip.pno, oip.ptitle_ko, oip.pfilename, oip.price, oip.oiqty, o.total_amount
+        from
+            tbl_order o
+            left join
+                (select
+                    oi.ono, oi.oiqty,
+                    p.pno, p.ptitle_ko, p.pfilename, p.price
+                from
+                    tbl_order_item oi left join tbl_product p on oi.pno = p.pno
+                ) oip on oip.ono = o.ono
+        where
+            o.ono = #{ono}
+    </select>
+
+<!--    <select id="getOrderUser" resultType="OrderUserDTO">-->
+
+<!--        select-->
+<!--            o.oregdate, p.ptitle_ko, p.price, p.pfilename, oi.oiqty, o.ono-->
+<!--        from-->
+<!--            tbl_order_item as oi-->
+<!--        left join-->
+<!--            tbl_product as p-->
+<!--        on-->
+<!--            oi.pno = p.pno-->
+<!--        left join-->
+<!--            tbl_order as o-->
+<!--        on-->
+<!--            oi.ono = o.ono-->
+<!--        where-->
+<!--            o.uno = #{uno}-->
+<!--    </select>-->
+
+    <resultMap id="getOrderUserMap" type="OrderUserDTO">
+
+        <id property="ono" column="ono" />
+        <result property="oregdate" column="oregdate" />
+
+        <collection property="orderItems" ofType="OrderItemDTO">
+            <result property="ptitle_ko" column="ptitle_ko" />
+            <result property="price" column="price" />
+            <result property="pfilename" column="pfilename" />
+            <result property="oiqty" column="oiqty" />
+        </collection>
+    </resultMap>
+
+    <select id="getOrderUser" resultMap="getOrderUserMap">
+        SELECT
+            o.ono, o.oregdate, p.ptitle_ko, p.price,
+            p.pfilename, oi.oiqty
+        FROM
+            tbl_order_item AS oi
+        LEFT JOIN
+            tbl_product AS p
+        ON
+            oi.pno = p.pno
+        LEFT JOIN
+            tbl_order AS o
+        ON
+            oi.ono = o.ono
+        WHERE
+            o.uno = #{uno}
+        and
+            o.status = 'Complete'
+        order by
+            o.ono desc
+    </select>
+
+</mapper>

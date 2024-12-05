@@ -21,5 +21,22 @@
             uno = #{uno}
     </select>
 
+    <select id="getTossUser" resultType="TossUserDTO">
+        select
+            username, uemail
+        from
+            tbl_user
+        where
+            uno = #{uno}
+    </select>
+
+    <select id="readUser" resultType="ReadUserDTO">
+        select
+            username, ubirth, ucallnumber, ugender
+        from
+            tbl_user
+        where
+            uno = ${uno}
+    </select>
 
 </mapper>

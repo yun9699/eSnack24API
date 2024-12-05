@@ -11,9 +11,9 @@ public interface ProductMapper {
 
     List<ProductListDTO> getList(PageRequest pageRequest);
 
-    int count(PageRequest pageRequest);
+    List<ProductListDTO> getFilterList(Long uno, PageRequest pageRequest);
 
-    ProductDetailDTO getOne(Long pno);
+    int count(PageRequest pageRequest);
 
     List<ProductPopularDTO> getPopular(PageRequest pageRequest);
 }

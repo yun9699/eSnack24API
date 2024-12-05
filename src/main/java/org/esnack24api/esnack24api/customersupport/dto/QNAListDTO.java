@@ -18,8 +18,4 @@ public class QNAListDTO {
     private boolean qstatus;
     private LocalDateTime qregdate;
 
-    private String ptitle_ko;
-    private String ptitle_en;
-    private String ptitle_ja;
-    private String ptitle_zh;
 }
