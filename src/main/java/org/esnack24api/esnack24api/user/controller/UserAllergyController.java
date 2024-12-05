@@ -37,4 +37,13 @@ public class UserAllergyController {
 
         return ResponseEntity.ok(matchingAllergies);
     }
+
+    @PostMapping("editAllergies/{uno}")
+    public ResponseEntity<String> editUserAllergies(
+            @PathVariable Long uno, @RequestBody UserAllergyRegisterDTO userAllergyRegisterDTO) {
+
+        userAllergyRegisterDTO.setUno(uno);
+
+        return ResponseEntity.ok(userAllergyService.editUserAllergies(userAllergyRegisterDTO));
+    }
 }

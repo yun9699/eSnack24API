@@ -80,12 +80,6 @@ public class UserController {
 //        return ResponseEntity.ok(tokenResponseDTO);
 //    }
 
-    @GetMapping("getTossUser/{uno}")
-    public ResponseEntity<TossUserDTO> getTossUser(@PathVariable Long uno) {
-
-        return ResponseEntity.ok(userService.getTossUser(uno));
-    }
-
     @PostMapping(value = "refreshToken",
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -194,5 +188,24 @@ public class UserController {
         userService.registerUser(uno, userRegisterDTO);
 
         return ResponseEntity.ok("User Info Register Complete");
+    }
+
+    @GetMapping("getTossUser/{uno}")
+    public ResponseEntity<TossUserDTO> getTossUser(@PathVariable Long uno) {
+
+        return ResponseEntity.ok(userService.getTossUser(uno));
+    }
+
+    @GetMapping("read/{uno}")
+    public ResponseEntity<ReadUserDTO> readUser(@PathVariable Long uno) {
+
+        return ResponseEntity.ok(userService.readUser(uno));
+    }
+
+    @PutMapping("edit/{uno}")
+    public ResponseEntity<String> editUser(
+            @PathVariable Long uno, @RequestBody ReadUserDTO readUserDTO) {
+
+        return ResponseEntity.ok(userService.editUser(uno, readUserDTO));
     }
 }

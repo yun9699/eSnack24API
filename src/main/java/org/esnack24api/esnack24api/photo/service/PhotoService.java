@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.UUID;
+import java.nio.file.Paths;
 
 @Service
 @Log4j2
@@ -18,14 +19,12 @@ public class PhotoService {
 
     private final PhotoRepository photoRepository;
 
-
-    public String[] decoding(String encoding)  {
+    public String[] decoding(String encoding) {
         log.info("디코딩전-------------------------------------------------------------");
         log.info(encoding);
         if (encoding == null || encoding.isEmpty()) {
             throw new IllegalArgumentException("Encoding cannot be null or empty");
         }
-
 
         String resultEncoding = encoding.replaceAll("\\s+", "");  // 공백 제거
         resultEncoding = resultEncoding.replaceAll("[^A-Za-z0-9+/=]", "");  // 유효하지 않은 문자 제거
@@ -45,23 +44,31 @@ public class PhotoService {
         filename[0] = uuid + ".jpg";
 
         try {
-
             byte[] decodedBytes = Base64.getDecoder().decode(resultEncoding);
             log.info("디코딩시도했다.");
 
-            // 디코딩한 파일 폴더에 저장
-            String filePath = "C:\\upload\\user" + filename[0];
-            try (FileOutputStream fileOutputStream = new FileOutputStream(filePath)) {
+            // 프로젝트 내 파일 저장 경로 설정
+            String projectRoot = System.getProperty("user.dir"); // 현재 프로젝트 루트 경로
+            String uploadDir = Paths.get(projectRoot, "src", "main", "resources", "static", "upload", "user").toString();
 
+            // 디렉토리 존재하지 않으면 생성
+            java.io.File directory = new java.io.File(uploadDir);
+            if (!directory.exists()) {
+                directory.mkdirs();
+                log.info("디렉토리 생성 완료: {}", uploadDir);
+            }
+
+            String filePath = Paths.get(uploadDir, filename[0]).toString();
+            try (FileOutputStream fileOutputStream = new FileOutputStream(filePath)) {
                 fileOutputStream.write(decodedBytes);
                 log.info(filename);
-                log.info("파일저장완료----------------------");
+                log.info("파일 저장 완료----------------------");
 
                 fileOutputStream.close();
                 saveFilenameToDb(filename[0]);
 
             } catch (IOException e) {
-                log.info("파일저장실패----------------------");
+                log.info("파일 저장 실패----------------------");
                 e.printStackTrace();
             }
 
@@ -82,5 +89,4 @@ public class PhotoService {
         photoRepository.save(photoEntity);
         log.info("파일명 '{}' 데이터베이스에 저장 완료", filename);
     }
-
 }

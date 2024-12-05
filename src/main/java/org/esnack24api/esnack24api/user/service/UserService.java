@@ -2,9 +2,7 @@ package org.esnack24api.esnack24api.user.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.esnack24api.esnack24api.user.dto.TossUserDTO;
-import org.esnack24api.esnack24api.user.dto.UserAnosDTO;
-import org.esnack24api.esnack24api.user.dto.UserRegisterDTO;
+import org.esnack24api.esnack24api.user.dto.*;
 import org.esnack24api.esnack24api.user.mapper.UserMapper;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -17,9 +15,10 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.esnack24api.esnack24api.user.domain.UserEntity;
-import org.esnack24api.esnack24api.user.dto.UserDTO;
 import org.esnack24api.esnack24api.user.repository.UserRepository;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.Optional;
 import java.util.UUID;
@@ -55,11 +54,6 @@ public class UserService {
 //
 //        return userDTO;
 //    }
-
-    public TossUserDTO getTossUser(Long uno) {
-
-        return userMapper.getTossUser(uno);
-    }
 
     public void registerUser(Long uno, UserRegisterDTO userRegisterDTO) {
 
@@ -211,5 +205,39 @@ public class UserService {
         }
 
         return (String) bodyMap.get("email"); // Google API 응답에서 이메일 정보 추출
+    }
+
+    public TossUserDTO getTossUser(Long uno) {
+
+        return userMapper.getTossUser(uno);
+    }
+
+    public ReadUserDTO readUser(Long uno) {
+
+        return userMapper.readUser(uno);
+    }
+
+    public String editUser(Long uno, ReadUserDTO readUserDTO) {
+
+        UserEntity user = userRepository.findById(uno).orElseThrow();
+
+        if(readUserDTO.getUbirth() != null) {
+            user.setUbirth(readUserDTO.getUbirth());
+        }
+        if(readUserDTO.getUgender() != null) {
+            user.setUgender(readUserDTO.getUgender());
+        }
+        if(readUserDTO.getUcallnumber() != null) {
+            user.setUcallnumber(readUserDTO.getUcallnumber());
+        }
+        if(readUserDTO.getUsername() != null) {
+            user.setUsername(readUserDTO.getUsername());
+        }
+
+        user.setUmoddate(Timestamp.from(Instant.now()));
+
+        userRepository.save(user);
+
+        return "Success Edit User Profile";
     }
 }
