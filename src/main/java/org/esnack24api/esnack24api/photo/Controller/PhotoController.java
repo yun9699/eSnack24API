@@ -43,8 +43,8 @@ public class PhotoController {
         String[] filenames = photoService.decoding(encodingImage);
         log.info("Decoded filenames: {}", Arrays.toString(filenames));
 
-        String fastApiUrl = "http://127.0.0.1:9000/upload";  // FastAPI 파일 업로드 URL
-        String searchUrl = "http://127.0.0.1:9000/search";  // FastAPI 유사 이미지 검색 URL
+        String fastApiUrl = "https://esnack24.store/fastapi/upload";  // FastAPI 파일 업로드 URL
+        String searchUrl = "https://esnack24.store/fastapi/search";  // FastAPI 유사 이미지 검색 URL
 
         Map<String, Object> allResults = new HashMap<>(); // 전체 결과를 담을 Map
 
