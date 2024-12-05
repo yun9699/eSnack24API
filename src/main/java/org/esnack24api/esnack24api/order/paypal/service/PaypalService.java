@@ -43,9 +43,15 @@ public class PaypalService {
 
     private String exchange(BigDecimal amount) {
 
+        BigDecimal tmp = new BigDecimal(1000);
+        BigDecimal rate = exchangeRateMapper.getExchangeRate("USD")
+                .divide(tmp, 6, RoundingMode.HALF_UP);
+
+        log.info("uiouipupoupuuppupupupuupupupuupupupup");
+        log.info(rate);
+
         BigDecimal result =
-                exchangeRateMapper.getExchangeRate("USD")
-                        .multiply(amount).setScale(2, RoundingMode.HALF_UP);
+                rate.multiply(amount).setScale(2, RoundingMode.HALF_UP);
 
         log.info("private String exchange");
         log.info(result.toString());
