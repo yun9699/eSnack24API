@@ -41,20 +41,14 @@ public class PaypalService {
 
     private final ExchangeRateMapper exchangeRateMapper;
 
-    private String exchange(BigDecimal amount) {
+    public String exchangeUSD(BigDecimal amount) {
 
         BigDecimal tmp = new BigDecimal(1000);
         BigDecimal rate = exchangeRateMapper.getExchangeRate("USD")
                 .divide(tmp, 6, RoundingMode.HALF_UP);
 
-        log.info("uiouipupoupuuppupupupuupupupuupupupup");
-        log.info(rate);
-
         BigDecimal result =
                 rate.multiply(amount).setScale(2, RoundingMode.HALF_UP);
-
-        log.info("private String exchange");
-        log.info(result.toString());
 
         return result.toString();
     }
@@ -79,7 +73,7 @@ public class PaypalService {
 
         OrderEntity order = orderRepository.findById(paypalOrderDTO.getOno()).orElseThrow();
 
-        String total_amount = exchange(order.getTotal_amount());
+        String total_amount = exchangeUSD(order.getTotal_amount());
 
         OrdersCreateInput ordersCreateInput = new OrdersCreateInput.Builder(
                 null,
