@@ -26,6 +26,8 @@ public class OrderController {
     public ResponseEntity<Long> createOrder(
             @PathVariable Long uno, @RequestBody CreateOrderDTO createOrderDTO) {
 
+        log.info("404040404040404040404404040");
+
         return ResponseEntity.ok(orderService.createOrder(uno, createOrderDTO));
     }
 
