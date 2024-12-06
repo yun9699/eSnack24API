@@ -7,6 +7,7 @@ import org.esnack24api.esnack24api.order.repository.OrderRepository;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +26,9 @@ import java.util.Base64;
 @RequiredArgsConstructor
 @Log4j2
 public class TossService {
+
+    @Value("${TOSS.SECRET}")
+    private String TOSS_SECRET;
 
     private final OrderRepository orderRepository;
 
@@ -53,7 +57,7 @@ public class TossService {
         obj.put("paymentKey", paymentKey);
 
         // 시크릿 키 설정
-        String widgetSecretKey = "test_gsk_docs_OaPz8L5KdmQXkzRz3y47BMw6";
+        String widgetSecretKey = TOSS_SECRET;
 
         // 인증 정보 설정
         Base64.Encoder encoder = Base64.getEncoder();
