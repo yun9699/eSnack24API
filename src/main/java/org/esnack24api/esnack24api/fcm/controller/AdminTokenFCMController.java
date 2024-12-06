@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/fcm")
+@RequestMapping("/admin/api/v1/fcm")
 @Log4j2
 @RequiredArgsConstructor
 @PreAuthorize("permitAll()")
