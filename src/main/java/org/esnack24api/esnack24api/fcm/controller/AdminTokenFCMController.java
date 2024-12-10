@@ -6,6 +6,7 @@ import org.esnack24api.esnack24api.fcm.dto.AdminTokenFCMDTO;
 import org.esnack24api.esnack24api.fcm.service.AdminTokenService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,7 @@ import java.util.List;
 @Log4j2
 @RequiredArgsConstructor
 @PreAuthorize("permitAll()")
+@CrossOrigin("https://esnack24admin.store")
 public class AdminTokenFCMController {
 
     private final AdminTokenService adminTokenService;
