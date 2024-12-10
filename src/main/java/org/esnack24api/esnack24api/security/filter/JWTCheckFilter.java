@@ -28,7 +28,6 @@ import static java.lang.System.out;
 
 @Log4j2
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://127.0.0.1:5173")
 public class JWTCheckFilter extends OncePerRequestFilter {
 
     private final JWTUtil jwtUtil;
@@ -41,9 +40,9 @@ public class JWTCheckFilter extends OncePerRequestFilter {
 
         String uri = request.getRequestURI();
 
-//       if(uri.startsWith("/api/v1/cart")) return false;
-//        if(uri.startsWith("/api/v1/qna")) return false;
-//        if(uri.startsWith("/api/v1/allergy")) return false;
+       if(uri.startsWith("/api/v1/cart")) return false;
+       if(uri.startsWith("/api/v1/login/read")) return false;
+       if(uri.startsWith("/api/v1/login/edit")) return false;
 
         return true;
     }
