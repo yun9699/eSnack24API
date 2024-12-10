@@ -16,5 +16,4 @@ public interface ProductSearch {
     PageResponseDTO<ProductListDTO> listProductAll(PageRequestDTO pageRequestDTO);
 
 
-
 }

@@ -15,4 +15,8 @@ public class FAQListDTO {
     private String ftitle;
     private String fcategory;
 
+    private String ftitle_en;
+    private String ftitle_ja;
+    private String ftitle_zh;
+
 }

@@ -12,11 +12,27 @@
         <result property="price" column="price" />
         <result property="pfilename" column="pfilename" />
         <result property="ptitle_ko" column="ptitle_ko" />
+        <result property="ptitle_en" column="ptitle_en" />
+        <result property="ptitle_ja" column="ptitle_ja" />
+        <result property="ptitle_zh" column="ptitle_zh" />
         <result property="pcontent_ko" column="pcontent_ko" />
+        <result property="pcontent_en" column="pcontent_en" />
+        <result property="pcontent_ja" column="pcontent_ja" />
+        <result property="pcontent_zh" column="pcontent_zh" />
         <result property="pcategory_ko" column="pcategory_ko" />
+
 
         <collection property="atitle_ko" ofType="String">
             <result column="atitle_ko" />
+        </collection>
+        <collection property="atitle_en" ofType="String">
+            <result column="atitle_en" />
+        </collection>
+        <collection property="atitle_ja" ofType="String">
+            <result column="atitle_ja" />
+        </collection>
+        <collection property="atitle_zh" ofType="String">
+            <result column="atitle_zh" />
         </collection>
 
         <collection property="ano" ofType="Long">
@@ -27,7 +43,10 @@
     <select id="getOne" resultMap="productAllergyMap">
         select
             pr.pno, pr.price, pr.pfilename, pr.ptitle_ko, pr.pcontent_ko,
-            pr.pcategory_ko, al.ano, ag.atitle_ko
+            pr.ptitle_en, pr.ptitle_ja, pr.ptitle_zh,
+            pr.pcontent_en, pr.pcontent_ja, pr.pcontent_zh,
+            pr.pcategory_ko, al.ano,
+            ag.atitle_ko, ag.atitle_en, ag.atitle_ja, ag.atitle_zh
         from
             tbl_product pr
         left join
@@ -42,16 +61,18 @@
 
     <select id="getOneByFilename" resultMap="productAllergyMap">
         select
-        pr.pno, pr.price, pr.pqty, pr.pdelete, pr.pfilename,
-        pr.ptitle_ko, pr.pcontent_ko, ag.atitle_ko, al.ano
+            pr.pno, pr.price, pr.pqty, pr.pdelete, pr.pfilename,
+            pr.ptitle_ko, pr.pcontent_ko, ag.atitle_ko, al.ano,
+            pr.ptitle_en, pr.ptitle_ja, pr.ptitle_zh,
+            pr.pcontent_en, pr.pcontent_ja, pr.pcontent_zh
         from
-        tbl_product pr
+            tbl_product pr
         left join
-        tbl_product_allergy al on pr.pno = al.pno
+            tbl_product_allergy al on pr.pno = al.pno
         left join
-        tbl_allergy ag on ag.ano = al.ano
+            tbl_allergy ag on ag.ano = al.ano
         where
-        pr.pfilename = #{pfilename} and pr.pdelete = 0
+            pr.pfilename = #{pfilename} and pr.pdelete = 0
     </select>
 
 
