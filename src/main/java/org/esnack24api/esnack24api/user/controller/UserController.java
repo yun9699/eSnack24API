@@ -43,6 +43,7 @@ public class UserController {
 
         TokenResponseDTO tokenResponseDTO = new TokenResponseDTO();
         tokenResponseDTO.setUno(userDTO.getUno());
+        tokenResponseDTO.setUsername(userDTO.getUsername());
         tokenResponseDTO.setAccessToken(accessTokenStr);
         tokenResponseDTO.setRefreshToken(refreshTokenStr);
         tokenResponseDTO.setEmail(userDTO.getEmail());
