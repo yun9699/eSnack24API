@@ -20,7 +20,4 @@ public class ProductDetailDTO {
     private String pcontent_en;
     private String pcontent_ja;
     private String pcontent_zh;
-    private String pcategory_en;
-    private String pcategory_ja;
-    private String pcategory_zh;
 }

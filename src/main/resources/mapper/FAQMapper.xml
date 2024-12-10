@@ -7,22 +7,25 @@
 
     <select id="getList" resultType="FAQListDTO">
         select
-        f.fno, f.ftitle, f.fcategory
+            f.fno, f.ftitle, f.fcategory,
+            f.ftitle_en, f.ftitle_ja, f.ftitle_zh
         from
-        tbl_faq f
+            tbl_faq f
         where
-        f.fdelete = false
-        <if test="fcategory != null and fcategory != ''">
-            and f.fcategory = #{fcategory}
-        </if>
+            f.fdelete = false
+            <if test="fcategory != null and fcategory != ''">
+                and f.fcategory = #{fcategory}
+            </if>
         order by
-        f.fno desc
+            f.fno desc
         limit #{pageRequest.skip}, #{pageRequest.size}
     </select>
 
     <select id="getOne" resultType="FAQDetailDTO">
         select
             f.fno, f.ftitle, f.fcategory, f.fcontent,
+            f.ftitle_en, f.ftitle_ja, f.ftitle_zh,
+            f.fcontent_en, f.fcontent_ja, f.fcontent_zh,
             a.admno
         from
             tbl_faq f
