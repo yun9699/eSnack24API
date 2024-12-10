@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin/api/v1/fcm")
+@RequestMapping("/api/v1/fcm")
 @Log4j2
 @RequiredArgsConstructor
 @PreAuthorize("permitAll()")
@@ -25,6 +25,8 @@ public class AdminTokenFCMController {
     public ResponseEntity<List<String>> getAdminTokens() {
 
         List<String> adminToken = adminTokenService.getFCMToken();
+
+        log.info("------------------");
 
         return ResponseEntity.ok(adminToken);
     }
