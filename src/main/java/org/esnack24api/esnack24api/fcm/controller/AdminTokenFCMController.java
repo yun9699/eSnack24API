@@ -18,7 +18,7 @@ import java.util.List;
 @Log4j2
 @RequiredArgsConstructor
 @PreAuthorize("permitAll()")
-@CrossOrigin("https://esnack24.store")
+@CrossOrigin("https://esnack24admin.store")
 public class AdminTokenFCMController {
 
     private final AdminTokenService adminTokenService;
