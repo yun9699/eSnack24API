@@ -26,6 +26,8 @@ public class AdminTokenFCMController {
 
         List<String> adminToken = adminTokenService.getFCMToken();
 
+        log.info("------------------");
+
         return ResponseEntity.ok(adminToken);
     }
 }
