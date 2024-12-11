@@ -9,6 +9,8 @@ public class TokenResponseDTO {
 
     private String email;
 
+    private String username;
+
     private String accessToken;
 
     private String refreshToken;
