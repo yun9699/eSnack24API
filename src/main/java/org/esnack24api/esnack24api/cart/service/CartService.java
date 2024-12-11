@@ -36,12 +36,20 @@ public class CartService {
 
         Optional<CartEntity> result = cartRepository.findByUser(userEntity);
 
-        CartEntity cart = result.orElseThrow();
+        if(result.isPresent()) {
 
-        return cart.getCno();
+            CartEntity cartEntity = result.get();
+
+            return cartEntity.getCno();
+        } else{
+
+            CartEntity cartEntity = addCart(uno);
+
+            return cartEntity.getCno();
+        }
     }
 
-    public void addCart(Long uno) {
+    public CartEntity addCart(Long uno) {
 
         UserEntity userEntity = userRepository.findById(uno).orElseThrow();
 
@@ -59,6 +67,10 @@ public class CartService {
 
             cartRepository.save(cart);
         }
+
+        UserEntity user = userRepository.findById(uno).orElseThrow();
+
+        return cartRepository.findByUser(user).orElseThrow();
     }
 
     public PageResponse<ListCartDTO> getCartList(
