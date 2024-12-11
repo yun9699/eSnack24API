@@ -29,8 +29,6 @@ public class CartController {
     public ResponseEntity<String> addCart(
             @PathVariable Long uno, @RequestBody AddCartDTO addCartDTO) {
 
-        cartService.addCart(uno);
-
         Long cno = cartService.findCno(uno);
 
         AddCartItemDTO dto = new AddCartItemDTO();

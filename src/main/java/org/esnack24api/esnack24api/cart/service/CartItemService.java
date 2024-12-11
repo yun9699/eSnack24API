@@ -34,7 +34,10 @@ public class CartItemService {
 
         Optional<CartItemEntity> cartItem = cartItemRepository.findByProduct(product);
 
-        if (cartItem.isPresent()) {
+        log.info("ProductProductProduct");
+        log.info(cartItem.get());
+
+        if (cartItem.get().getCart() == cart) {
 
             cartItem.get().setCiqty(cartItem.get().getCiqty() + addCartItemDTO.getCiqty());
 
@@ -42,17 +45,16 @@ public class CartItemService {
             log.info(cartItem.get().toString());
 
             cartItemRepository.save(cartItem.get());
+        } else {
 
-            return;
+            CartItemEntity cartItemEntity = CartItemEntity.builder()
+                    .product(product)
+                    .cart(cart)
+                    .ciqty(addCartItemDTO.getCiqty())
+                    .build();
+
+            cartItemRepository.save(cartItemEntity);
         }
-
-        CartItemEntity cartItemEntity = CartItemEntity.builder()
-                .product(product)
-                .cart(cart)
-                .ciqty(addCartItemDTO.getCiqty())
-                .build();
-
-        cartItemRepository.save(cartItemEntity);
     }
 
     public void incQtyService(Long cino) {
