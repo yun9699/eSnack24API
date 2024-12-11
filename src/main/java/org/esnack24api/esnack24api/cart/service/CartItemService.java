@@ -34,10 +34,9 @@ public class CartItemService {
 
         Optional<CartItemEntity> cartItem = cartItemRepository.findByProduct(product);
 
-        log.info("ProductProductProduct");
-        log.info(cartItem.get());
+        if (cartItem.isPresent()) {
 
-        if (cartItem.get().getCart() == cart) {
+            CartItemEntity cartItemEntity = cartItem.get();
 
             cartItem.get().setCiqty(cartItem.get().getCiqty() + addCartItemDTO.getCiqty());
 
