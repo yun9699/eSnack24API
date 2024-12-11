@@ -12,7 +12,7 @@
         from
             tbl_swiper
         where
-             swno &lt; 5
+             swno > 3
     </select>
 
     <select id="getListSwipers" resultType="SwiperDTO">
@@ -21,7 +21,7 @@
         from
             tbl_swiper
         where
-            swno > 5
+            swno &lt; 4
     </select>
 
 </mapper>
