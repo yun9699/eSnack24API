@@ -3,6 +3,7 @@ package org.esnack24api.esnack24api.order.dto;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 @Data
 public class OrderDetailDTO {
@@ -18,4 +19,8 @@ public class OrderDetailDTO {
     private int oiqty;
 
     private BigDecimal total_amount;
+
+    private Timestamp oregdate;
+
+    private Long ono;
 }
