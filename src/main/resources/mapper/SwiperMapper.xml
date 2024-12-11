@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.esnack24api.esnack24api.swiper.mapper.SwiperMapper">
+
+
+    <select id="getMainSwipers" resultType="SwiperDTO">
+        select
+            swno, swfilename
+        from
+            tbl_swiper
+        where
+             swno &lt; 5
+    </select>
+
+    <select id="getListSwipers" resultType="SwiperDTO">
+        select
+            swno, swfilename
+        from
+            tbl_swiper
+        where
+            swno > 5
+    </select>
+
+</mapper>
