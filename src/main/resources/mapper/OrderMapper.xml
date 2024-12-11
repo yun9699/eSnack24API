@@ -16,7 +16,7 @@
 
     <select id="getOrderDetail" resultType="OrderDetailDTO">
         select
-            oip.pno, oip.ptitle_ko, oip.pfilename, oip.price, oip.oiqty, o.total_amount
+            oip.pno, oip.ptitle_ko, oip.pfilename, oip.price, oip.oiqty, o.total_amount, o.oregdate, o.ono
         from
             tbl_order o
             left join
