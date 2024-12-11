@@ -40,7 +40,7 @@ mybatis:
 
 org:
   hyeong:
-    accessTime: 5
+    accessTime: 100
     refreshTime: 10080
     alwaysNew: true
     upload:
