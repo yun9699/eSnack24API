@@ -64,7 +64,8 @@
             pr.pno, pr.price, pr.pqty, pr.pdelete, pr.pfilename,
             pr.ptitle_ko, pr.pcontent_ko, ag.atitle_ko, al.ano,
             pr.ptitle_en, pr.ptitle_ja, pr.ptitle_zh,
-            pr.pcontent_en, pr.pcontent_ja, pr.pcontent_zh
+            pr.pcontent_en, pr.pcontent_ja, pr.pcontent_zh, ag.atitle_en,
+            ag.atitle_ja, ag.atitle_zh
         from
             tbl_product pr
         left join
