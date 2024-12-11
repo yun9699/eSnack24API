@@ -38,4 +38,12 @@ public class AddressService {
 
         return "Address Registered Successfully";
     }
+
+    public AddressEntity getCartAddress(Long uno) {
+        UserEntity user = new UserEntity();
+        user.setUno(uno);
+
+        return addressRepository.findByUno_cartAddress(uno)
+                .orElseThrow(() -> new RuntimeException("Cannot find the existing delivery address in the cart"));
+    }
 }

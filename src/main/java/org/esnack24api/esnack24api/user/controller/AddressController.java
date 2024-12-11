@@ -2,6 +2,7 @@ package org.esnack24api.esnack24api.user.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.esnack24api.esnack24api.user.domain.AddressEntity;
 import org.esnack24api.esnack24api.user.dto.AddressRegisterDTO;
 import org.esnack24api.esnack24api.user.service.AddressService;
 import org.springframework.http.ResponseEntity;
@@ -24,4 +25,10 @@ public class AddressController {
 
         return ResponseEntity.ok(addressService.registerAddress(dto));
     }
+
+    @GetMapping("/cart/{uno}")
+    public ResponseEntity<AddressEntity> getPrimaryAddress(@PathVariable Long uno) {
+        return ResponseEntity.ok(addressService.getCartAddress(uno));
+    }
+
 }
