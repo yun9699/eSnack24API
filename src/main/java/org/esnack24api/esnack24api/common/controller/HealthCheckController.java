@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Log4j2
 @RequiredArgsConstructor
 @PreAuthorize("permitAll()")
-public class HeathCheckController {
+public class HealthCheckController {
 
     @GetMapping("")
     public String healthCheckController() {
