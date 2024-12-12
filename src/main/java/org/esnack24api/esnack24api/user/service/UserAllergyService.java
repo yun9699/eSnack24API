@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
@@ -49,16 +50,24 @@ public class UserAllergyService {
     }
 
     public List<String> checkUserAllergy(Long uno, List<String> imageAllergies) {
-
-        List<String> userAllergies = userAllergyRepository.findAllByUserUno(uno)
+        // 사용자 알러지 데이터를 다국어로 가져오기
+        List<Map<String, String>> userAllergies = userAllergyRepository.findAllByUserUno(uno)
                 .stream()
-                .map(userAllergy -> userAllergy.getAllergy().getAtitle_ko())
+                .map(userAllergy -> Map.of(
+                        "ko", userAllergy.getAllergy().getAtitle_ko(),
+                        "en", userAllergy.getAllergy().getAtitle_en(),
+                        "ja", userAllergy.getAllergy().getAtitle_ja(),
+                        "zh", userAllergy.getAllergy().getAtitle_zh()
+                ))
                 .toList();
 
+        // 입력된 알러지와 사용자 알러지를 다국어로 비교
         return imageAllergies.stream()
-                .filter(userAllergies::contains)
+                .filter(imageAllergy -> userAllergies.stream()
+                        .anyMatch(userAllergy -> userAllergy.containsValue(imageAllergy)))
                 .collect(Collectors.toList());
     }
+
 
     public String editUserAllergies(UserAllergyRegisterDTO userAllergyRegisterDTO) {
 
